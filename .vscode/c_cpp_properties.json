@@ -1,0 +1,21 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/src",
+                "${workspaceFolder}/external/glew-cmake/include",
+                "${workspaceFolder}/external/glfw/include",
+                "${workspaceFolder}/external/imgui",
+                "${workspaceFolder}/external/imgui/backends",
+                "${workspaceFolder}/external/libav"
+            ],
+            "defines": [],
+            "compilerPath": "/usr/bin/g++",
+            "cStandard": "c11",
+            "cppStandard": "c++11",
+            "intelliSenseMode": "linux-gcc-x64"
+        }
+    ],
+    "version": 4
+}
