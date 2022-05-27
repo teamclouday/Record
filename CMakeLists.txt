@@ -1,9 +1,11 @@
 cmake_minimum_required(VERSION 3.14)
 
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/external/cmake/")
 
 project(Record)
 
@@ -46,8 +48,17 @@ target_include_directories(ImGui PRIVATE
     ${CMAKE_SOURCE_DIR}/external/imgui/backends
 )
 
-find_library(AVCODEC_LIBRARY avcodec REQUIRED)
-find_library(AVFORMAT_LIBRARY avformat REQUIRED)
+# find_package(PkgConfig REQUIRED)
+# pkg_check_modules(LIBAV REQUIRED IMPORTED_TARGET
+#     libavdevice
+#     libavfilter
+#     libavformat
+#     libavcodec
+#     libswresample
+#     libswscale
+#     libavutil
+# )
+find_package(LibAV REQUIRED)
 
 file(GLOB SRC_FILES ${CMAKE_SOURCE_DIR}/src/*.cpp ${CMAKE_SOURCE_DIR}/src/*.hpp)
 add_executable(recorder ${SRC_FILES})
@@ -64,13 +75,12 @@ target_include_directories(recorder PRIVATE
     ${CMAKE_SOURCE_DIR}/external/glfw/include
     ${CMAKE_SOURCE_DIR}/external/imgui
     ${CMAKE_SOURCE_DIR}/external/imgui/backends
-    ${CMAKE_SOURCE_DIR}/external/libav
+    ${LIBAV_INCLUDE_DIRS}
 )
 target_link_libraries(recorder PRIVATE
     libglew_static
     glfw
     ImGui
     OpenGL::GL
-    ${AVCODEC_LIBRARY}
-    ${AVFORMAT_LIBRARY}
+    ${LIBAV_LIBRARIES}
 )

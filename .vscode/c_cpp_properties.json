@@ -8,7 +8,7 @@
                 "${workspaceFolder}/external/glfw/include",
                 "${workspaceFolder}/external/imgui",
                 "${workspaceFolder}/external/imgui/backends",
-                "${workspaceFolder}/external/libav"
+                "/usr/include"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/g++",

@@ -8,6 +8,3 @@
 [submodule "external/glfw"]
 	path = external/glfw
 	url = https://github.com/glfw/glfw.git
-[submodule "external/libav"]
-	path = external/libav
-	url = https://github.com/libav/libav.git

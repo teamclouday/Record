@@ -11,11 +11,24 @@ int main()
     std::shared_ptr<VideoHandler> handler;
     const std::string appname = "Recorder";
 
+    try
+    {
+        ctx = std::make_shared<AppContext>(appname);
+        handler = std::make_shared<VideoHandler>();
+    }catch(const std::exception& e)
+    {
+        show_fatal_error(e.what(), appname);
+        return -1;
+    }
+
     auto renderUI = [&]()
     {
-        ImGui::SetNextWindowSize({300.0f, 200.0f}, ImGuiCond_FirstUseEver);
-        ImGui::SetNextWindowPos({10.0f, 10.0f}, ImGuiCond_FirstUseEver);
-        ImGui::Begin("UI");
+        auto& io = ImGui::GetIO();
+        ImGui::SetNextWindowPos({io.DisplaySize.x * 0.5f, io.DisplaySize.y * 0.5f}, ImGuiCond_Always, {0.5f,0.5f});
+        ImGui::SetNextWindowSize({io.DisplaySize.x * 0.8f, io.DisplaySize.y * 0.8f}, ImGuiCond_Always);
+        ImGui::Begin("UI", nullptr, ImGuiWindowFlags_NoCollapse |
+            ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoDecoration |
+            ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoResize);
         if(ImGui::BeginTabBar("Configs"))
         {
             if(ImGui::BeginTabItem("Context"))
@@ -33,21 +46,11 @@ int main()
         ImGui::End();
     };
 
-    try
+    while(ctx->CanLoop())
     {
-        ctx = std::make_shared<AppContext>(appname);
-        handler = std::make_shared<VideoHandler>();
-    }catch(const std::exception& e)
-    {
-        show_fatal_error(e.what(), appname);
-        return -1;
-    }
+        ctx->BeginFrame();
 
-    while(ctx->canLoop())
-    {
-        ctx->beginFrame();
-
-        ctx->endFrame(renderUI);
+        ctx->EndFrame(renderUI);
     }
 
     return 0;
