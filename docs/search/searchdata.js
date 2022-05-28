@@ -5,7 +5,7 @@ var indexSectionsWithContent =
   2: "cuv",
   3: "adpu",
   4: "n",
-  5: "mw",
+  5: "mpw",
   6: "dr"
 };
 

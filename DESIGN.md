@@ -17,6 +17,7 @@ Determine what to should be added and controlled on UI
 ### Control
 
 * Windows size and position (by dragging the window border)  
+* UI Window Transparency  
 * Record frame rate  
 * Record output path and format (selected via dialogs)  
 * Record audio inputs (desktop media / mic / both)  
