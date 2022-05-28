@@ -11,8 +11,9 @@ MediaHandler::MediaHandler()
 {
     // default values
     _fps = VIDEO_DEFAULT_FPS;
-    _bitrate = VIDEO_DEFAULT_BITRATE;
     _outFilePath = VIDEO_DEFAULT_OUTPUT;
+    _bitrate = VIDEO_DEFAULT_BITRATE;
+    _bitrateAuto = true;
     _recording = false;
     // prepare libav
     avdevice_register_all();
@@ -39,6 +40,8 @@ void MediaHandler::freeLibAV()
     if(_opacket) av_packet_free(&_opacket);
     if(_iAVFrame) av_frame_free(&_iAVFrame);
     if(_oAVFrame) av_frame_free(&_oAVFrame);
+    if(_swsCtx) sws_freeContext(_swsCtx);
+    _swsCtx = nullptr;
 }
 
 bool MediaHandler::openCapture()
@@ -82,12 +85,11 @@ bool MediaHandler::prepareParams()
 {
     _ocodecParams->width = _rW;
     _ocodecParams->height = _rH;
+    if(_bitrateAuto) _bitrate = _rW * _rH * _fps * 8;
     _ocodecParams->bit_rate = _bitrate; // The average bitrate of the encoded data (in bits per second)
     _ocodecParams->codec_id = AV_CODEC_ID_MPEG4;
     _ocodecParams->codec_type = AVMEDIA_TYPE_VIDEO;
-    _ocodecParams->format = AV_PIX_FMT_YUV420P;
-    _ocodecParams->sample_aspect_ratio.num = 4;
-    _ocodecParams->sample_aspect_ratio.den = 3;
+    _ocodecParams->format = 0;
     if(_options) av_dict_free(&_options);
     auto size = std::to_string(_rW) + "x" + std::to_string(_rH);
     if(av_dict_set(&_options,"framerate",std::to_string(_fps).c_str(),0) < 0) goto failedconfig;
@@ -214,6 +216,10 @@ void MediaHandler::StartRecord()
 	{
         av_opt_set(_ocodecCtx->priv_data, "preset", "slow", 0);
 	}
+    else
+    {
+        av_opt_set(_ocodecCtx->priv_data, "preset", "medium", 0);
+    }
     // open output file
     if(avio_open(&_ofmtCtx->pb, _outFilePath.c_str(), AVIO_FLAG_READ_WRITE) < 0)
     {
@@ -250,23 +256,21 @@ void MediaHandler::StartRecord()
     _oAVFrame->width = _ocodecCtx->width;
     _oAVFrame->height = _ocodecCtx->height;
     _oAVFrame->format = _ocodecParams->format;
-    av_frame_get_buffer(_iAVFrame, 0);
-    av_frame_get_buffer(_oAVFrame, 0);
+    if(av_frame_get_buffer(_iAVFrame, 0) < 0 ||
+        av_frame_get_buffer(_oAVFrame, 0) < 0)
+    {
+        display_message(NAME, "failed to prepare frame data", MESSAGE_WARN);
+        return;
+    }
     // prepare sws
-    // _swsCtx = sws_alloc_context();
-    // if(sws_init_context(_swsCtx, nullptr, nullptr) < 0)
-    // {
-    //     display_message(NAME, "failed to prepare frame sws", MESSAGE_WARN);
-    //     return;
-    // }
-    // _swsCtx = sws_getContext(_icodecCtx->width, _icodecCtx->height, _icodecCtx->pix_fmt,
-    //     _ocodecCtx->width, _ocodecCtx->height, _ocodecCtx->pix_fmt,
-    //     SWS_FAST_BILINEAR, nullptr, nullptr, nullptr);
-    // if(!_swsCtx)
-    // {
-    //     display_message(NAME, "failed to prepare frame sws", MESSAGE_WARN);
-    //     return;
-    // }
+    _swsCtx = sws_getContext(_icodecCtx->width, _icodecCtx->height, _icodecCtx->pix_fmt,
+        _ocodecCtx->width, _ocodecCtx->height, _ocodecCtx->pix_fmt,
+        SWS_BICUBIC, nullptr, nullptr, nullptr);
+    if(!_swsCtx)
+    {
+        display_message(NAME, "failed to prepare frame sws", MESSAGE_WARN);
+        return;
+    }
     // start thread
     _recordLoop = true;
     _recordT = std::thread([this]{recordInternal();});
@@ -287,25 +291,19 @@ void MediaHandler::recordInternal()
     while(_recordLoop && av_read_frame(_ifmtCtx, _ipacket) >= 0)
     {
         if(_ipacket->stream_index == _videoStreamIdx)
-        {
-            if(!decodeVideo(_icodecCtx, _iAVFrame, _ipacket))
-            {
-                // TODO: decide break or continue
-                continue;
-            }
+        {   
+            if(!decodeVideo(_icodecCtx, _iAVFrame, _ipacket)) continue;
+            sws_scale(_swsCtx, _iAVFrame->data, _iAVFrame->linesize, 0,
+                _icodecCtx->height, _oAVFrame->data, _oAVFrame->linesize);
             av_packet_unref(_opacket);
             _opacket->data = nullptr;
             _opacket->size = 0;
-            if(!encodeVideo(_ocodecCtx, _oAVFrame, _opacket))
-            {
-                // TODO: decide break or continue
-                continue;
-            }
+            if(!encodeVideo(_ocodecCtx, _oAVFrame, _opacket)) continue;
             if(_opacket->pts != AV_NOPTS_VALUE)
                 _opacket->pts = av_rescale_q(_opacket->pts, _ocodecCtx->time_base, _videoStream->time_base);
             if(_opacket->dts != AV_NOPTS_VALUE)
                 _opacket->dts = av_rescale_q(_opacket->dts, _ocodecCtx->time_base, _videoStream->time_base);
-            if(av_write_frame(_ofmtCtx, _opacket) < 0)
+            if(av_write_frame(_ofmtCtx, _opacket) != 0)
                 display_message(NAME, "failed to write frame", MESSAGE_WARN);
             av_packet_unref(_opacket);
         }
@@ -328,10 +326,7 @@ bool MediaHandler::decodeVideo(AVCodecContext* icodecCtx, AVFrame* iframe, AVPac
             MESSAGE_WARN);
         return false;
     }
-    while(ret >= 0)
-    {
-        ret = avcodec_receive_frame(icodecCtx, iframe);
-    }
+    avcodec_receive_frame(icodecCtx, iframe);
     return true;
 }
 
@@ -339,10 +334,7 @@ bool MediaHandler::encodeVideo(AVCodecContext* ocodecCtx, AVFrame* oframe, AVPac
 {
     int ret;
     char buf[512];
-    do
-    {
-        ret = avcodec_send_frame(ocodecCtx, oframe);
-    } while (ret >= 0);
+    avcodec_send_frame(ocodecCtx, oframe);
     if((ret = avcodec_receive_packet(ocodecCtx, opacket)) < 0)
     {
         display_message(NAME, "encode video (" +

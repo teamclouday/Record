@@ -4,6 +4,7 @@ extern "C"
 #include <libavformat/avformat.h>
 #include <libavdevice/avdevice.h>
 #include <libavcodec/avcodec.h>
+#include <libswscale/swscale.h>
 }
 #include <string>
 #include <thread>
@@ -11,7 +12,7 @@ extern "C"
 /** @file */
 
 #define VIDEO_DEFAULT_FPS       30
-#define VIDEO_DEFAULT_BITRATE   40000
+#define VIDEO_DEFAULT_BITRATE   4000000
 #define VIDEO_DEFAULT_OUTPUT    "out.mp4"
 
 class MediaHandler
@@ -42,6 +43,7 @@ private:
     // record size
     int _rX, _rY, _rW, _rH, _fps;
     int _bitrate;
+    bool _bitrateAuto;
     bool _recording;
     std::string _outFilePath;
 
@@ -57,4 +59,5 @@ private:
     AVPacket* _ipacket = nullptr, * _opacket = nullptr;
     AVStream* _videoStream = nullptr;
     int _videoStreamIdx;
+    SwsContext* _swsCtx = nullptr;
 };
