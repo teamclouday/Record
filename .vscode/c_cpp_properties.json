@@ -8,6 +8,7 @@
                 "${workspaceFolder}/external/glfw/include",
                 "${workspaceFolder}/external/imgui",
                 "${workspaceFolder}/external/imgui/backends",
+                "${workspaceFolder}/external/termcolor/include",
                 "/usr/include"
             ],
             "defines": [],

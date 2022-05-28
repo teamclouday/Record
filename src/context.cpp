@@ -1,17 +1,14 @@
 #include "context.hpp"
+#include "utils.hpp"
 #include <imgui.h>
 #include <imgui_impl_glfw.h>
 #include <imgui_impl_opengl3.h>
 #include <stdexcept>
-#include <thread>
-#include <chrono>
-
-#include <iostream>
+#include <sstream>
+#include <cstring>
 
 AppContext::AppContext(const std::string& title)
 {
-    _timer = 0.0;
-    _spf = 1.0 / DEFAULT_FPS;
     _displayUI = true;
     // init window
     _winWidth = 800;
@@ -22,8 +19,9 @@ AppContext::AppContext(const std::string& title)
     glfwWindowHint(GLFW_TRANSPARENT_FRAMEBUFFER, GLFW_TRUE);
     glfwWindowHint(GLFW_FLOATING, GLFW_TRUE);
     glfwWindowHint(GLFW_DOUBLEBUFFER, GLFW_TRUE);
-    // glfwWindowHint(GLFW_MOUSE_PASSTHROUGH, GLFW_TRUE);
-    // glfwWindowHint(GLFW_DECORATED, GLFW_FALSE);
+    glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
+    glfwWindowHint(GLFW_MOUSE_PASSTHROUGH, GLFW_FALSE);
+    glfwWindowHint(GLFW_DECORATED, GLFW_TRUE);
     _window = glfwCreateWindow(_winWidth, _winHeight, _title.c_str(), nullptr, nullptr);
     if(!_window)
         throw std::runtime_error("Failed to create GLFW window!");
@@ -33,6 +31,7 @@ AppContext::AppContext(const std::string& title)
     glfwSetWindowPosCallback(_window, glfw_windowpos_callback);
     glfwSetWindowSizeCallback(_window, glfw_windowsize_callback);
     glfwMakeContextCurrent(_window);
+    glfwSwapInterval(1);
     // init opengl context
     glewExperimental = GL_TRUE;
     if(glewInit() != GLEW_OK)
@@ -50,8 +49,8 @@ AppContext::AppContext(const std::string& title)
     ImGui::StyleColorsDark();
     ImGui_ImplGlfw_InitForOpenGL(_window, true);
     ImGui_ImplOpenGL3_Init("#version 130");
-    // prepare outline shader
-    prepareOutline();
+    // prepare border shader
+    prepareBorder();
 }
 
 AppContext::~AppContext()
@@ -61,51 +60,6 @@ AppContext::~AppContext()
     ImGui::DestroyContext();
     glfwDestroyWindow(_window);
     glfwTerminate();
-}
-
-bool AppContext::CanLoop()
-{
-    return !glfwWindowShouldClose(_window);
-}
-
-void AppContext::BeginFrame()
-{
-    glViewport(0, 0, _winWidth, _winHeight);
-    glClearColor(0.0f, 0.0f, 0.0f, _displayUI ? 0.6f : 0.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
-    _timer = glfwGetTime();
-}
-
-void AppContext::EndFrame(std::function<void()> customUI)
-{
-    ImGui_ImplOpenGL3_NewFrame();
-    ImGui_ImplGlfw_NewFrame();
-    ImGui::NewFrame();
-    if(_displayUI && customUI)
-    {
-        customUI();
-    }
-    else if(!_displayUI)
-    {
-        glUseProgram(_outlineProg);
-        glUniform1f(glGetUniformLocation(_outlineProg, "dW"), WIN_BORDER_PIXELS / static_cast<float>(_winWidth));
-        glUniform1f(glGetUniformLocation(_outlineProg, "dH"), WIN_BORDER_PIXELS / static_cast<float>(_winHeight));
-        glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-        glUseProgram(0);
-    }
-    ImGui::Render();
-    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-    glfwSwapBuffers(_window);
-    glfwPollEvents();
-    // fps control
-    double elapsed = glfwGetTime() - _timer;
-    if(elapsed < _spf)
-        std::this_thread::sleep_for(std::chrono::duration<double>(_spf - elapsed));
-}
-
-void AppContext::SetFPS(double fps)
-{
-    _spf = 1.0 / fps;
 }
 
 void AppContext::glfw_key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
@@ -147,11 +101,13 @@ void AppContext::glfw_key_callback(GLFWwindow* window, int key, int scancode, in
                 {
                     glfwSetWindowAttrib(user->_window, GLFW_MOUSE_PASSTHROUGH, GLFW_FALSE);
                     glfwSetWindowAttrib(user->_window, GLFW_DECORATED, GLFW_TRUE);
+                    glfwSetWindowAttrib(user->_window, GLFW_RESIZABLE, GLFW_TRUE);
                 }
                 else
                 {
                     glfwSetWindowAttrib(user->_window, GLFW_MOUSE_PASSTHROUGH, GLFW_TRUE);
                     glfwSetWindowAttrib(user->_window, GLFW_DECORATED, GLFW_FALSE);
+                    glfwSetWindowAttrib(user->_window, GLFW_RESIZABLE, GLFW_FALSE);
                 }
                 break;
             }
@@ -173,11 +129,11 @@ void AppContext::glfw_windowpos_callback(GLFWwindow* window, int x, int y)
     user->_winPosY = y;
 }
 
-void AppContext::prepareOutline()
+void AppContext::prepareBorder()
 {
-    // TODO: clean std::cout code
     int success;
-    char infoLog[512];
+    constexpr int infoLogSize = 512;
+    char infoLog[infoLogSize];
     const char* vertSource =
     "#version 330 core\n\
      varying vec2 coord;\
@@ -194,8 +150,10 @@ void AppContext::prepareOutline()
     glGetShaderiv(vertShader, GL_COMPILE_STATUS, &success);
     if(!success)
     {
-        glGetShaderInfoLog(vertShader, 512, NULL, infoLog);
-        std::cout << infoLog << std::endl;
+        glGetShaderInfoLog(vertShader, infoLogSize, NULL, infoLog);
+        std::stringstream sstr;
+        sstr << "failed to compile shader (" << infoLog << ")";
+        display_message(NAME, sstr.str(), MESSAGE_WARN);
     }
     const char* fragSource =
     "#version 330 core\n\
@@ -219,23 +177,59 @@ void AppContext::prepareOutline()
     glGetShaderiv(fragShader, GL_COMPILE_STATUS, &success);
     if(!success)
     {
-        glGetShaderInfoLog(fragShader, 512, NULL, infoLog);
-        std::cout << infoLog << std::endl;
+        std::memset(infoLog, 0, infoLogSize);
+        glGetShaderInfoLog(fragShader, infoLogSize, NULL, infoLog);
+        std::stringstream sstr;
+        sstr << "failed to compile shader (" << infoLog << ")";
+        display_message(NAME, sstr.str(), MESSAGE_WARN);
     }
-    _outlineProg =  glCreateProgram();
-    glAttachShader(_outlineProg, vertShader);
-    glAttachShader(_outlineProg, fragShader);
-    glLinkProgram(_outlineProg);
-    glGetProgramiv(_outlineProg, GL_LINK_STATUS, &success);
-    if(!success) {
-        glGetProgramInfoLog(_outlineProg, 512, NULL, infoLog);
-        std::cout << infoLog << std::endl;
+    _borderProg =  glCreateProgram();
+    glAttachShader(_borderProg, vertShader);
+    glAttachShader(_borderProg, fragShader);
+    glLinkProgram(_borderProg);
+    glGetProgramiv(_borderProg, GL_LINK_STATUS, &success);
+    if(!success)
+    {
+        std::memset(infoLog, 0, infoLogSize);
+        glGetProgramInfoLog(_borderProg, 512, NULL, infoLog);
+        std::stringstream sstr;
+        sstr << "failed to link program (" << infoLog << ")";
+        display_message(NAME, sstr.str(), MESSAGE_WARN);
     }
     glDeleteShader(vertShader);
     glDeleteShader(fragShader);
 }
 
-bool AppContext::IsUIDisplay()
+void AppContext::AttachHandler(std::shared_ptr<VideoHandler> handler)
 {
-    return _displayUI;
+    _videoHandler = handler;
+}
+
+void AppContext::AppLoop(std::function<void()> customUI)
+{
+    while(!glfwWindowShouldClose(_window))
+    {
+        glViewport(0, 0, _winWidth, _winHeight);
+        glClearColor(0.0f, 0.0f, 0.0f, _displayUI ? 0.6f : 0.0f);
+        glClear(GL_COLOR_BUFFER_BIT);
+        ImGui_ImplOpenGL3_NewFrame();
+        ImGui_ImplGlfw_NewFrame();
+        ImGui::NewFrame();
+        if(_displayUI && customUI)
+        {
+            customUI();
+        }
+        else if(!_displayUI)
+        {
+            glUseProgram(_borderProg);
+            glUniform1f(glGetUniformLocation(_borderProg, "dW"), WIN_BORDER_PIXELS / static_cast<float>(_winWidth));
+            glUniform1f(glGetUniformLocation(_borderProg, "dH"), WIN_BORDER_PIXELS / static_cast<float>(_winHeight));
+            glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+            glUseProgram(0);
+        }
+        ImGui::Render();
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+        glfwSwapBuffers(_window);
+        glfwPollEvents();
+        }
 }

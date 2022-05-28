@@ -60,6 +60,8 @@ target_include_directories(ImGui PRIVATE
 # )
 find_package(LibAV REQUIRED)
 
+find_package(Threads REQUIRED)
+
 file(GLOB SRC_FILES ${CMAKE_SOURCE_DIR}/src/*.cpp ${CMAKE_SOURCE_DIR}/src/*.hpp)
 add_executable(recorder ${SRC_FILES})
 
@@ -75,6 +77,7 @@ target_include_directories(recorder PRIVATE
     ${CMAKE_SOURCE_DIR}/external/glfw/include
     ${CMAKE_SOURCE_DIR}/external/imgui
     ${CMAKE_SOURCE_DIR}/external/imgui/backends
+    ${CMAKE_SOURCE_DIR}/external/termcolor/include
     ${LIBAV_INCLUDE_DIRS}
 )
 target_link_libraries(recorder PRIVATE
@@ -83,4 +86,5 @@ target_link_libraries(recorder PRIVATE
     ImGui
     OpenGL::GL
     ${LIBAV_LIBRARIES}
+    Threads::Threads
 )

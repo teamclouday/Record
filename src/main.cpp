@@ -17,7 +17,8 @@ int main()
         handler = std::make_shared<VideoHandler>();
     }catch(const std::exception& e)
     {
-        show_fatal_error(e.what(), appname);
+        display_message(appname, e.what(), MESSAGE_ERROR);
+        display_message(appname, "application quits", MESSAGE_INFO);
         return -1;
     }
 
@@ -46,12 +47,8 @@ int main()
         ImGui::End();
     };
 
-    while(ctx->CanLoop())
-    {
-        ctx->BeginFrame();
-
-        ctx->EndFrame(renderUI);
-    }
+    ctx->AttachHandler(handler);
+    ctx->AppLoop(renderUI);
 
     return 0;
 }

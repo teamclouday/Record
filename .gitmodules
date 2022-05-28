@@ -8,3 +8,6 @@
 [submodule "external/glfw"]
 	path = external/glfw
 	url = https://github.com/glfw/glfw.git
+[submodule "external/termcolor"]
+	path = external/termcolor
+	url = https://github.com/ikalnytskyi/termcolor.git
