@@ -50,7 +50,6 @@ public:
      * @brief UI Calls
      * 
      * Is meant to be called in customUI function.
-     * 
      */
     void UI();
 

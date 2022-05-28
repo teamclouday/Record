@@ -11,34 +11,105 @@ extern "C"
 
 /** @file */
 
+/// Video capture start delay in seconds
 #define VIDEO_DELAY_SECONDS     0
+
+/// Video capture default FPS
 #define VIDEO_DEFAULT_FPS       30
+
+/// Video capture default bit rate
 #define VIDEO_DEFAULT_BITRATE   4000000
+
+/// Video default output path
 #define VIDEO_DEFAULT_OUTPUT    "out.mp4"
 
+/**
+ * @brief Media Handler
+ * 
+ * This class handles screen capture and audio recording and saves output to a video file.
+ */
 class MediaHandler
 {
 public:
     MediaHandler();
     ~MediaHandler();
 
+    /**
+     * @brief Configure Capture Window
+     * 
+     * Is meant to be called from AppContext.
+     * 
+     * @param x Top-left corner on monitor X-axis
+     * @param y Top-left corner on monitor Y-axis
+     * @param w Capture width
+     * @param h Capture height
+     */
     void ConfigWindow(int x, int y, int w, int h);
+
+    /**
+     * @brief Start Recording
+     * 
+     * Is meant to be called from AppContext.
+     * 
+     * @return true if success
+     * @return false otherwise
+     */
     bool StartRecord();
+
+    /**
+     * @brief Stop Recording
+     * 
+     * Is meant to be called from AppContext.
+     * 
+     * @return true if success
+     * @return false otherwise
+     */
     bool StopRecord();
+
+    /**
+     * @brief Select Output File Path
+     * 
+     * Is meant to be called from UI.
+     */
     void SelectOutputPath();
+
+    /**
+     * @brief Is Currently Recording
+     * 
+     * @return true if recording
+     * @return false otherwise
+     */
     bool IsRecording();
 
+    /**
+     * @brief UI Calls
+     * 
+     * Is meant to be called in customUI function.
+     */
     void UI();
 
     const std::string NAME = "MediaHandler";
 
 private:
+    /// Open screen capture
     bool openCapture();
+
+    /// Prepare capture parameters
     bool prepareParams();
+
+    /// free variables related to LibAV
     void freeLibAV();
+
+    /// Internal record process
     void recordInternal();
+
+    /// Helper function to decode video frame
     bool decodeVideo(AVCodecContext* icodecCtx, AVFrame* iframe, AVPacket* ipacket);
+
+    /// Helper function to encode video frame
     bool encodeVideo(AVCodecContext* ocodecCtx, AVFrame* oframe, AVPacket* opacket);
+
+    /// Validate selected output file format
     void validateOutputFormat();
 
     // video settings

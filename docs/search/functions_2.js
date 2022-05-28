@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['println_0',['println',['../utils_8hpp.html#ad9bb897dd5c44e9297df8a5ff1626a87',1,'utils.hpp']]]
+  ['decodevideo_0',['decodeVideo',['../classMediaHandler.html#a02c6f16692dab13309f614e826839ec9',1,'MediaHandler']]],
+  ['display_5fmessage_1',['display_message',['../utils_8hpp.html#a1a5373fe4c1dd7884a589b06e291dde5',1,'utils.hpp']]]
 ];

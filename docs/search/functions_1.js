@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['display_5fmessage_0',['display_message',['../utils_8hpp.html#a1a5373fe4c1dd7884a589b06e291dde5',1,'utils.hpp']]]
+  ['configwindow_0',['ConfigWindow',['../classMediaHandler.html#a22ad6d2a68bb2ba84f08bd1560d802ea',1,'MediaHandler']]]
 ];

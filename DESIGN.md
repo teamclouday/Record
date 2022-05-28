@@ -23,11 +23,6 @@ Determine what to should be added and controlled on UI
 * Record audio inputs (desktop media / mic / both)  
 * Record bitrate  
 
-## Recorder Logic
-
-1. Init stage, initialize necessary buffers, register AVdevices.  
-2. 
-
 ## Other
 
 * This program should be designed as console-based (instead of window-based) app. Otherwise I have to change `main` function to support Windows.  

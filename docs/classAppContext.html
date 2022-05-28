@@ -65,6 +65,8 @@ $(function() {
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-attribs">Public Attributes</a> &#124;
+<a href="#pri-methods">Private Member Functions</a> &#124;
+<a href="#pri-static-methods">Static Private Member Functions</a> &#124;
 <a href="classAppContext-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">AppContext Class Reference</div></div>
 </div><!--header-->
@@ -77,15 +79,12 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:abc88623d7237e1b42f763a61673b9b62"><td class="memItemLeft" align="right" valign="top"><a id="abc88623d7237e1b42f763a61673b9b62" name="abc88623d7237e1b42f763a61673b9b62"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>AppContext</b> (const std::string &amp;title)</td></tr>
-<tr class="separator:abc88623d7237e1b42f763a61673b9b62"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a53a2f4e119b9ae7a116dcd1e19e05662"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAppContext.html#a53a2f4e119b9ae7a116dcd1e19e05662">AppLoop</a> (std::function&lt; void()&gt; customUI)</td></tr>
 <tr class="memdesc:a53a2f4e119b9ae7a116dcd1e19e05662"><td class="mdescLeft">&#160;</td><td class="mdescRight">Application Internal Loop.  <a href="classAppContext.html#a53a2f4e119b9ae7a116dcd1e19e05662">More...</a><br /></td></tr>
 <tr class="separator:a53a2f4e119b9ae7a116dcd1e19e05662"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a48e1ff70b4638dbfc2416d764d3d9e13"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAppContext.html#a48e1ff70b4638dbfc2416d764d3d9e13">AttachHandler</a> (std::shared_ptr&lt; <a class="el" href="classVideoHandler.html">VideoHandler</a> &gt; handler)</td></tr>
-<tr class="memdesc:a48e1ff70b4638dbfc2416d764d3d9e13"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attach Video Handler.  <a href="classAppContext.html#a48e1ff70b4638dbfc2416d764d3d9e13">More...</a><br /></td></tr>
-<tr class="separator:a48e1ff70b4638dbfc2416d764d3d9e13"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a151f1a9713e3fa74ef28bd2a617addf4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAppContext.html#a151f1a9713e3fa74ef28bd2a617addf4">AttachHandler</a> (std::shared_ptr&lt; <a class="el" href="classMediaHandler.html">MediaHandler</a> &gt; handler)</td></tr>
+<tr class="memdesc:a151f1a9713e3fa74ef28bd2a617addf4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attach Video Handler.  <a href="classAppContext.html#a151f1a9713e3fa74ef28bd2a617addf4">More...</a><br /></td></tr>
+<tr class="separator:a151f1a9713e3fa74ef28bd2a617addf4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3332fa202e5f1751652b49de5e6c9f99"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAppContext.html#a3332fa202e5f1751652b49de5e6c9f99">UI</a> ()</td></tr>
 <tr class="memdesc:a3332fa202e5f1751652b49de5e6c9f99"><td class="mdescLeft">&#160;</td><td class="mdescRight">UI Calls.  <a href="classAppContext.html#a3332fa202e5f1751652b49de5e6c9f99">More...</a><br /></td></tr>
 <tr class="separator:a3332fa202e5f1751652b49de5e6c9f99"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -96,6 +95,32 @@ Public Attributes</h2></td></tr>
 const std::string&#160;</td><td class="memItemRight" valign="bottom"><b>NAME</b> = &quot;AppContext&quot;</td></tr>
 <tr class="memdesc:ab44d505dc2ff137aa129e919b476a1ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defined name for message title. <br /></td></tr>
 <tr class="separator:ab44d505dc2ff137aa129e919b476a1ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Private Member Functions</h2></td></tr>
+<tr class="memitem:a2fe17f68a84fb5daea8c631c5e3b3035"><td class="memItemLeft" align="right" valign="top"><a id="a2fe17f68a84fb5daea8c631c5e3b3035" name="a2fe17f68a84fb5daea8c631c5e3b3035"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>prepareBorder</b> ()</td></tr>
+<tr class="memdesc:a2fe17f68a84fb5daea8c631c5e3b3035"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prepare shader program to draw border. <br /></td></tr>
+<tr class="separator:a2fe17f68a84fb5daea8c631c5e3b3035"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a42c4b191eae37e56abda6d4c7669d0a6"><td class="memItemLeft" align="right" valign="top"><a id="a42c4b191eae37e56abda6d4c7669d0a6" name="a42c4b191eae37e56abda6d4c7669d0a6"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>toggleUI</b> ()</td></tr>
+<tr class="memdesc:a42c4b191eae37e56abda6d4c7669d0a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">toggle UI and related window states <br /></td></tr>
+<tr class="separator:a42c4b191eae37e56abda6d4c7669d0a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-static-methods" name="pri-static-methods"></a>
+Static Private Member Functions</h2></td></tr>
+<tr class="memitem:a66439e46bd8c5720a77fc589c9c1746d"><td class="memItemLeft" align="right" valign="top"><a id="a66439e46bd8c5720a77fc589c9c1746d" name="a66439e46bd8c5720a77fc589c9c1746d"></a>
+static void&#160;</td><td class="memItemRight" valign="bottom"><b>glfw_key_callback</b> (GLFWwindow *window, int key, int scancode, int action, int mods)</td></tr>
+<tr class="memdesc:a66439e46bd8c5720a77fc589c9c1746d"><td class="mdescLeft">&#160;</td><td class="mdescRight">GLFW key callback. <br /></td></tr>
+<tr class="separator:a66439e46bd8c5720a77fc589c9c1746d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a69448cc2298e35491053836df94e2d3d"><td class="memItemLeft" align="right" valign="top"><a id="a69448cc2298e35491053836df94e2d3d" name="a69448cc2298e35491053836df94e2d3d"></a>
+static void&#160;</td><td class="memItemRight" valign="bottom"><b>glfw_windowsize_callback</b> (GLFWwindow *window, int w, int h)</td></tr>
+<tr class="memdesc:a69448cc2298e35491053836df94e2d3d"><td class="mdescLeft">&#160;</td><td class="mdescRight">GLFW window size callback. <br /></td></tr>
+<tr class="separator:a69448cc2298e35491053836df94e2d3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad15dec182c50e151fccd4a7e4bea7fac"><td class="memItemLeft" align="right" valign="top"><a id="ad15dec182c50e151fccd4a7e4bea7fac" name="ad15dec182c50e151fccd4a7e4bea7fac"></a>
+static void&#160;</td><td class="memItemRight" valign="bottom"><b>glfw_windowpos_callback</b> (GLFWwindow *window, int x, int y)</td></tr>
+<tr class="memdesc:ad15dec182c50e151fccd4a7e4bea7fac"><td class="mdescLeft">&#160;</td><td class="mdescRight">GLFW window position callback. <br /></td></tr>
+<tr class="separator:ad15dec182c50e151fccd4a7e4bea7fac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Application Context. </p>
@@ -128,8 +153,8 @@ const std::string&#160;</td><td class="memItemRight" valign="bottom"><b>NAME</b>
 
 </div>
 </div>
-<a id="a48e1ff70b4638dbfc2416d764d3d9e13" name="a48e1ff70b4638dbfc2416d764d3d9e13"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a48e1ff70b4638dbfc2416d764d3d9e13">&#9670;&nbsp;</a></span>AttachHandler()</h2>
+<a id="a151f1a9713e3fa74ef28bd2a617addf4" name="a151f1a9713e3fa74ef28bd2a617addf4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a151f1a9713e3fa74ef28bd2a617addf4">&#9670;&nbsp;</a></span>AttachHandler()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -137,7 +162,7 @@ const std::string&#160;</td><td class="memItemRight" valign="bottom"><b>NAME</b>
         <tr>
           <td class="memname">void AppContext::AttachHandler </td>
           <td>(</td>
-          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classVideoHandler.html">VideoHandler</a> &gt;&#160;</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classMediaHandler.html">MediaHandler</a> &gt;&#160;</td>
           <td class="paramname"><em>handler</em></td><td>)</td>
           <td></td>
         </tr>
@@ -145,10 +170,10 @@ const std::string&#160;</td><td class="memItemRight" valign="bottom"><b>NAME</b>
 </div><div class="memdoc">
 
 <p>Attach Video Handler. </p>
-<p >Attach a <a class="el" href="classVideoHandler.html">VideoHandler</a> instance to update record events.</p>
+<p >Attach a <a class="el" href="classMediaHandler.html" title="Media Handler.">MediaHandler</a> instance to update record events.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">handler</td><td>A pointer to <a class="el" href="classVideoHandler.html">VideoHandler</a> instance </td></tr>
+    <tr><td class="paramname">handler</td><td>A pointer to <a class="el" href="classMediaHandler.html" title="Media Handler.">MediaHandler</a> instance </td></tr>
   </table>
   </dd>
 </dl>

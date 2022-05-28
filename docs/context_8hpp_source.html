@@ -72,7 +72,7 @@ $(function() {
 <a href="context_8hpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#include &lt;GL/glew.h&gt;</span></div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &lt;GLFW/glfw3.h&gt;</span></div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;<a class="code" href="video_8hpp.html">video.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;<a class="code" href="media_8hpp.html">media.hpp</a>&quot;</span></div>
 <div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;string&gt;</span></div>
 <div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;memory&gt;</span></div>
 <div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;functional&gt;</span></div>
@@ -91,37 +91,45 @@ $(function() {
 <div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
 <div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classAppContext.html#a53a2f4e119b9ae7a116dcd1e19e05662">AppLoop</a>(std::function&lt;<span class="keywordtype">void</span>()&gt; customUI);</div>
 <div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classAppContext.html#a48e1ff70b4638dbfc2416d764d3d9e13">AttachHandler</a>(std::shared_ptr&lt;VideoHandler&gt; handler);</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classAppContext.html#a151f1a9713e3fa74ef28bd2a617addf4">AttachHandler</a>(std::shared_ptr&lt;MediaHandler&gt; handler);</div>
 <div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classAppContext.html#a3332fa202e5f1751652b49de5e6c9f99">UI</a>();</div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno"><a class="line" href="classAppContext.html#ab44d505dc2ff137aa129e919b476a1ad">   58</a></span>    <span class="keyword">const</span> std::string <a class="code hl_variable" href="classAppContext.html#ab44d505dc2ff137aa129e919b476a1ad">NAME</a> = <span class="stringliteral">&quot;AppContext&quot;</span>;</div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span> </div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span><span class="keyword">private</span>:</div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    <span class="keyword">static</span> <span class="keywordtype">void</span> glfw_key_callback(GLFWwindow* window, <span class="keywordtype">int</span> key, <span class="keywordtype">int</span> scancode, <span class="keywordtype">int</span> action, <span class="keywordtype">int</span> mods);</div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    <span class="keyword">static</span> <span class="keywordtype">void</span> glfw_windowsize_callback(GLFWwindow* window, <span class="keywordtype">int</span> w, <span class="keywordtype">int</span> h);</div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span> </div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    <span class="keyword">static</span> <span class="keywordtype">void</span> glfw_windowpos_callback(GLFWwindow* window, <span class="keywordtype">int</span> x, <span class="keywordtype">int</span> y);</div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span> </div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>    <span class="keywordtype">void</span> prepareBorder();</div>
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span> </div>
-<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>    <span class="keywordtype">int</span> _winWidth, _winHeight;</div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>    <span class="keywordtype">int</span> _winPosX, _winPosY;</div>
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>    std::string _title;</div>
-<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>    <span class="keywordtype">int</span> _windowConfig[4];</div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>    GLFWwindow* _window;</div>
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>    <span class="keywordtype">bool</span> _displayUI;</div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>    GLuint _borderProg;</div>
-<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span> </div>
-<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>    std::shared_ptr&lt;VideoHandler&gt; _videoHandler;</div>
-<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>};</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classAppContext.html#a3332fa202e5f1751652b49de5e6c9f99">UI</a>();</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno"><a class="line" href="classAppContext.html#ab44d505dc2ff137aa129e919b476a1ad">   57</a></span>    <span class="keyword">const</span> std::string <a class="code hl_variable" href="classAppContext.html#ab44d505dc2ff137aa129e919b476a1ad">NAME</a> = <span class="stringliteral">&quot;AppContext&quot;</span>;</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classAppContext.html#a66439e46bd8c5720a77fc589c9c1746d">glfw_key_callback</a>(GLFWwindow* window, <span class="keywordtype">int</span> key, <span class="keywordtype">int</span> scancode, <span class="keywordtype">int</span> action, <span class="keywordtype">int</span> mods);</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span> </div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classAppContext.html#a69448cc2298e35491053836df94e2d3d">glfw_windowsize_callback</a>(GLFWwindow* window, <span class="keywordtype">int</span> w, <span class="keywordtype">int</span> h);</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span> </div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classAppContext.html#ad15dec182c50e151fccd4a7e4bea7fac">glfw_windowpos_callback</a>(GLFWwindow* window, <span class="keywordtype">int</span> x, <span class="keywordtype">int</span> y);</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span> </div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classAppContext.html#a2fe17f68a84fb5daea8c631c5e3b3035">prepareBorder</a>();</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span> </div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classAppContext.html#a42c4b191eae37e56abda6d4c7669d0a6">toggleUI</a>();</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span> </div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>    <span class="keywordtype">int</span> _winWidth, _winHeight;</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>    <span class="keywordtype">int</span> _winPosX, _winPosY;</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>    <span class="keywordtype">float</span> _alpha;</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>    std::string _title;</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>    <span class="keywordtype">int</span> _windowConfig[4];</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>    GLFWwindow* _window;</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>    <span class="keywordtype">bool</span> _displayUI;</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>    GLuint _borderProg;</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span> </div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>    std::shared_ptr&lt;MediaHandler&gt; _mediaHandler;</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>};</div>
 <div class="ttc" id="aclassAppContext_html"><div class="ttname"><a href="classAppContext.html">AppContext</a></div><div class="ttdoc">Application Context.</div><div class="ttdef"><b>Definition:</b> context.hpp:26</div></div>
+<div class="ttc" id="aclassAppContext_html_a151f1a9713e3fa74ef28bd2a617addf4"><div class="ttname"><a href="classAppContext.html#a151f1a9713e3fa74ef28bd2a617addf4">AppContext::AttachHandler</a></div><div class="ttdeci">void AttachHandler(std::shared_ptr&lt; MediaHandler &gt; handler)</div><div class="ttdoc">Attach Video Handler.</div><div class="ttdef"><b>Definition:</b> context.cpp:221</div></div>
+<div class="ttc" id="aclassAppContext_html_a2fe17f68a84fb5daea8c631c5e3b3035"><div class="ttname"><a href="classAppContext.html#a2fe17f68a84fb5daea8c631c5e3b3035">AppContext::prepareBorder</a></div><div class="ttdeci">void prepareBorder()</div><div class="ttdoc">Prepare shader program to draw border.</div><div class="ttdef"><b>Definition:</b> context.cpp:135</div></div>
 <div class="ttc" id="aclassAppContext_html_a3332fa202e5f1751652b49de5e6c9f99"><div class="ttname"><a href="classAppContext.html#a3332fa202e5f1751652b49de5e6c9f99">AppContext::UI</a></div><div class="ttdeci">void UI()</div><div class="ttdoc">UI Calls.</div><div class="ttdef"><b>Definition:</b> ui.cpp:5</div></div>
-<div class="ttc" id="aclassAppContext_html_a48e1ff70b4638dbfc2416d764d3d9e13"><div class="ttname"><a href="classAppContext.html#a48e1ff70b4638dbfc2416d764d3d9e13">AppContext::AttachHandler</a></div><div class="ttdeci">void AttachHandler(std::shared_ptr&lt; VideoHandler &gt; handler)</div><div class="ttdoc">Attach Video Handler.</div><div class="ttdef"><b>Definition:</b> context.cpp:203</div></div>
-<div class="ttc" id="aclassAppContext_html_a53a2f4e119b9ae7a116dcd1e19e05662"><div class="ttname"><a href="classAppContext.html#a53a2f4e119b9ae7a116dcd1e19e05662">AppContext::AppLoop</a></div><div class="ttdeci">void AppLoop(std::function&lt; void()&gt; customUI)</div><div class="ttdoc">Application Internal Loop.</div><div class="ttdef"><b>Definition:</b> context.cpp:208</div></div>
-<div class="ttc" id="aclassAppContext_html_ab44d505dc2ff137aa129e919b476a1ad"><div class="ttname"><a href="classAppContext.html#ab44d505dc2ff137aa129e919b476a1ad">AppContext::NAME</a></div><div class="ttdeci">const std::string NAME</div><div class="ttdoc">Defined name for message title.</div><div class="ttdef"><b>Definition:</b> context.hpp:58</div></div>
-<div class="ttc" id="avideo_8hpp_html"><div class="ttname"><a href="video_8hpp.html">video.hpp</a></div></div>
+<div class="ttc" id="aclassAppContext_html_a42c4b191eae37e56abda6d4c7669d0a6"><div class="ttname"><a href="classAppContext.html#a42c4b191eae37e56abda6d4c7669d0a6">AppContext::toggleUI</a></div><div class="ttdeci">void toggleUI()</div><div class="ttdoc">toggle UI and related window states</div><div class="ttdef"><b>Definition:</b> context.cpp:206</div></div>
+<div class="ttc" id="aclassAppContext_html_a53a2f4e119b9ae7a116dcd1e19e05662"><div class="ttname"><a href="classAppContext.html#a53a2f4e119b9ae7a116dcd1e19e05662">AppContext::AppLoop</a></div><div class="ttdeci">void AppLoop(std::function&lt; void()&gt; customUI)</div><div class="ttdoc">Application Internal Loop.</div><div class="ttdef"><b>Definition:</b> context.cpp:226</div></div>
+<div class="ttc" id="aclassAppContext_html_a66439e46bd8c5720a77fc589c9c1746d"><div class="ttname"><a href="classAppContext.html#a66439e46bd8c5720a77fc589c9c1746d">AppContext::glfw_key_callback</a></div><div class="ttdeci">static void glfw_key_callback(GLFWwindow *window, int key, int scancode, int action, int mods)</div><div class="ttdoc">GLFW key callback.</div><div class="ttdef"><b>Definition:</b> context.cpp:66</div></div>
+<div class="ttc" id="aclassAppContext_html_a69448cc2298e35491053836df94e2d3d"><div class="ttname"><a href="classAppContext.html#a69448cc2298e35491053836df94e2d3d">AppContext::glfw_windowsize_callback</a></div><div class="ttdeci">static void glfw_windowsize_callback(GLFWwindow *window, int w, int h)</div><div class="ttdoc">GLFW window size callback.</div><div class="ttdef"><b>Definition:</b> context.cpp:121</div></div>
+<div class="ttc" id="aclassAppContext_html_ab44d505dc2ff137aa129e919b476a1ad"><div class="ttname"><a href="classAppContext.html#ab44d505dc2ff137aa129e919b476a1ad">AppContext::NAME</a></div><div class="ttdeci">const std::string NAME</div><div class="ttdoc">Defined name for message title.</div><div class="ttdef"><b>Definition:</b> context.hpp:57</div></div>
+<div class="ttc" id="aclassAppContext_html_ad15dec182c50e151fccd4a7e4bea7fac"><div class="ttname"><a href="classAppContext.html#ad15dec182c50e151fccd4a7e4bea7fac">AppContext::glfw_windowpos_callback</a></div><div class="ttdeci">static void glfw_windowpos_callback(GLFWwindow *window, int x, int y)</div><div class="ttdoc">GLFW window position callback.</div><div class="ttdef"><b>Definition:</b> context.cpp:128</div></div>
+<div class="ttc" id="amedia_8hpp_html"><div class="ttname"><a href="media_8hpp.html">media.hpp</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
