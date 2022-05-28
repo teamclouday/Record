@@ -97,10 +97,11 @@ void AppContext::glfw_key_callback(GLFWwindow* window, int key, int scancode, in
             }
             case GLFW_KEY_F10: // toggle UI and start/stop recording
             {
+                bool success = true;
                 user->toggleUI();
                 // start/stop recording
                 if(user->_displayUI && user->_mediaHandler)
-                    user->_mediaHandler->StopRecord();
+                    success = user->_mediaHandler->StopRecord();
                 else if(!user->_displayUI && user->_mediaHandler)
                 {
                     user->_mediaHandler->ConfigWindow(
@@ -108,8 +109,9 @@ void AppContext::glfw_key_callback(GLFWwindow* window, int key, int scancode, in
                         user->_winPosY + WIN_BORDER_PIXELS,
                         user->_winWidth - WIN_BORDER_PIXELS * 2,
                         user->_winHeight - WIN_BORDER_PIXELS * 2);
-                    user->_mediaHandler->StartRecord();
+                    success = user->_mediaHandler->StartRecord();
                 }
+                if(!success) user->toggleUI();
                 break;
             }
         }
@@ -208,13 +210,11 @@ void AppContext::toggleUI()
     {
         glfwSetWindowAttrib(_window, GLFW_MOUSE_PASSTHROUGH, GLFW_FALSE);
         glfwSetWindowAttrib(_window, GLFW_DECORATED, GLFW_TRUE);
-        glfwSetWindowAttrib(_window, GLFW_RESIZABLE, GLFW_TRUE);
     }
     else
     {
         glfwSetWindowAttrib(_window, GLFW_MOUSE_PASSTHROUGH, GLFW_TRUE);
         glfwSetWindowAttrib(_window, GLFW_DECORATED, GLFW_FALSE);
-        glfwSetWindowAttrib(_window, GLFW_RESIZABLE, GLFW_FALSE);
     }
 }
 
@@ -253,8 +253,5 @@ void AppContext::AppLoop(std::function<void()> customUI)
         glfwSwapBuffers(_window);
         // poll events
         glfwPollEvents();
-        // check media handler state
-        if(!_displayUI && _mediaHandler && !_mediaHandler->IsRecording())
-            toggleUI();
     }
 }

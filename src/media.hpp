@@ -11,6 +11,7 @@ extern "C"
 
 /** @file */
 
+#define VIDEO_DELAY_SECONDS     0
 #define VIDEO_DEFAULT_FPS       30
 #define VIDEO_DEFAULT_BITRATE   4000000
 #define VIDEO_DEFAULT_OUTPUT    "out.mp4"
@@ -22,8 +23,8 @@ public:
     ~MediaHandler();
 
     void ConfigWindow(int x, int y, int w, int h);
-    void StartRecord();
-    void StopRecord();
+    bool StartRecord();
+    bool StopRecord();
     void SelectOutputPath();
     bool IsRecording();
 
@@ -42,7 +43,7 @@ private:
 
     // record size
     int _rX, _rY, _rW, _rH, _fps;
-    int _bitrate;
+    int _bitrate, _delaySeconds;
     bool _bitrateAuto;
     bool _recording;
     std::string _outFilePath;

@@ -2,6 +2,7 @@
 #include "utils.hpp"
 #include <stdexcept>
 #include <sstream>
+#include <chrono>
 
 // reference: https://github.com/leandromoreira/ffmpeg-libav-tutorial
 // reference: https://github.com/abdullahfarwees/screen-recorder-ffmpeg-cpp/blob/master/src/ScreenRecorder.cpp
@@ -13,6 +14,7 @@ MediaHandler::MediaHandler()
     _fps = VIDEO_DEFAULT_FPS;
     _outFilePath = VIDEO_DEFAULT_OUTPUT;
     _bitrate = VIDEO_DEFAULT_BITRATE;
+    _delaySeconds = VIDEO_DELAY_SECONDS;
     _bitrateAuto = true;
     _recording = false;
     // prepare libav
@@ -110,21 +112,21 @@ void MediaHandler::ConfigWindow(int x, int y, int w, int h)
     _rH = h;
 }
 
-void MediaHandler::StartRecord()
+bool MediaHandler::StartRecord()
 {
     StopRecord();
     freeLibAV();
     _icodecParams = avcodec_parameters_alloc();
     _ocodecParams = avcodec_parameters_alloc();
     // prepare parameters
-    if(!prepareParams()) return;
+    if(!prepareParams()) return false;
     // try to open capture device
-    if(!openCapture()) return;
+    if(!openCapture()) return false;
     // find stream info
     if(avformat_find_stream_info(_ifmtCtx, nullptr) < 0)
     {
         display_message(NAME, "failed to get capture stream info", MESSAGE_WARN);
-        return;
+        return false;
     }
     _videoStreamIdx = -1;
     for(unsigned i = 0; i < _ifmtCtx->nb_streams; i++)
@@ -138,7 +140,7 @@ void MediaHandler::StartRecord()
     if(_videoStreamIdx < 0)
     {
         display_message(NAME, "failed to get capture stream info", MESSAGE_WARN);
-        return;
+        return false;
     }
     // prepare input codec
     _icodecParams = _ifmtCtx->streams[_videoStreamIdx]->codecpar;
@@ -146,61 +148,61 @@ void MediaHandler::StartRecord()
     if(!codecIn)
     {
         display_message(NAME, "failed to prepare capture codec", MESSAGE_WARN);
-        return;
+        return false;
     }
     _icodecCtx = avcodec_alloc_context3(codecIn);
     if(avcodec_parameters_to_context(_icodecCtx, _icodecParams) < 0)
     {
         display_message(NAME, "failed to prepare capture codec", MESSAGE_WARN);
-        return;
+        return false;
     }
     if(avcodec_open2(_icodecCtx, codecIn, nullptr) < 0)
     {
         display_message(NAME, "failed to prepare capture codec", MESSAGE_WARN);
-        return;
+        return false;
     }
     // get output format
     auto formatOut = av_guess_format(nullptr, _outFilePath.c_str(), nullptr);
     if(!formatOut)
     {
         display_message(NAME, "failed to get format for " + _outFilePath, MESSAGE_WARN);
-        return;
+        return false;
     }
     if(avformat_alloc_output_context2(&_ofmtCtx, formatOut, nullptr, nullptr) < 0)
     {
         display_message(NAME, "failed to get format for " + _outFilePath, MESSAGE_WARN);
-        return;
+        return false;
     }
     // prepare output codec
     auto codecOut = avcodec_find_encoder(_ocodecParams->codec_id);
     if(!codecOut)
     {
         display_message(NAME, "failed to prepare output codec", MESSAGE_WARN);
-        return;
+        return false;
     }
     _ocodecCtx = avcodec_alloc_context3(codecOut);
     if(!_ocodecCtx)
     {
         display_message(NAME, "failed to prepare output codec", MESSAGE_WARN);
-        return;
+        return false;
     }
     // create stream
     _videoStream = avformat_new_stream(_ofmtCtx, codecOut);
     if(!_videoStream)
     {
         display_message(NAME, "failed to prepare video stream", MESSAGE_WARN);
-        return;
+        return false;
     }
     if(avcodec_parameters_copy(_videoStream->codecpar, _ocodecParams) < 0)
     {
         display_message(NAME, "failed to prepare video stream", MESSAGE_WARN);
-        return;
+        return false;
     }
     // prepare output context
     if(avcodec_parameters_to_context(_ocodecCtx, _ocodecParams) < 0)
     {
         display_message(NAME, "failed to prepare output context", MESSAGE_WARN);
-        return;
+        return false;
     }
     _ocodecCtx->pix_fmt = AV_PIX_FMT_YUV420P;
     _ocodecCtx->gop_size = 3; // the number of pictures in a group of pictures
@@ -210,7 +212,7 @@ void MediaHandler::StartRecord()
     if(avcodec_open2(_ocodecCtx, codecOut, nullptr) < 0)
     {
         display_message(NAME, "failed to prepare output context", MESSAGE_WARN);
-        return;
+        return false;
     }
     if(_icodecCtx->codec_id == AV_CODEC_ID_H264)
 	{
@@ -224,7 +226,7 @@ void MediaHandler::StartRecord()
     if(avio_open(&_ofmtCtx->pb, _outFilePath.c_str(), AVIO_FLAG_READ_WRITE) < 0)
     {
         display_message(NAME, "failed to prepare " + _outFilePath, MESSAGE_WARN);
-        return;
+        return false;
     }
     if(_ofmtCtx->oformat->flags & AVFMT_GLOBALHEADER)
     {
@@ -233,7 +235,7 @@ void MediaHandler::StartRecord()
     if(avformat_write_header(_ofmtCtx, nullptr) < 0)
     {
         display_message(NAME, "failed to prepare " + _outFilePath, MESSAGE_WARN);
-        return;
+        return false;
     }
     // prepare packet and frame
     _ipacket = av_packet_alloc();
@@ -241,14 +243,14 @@ void MediaHandler::StartRecord()
     if(!_ipacket || !_opacket)
     {
         display_message(NAME, "failed to prepare media packet", MESSAGE_WARN);
-        return;
+        return false;
     }
     _iAVFrame = av_frame_alloc();
     _oAVFrame = av_frame_alloc();
     if(!_iAVFrame || !_oAVFrame)
     {
         display_message(NAME, "failed to prepare frame data", MESSAGE_WARN);
-        return;
+        return false;
     }
     _iAVFrame->width = _icodecCtx->width;
     _iAVFrame->height = _icodecCtx->height;
@@ -260,7 +262,7 @@ void MediaHandler::StartRecord()
         av_frame_get_buffer(_oAVFrame, 0) < 0)
     {
         display_message(NAME, "failed to prepare frame data", MESSAGE_WARN);
-        return;
+        return false;
     }
     // prepare sws
     _swsCtx = sws_getContext(_icodecCtx->width, _icodecCtx->height, _icodecCtx->pix_fmt,
@@ -269,23 +271,27 @@ void MediaHandler::StartRecord()
     if(!_swsCtx)
     {
         display_message(NAME, "failed to prepare frame sws", MESSAGE_WARN);
-        return;
+        return false;
     }
     // start thread
     _recordLoop = true;
     _recordT = std::thread([this]{recordInternal();});
+    return true;
 }
 
-void MediaHandler::StopRecord()
+bool MediaHandler::StopRecord()
 {
     _recordLoop = false;
     if(_recordT.joinable()) _recordT.join();
     if(_ifmtCtx) avformat_close_input(&_ifmtCtx);
+    return true;
 }
 
 void MediaHandler::recordInternal()
 {
     _recording = true;
+    // delay
+    std::this_thread::sleep_for(std::chrono::seconds(_delaySeconds));
     display_message(NAME, "started recording", MESSAGE_INFO);
     // start reading frames
     while(_recordLoop && av_read_frame(_ifmtCtx, _ipacket) >= 0)
