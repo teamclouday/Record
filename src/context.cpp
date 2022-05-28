@@ -10,7 +10,7 @@
 AppContext::AppContext(const std::string& title)
 {
     _displayUI = true;
-    _alpha = 0.6f;
+    _alpha = 0.75f;
     // init window
     _winWidth = 800;
     _winHeight = 600;
@@ -43,7 +43,7 @@ AppContext::AppContext(const std::string& title)
     auto& io = ImGui::GetIO();
     io.IniFilename = nullptr;
     ImFontConfig fontConfig;
-    fontConfig.SizePixels = 25.0f;
+    fontConfig.SizePixels = 20.0f;
     fontConfig.OversampleH = fontConfig.OversampleV = 1;
     fontConfig.PixelSnapH = true;
     io.Fonts->AddFontDefault(&fontConfig);

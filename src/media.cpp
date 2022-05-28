@@ -3,6 +3,13 @@
 #include <stdexcept>
 #include <sstream>
 #include <chrono>
+#include <limits>
+#include <cstring>
+#include <cstdio>
+#include <filesystem>
+#include <vector>
+
+namespace fs = std::filesystem;
 
 // reference: https://github.com/leandromoreira/ffmpeg-libav-tutorial
 // reference: https://github.com/abdullahfarwees/screen-recorder-ffmpeg-cpp/blob/master/src/ScreenRecorder.cpp
@@ -12,11 +19,13 @@ MediaHandler::MediaHandler()
 {
     // default values
     _fps = VIDEO_DEFAULT_FPS;
-    _outFilePath = VIDEO_DEFAULT_OUTPUT;
     _bitrate = VIDEO_DEFAULT_BITRATE;
     _delaySeconds = VIDEO_DELAY_SECONDS;
+    _outFilePath = fs::absolute(VIDEO_DEFAULT_OUTPUT).string();
     _bitrateAuto = true;
     _recording = false;
+    _captureAudio = false;
+    _captureMic = false;
     // prepare libav
     avdevice_register_all();
 }
@@ -72,26 +81,42 @@ bool MediaHandler::openCapture()
 
 void MediaHandler::SelectOutputPath()
 {
+    char filepath[1025];
 #if PLATFORM_WIN
     // TODO: implement code for windows
 #elif PLATFORM_LINUX
-    
+    FILE* f = popen("zenity --file-selection --save --confirm-overwrite\
+        --title=\"Set Output File\"\
+        --filename=\"out.mp4\"", "r");
+    fgets(filepath, 1024, f);
+    pclose(f);
 #else
     // unsupported platform
-    _outFilePath = VIDEO_DEFAULT_OUTPUT;
+    _outFilePath = fs::absolute(VIDEO_DEFAULT_OUTPUT).string();
     display_message(NAME, "unsupported capture platform!", MESSAGE_WARN);
 #endif
+    filepath[strlen(filepath) - 1] = '\0';
+    _outFilePath = std::string(filepath);
+    validateOutputFormat();
+}
+
+void MediaHandler::validateOutputFormat()
+{
+    const std::vector<std::string> SUPPORT_EXTS = {
+        ".mp4", ".mkv"
+    };
+    auto ext = fs::path(_outFilePath).extension().string();
+    for(auto& sup : SUPPORT_EXTS)
+    {
+        if(ext == sup)
+            return;
+    }
+    display_message(NAME, "unsupported output format " + ext + ", setting to default", MESSAGE_WARN);
+    _outFilePath = fs::absolute(VIDEO_DEFAULT_OUTPUT).string();
 }
 
 bool MediaHandler::prepareParams()
 {
-    _ocodecParams->width = _rW;
-    _ocodecParams->height = _rH;
-    if(_bitrateAuto) _bitrate = _rW * _rH * _fps * 8;
-    _ocodecParams->bit_rate = _bitrate; // The average bitrate of the encoded data (in bits per second)
-    _ocodecParams->codec_id = AV_CODEC_ID_MPEG4;
-    _ocodecParams->codec_type = AVMEDIA_TYPE_VIDEO;
-    _ocodecParams->format = 0;
     if(_options) av_dict_free(&_options);
     auto size = std::to_string(_rW) + "x" + std::to_string(_rH);
     if(av_dict_set(&_options,"framerate",std::to_string(_fps).c_str(),0) < 0) goto failedconfig;
@@ -173,6 +198,14 @@ bool MediaHandler::StartRecord()
         display_message(NAME, "failed to get format for " + _outFilePath, MESSAGE_WARN);
         return false;
     }
+    if(_bitrateAuto) _bitrate = _rW * _rH * _fps * 8;
+    _ocodecParams->width = _rW;
+    _ocodecParams->height = _rH;
+    _ocodecParams->bit_rate = _bitrate; // The average bitrate of the encoded data (in bits per second)
+    // _ocodecParams->codec_id = formatOut->video_codec;
+    _ocodecParams->codec_id = AV_CODEC_ID_MPEG4;
+    _ocodecParams->codec_type = AVMEDIA_TYPE_VIDEO;
+    _ocodecParams->format = 0;
     // prepare output codec
     auto codecOut = avcodec_find_encoder(_ocodecParams->codec_id);
     if(!codecOut)
@@ -204,6 +237,7 @@ bool MediaHandler::StartRecord()
         display_message(NAME, "failed to prepare output context", MESSAGE_WARN);
         return false;
     }
+    // _ocodecCtx->pix_fmt = AV_PIX_FMT_RGB8;
     _ocodecCtx->pix_fmt = AV_PIX_FMT_YUV420P;
     _ocodecCtx->gop_size = 3; // the number of pictures in a group of pictures
     _ocodecCtx->max_b_frames = 2;
@@ -297,7 +331,7 @@ void MediaHandler::recordInternal()
     while(_recordLoop && av_read_frame(_ifmtCtx, _ipacket) >= 0)
     {
         if(_ipacket->stream_index == _videoStreamIdx)
-        {   
+        {
             if(!decodeVideo(_icodecCtx, _iAVFrame, _ipacket)) continue;
             sws_scale(_swsCtx, _iAVFrame->data, _iAVFrame->linesize, 0,
                 _icodecCtx->height, _oAVFrame->data, _oAVFrame->linesize);
@@ -309,6 +343,8 @@ void MediaHandler::recordInternal()
                 _opacket->pts = av_rescale_q(_opacket->pts, _ocodecCtx->time_base, _videoStream->time_base);
             if(_opacket->dts != AV_NOPTS_VALUE)
                 _opacket->dts = av_rescale_q(_opacket->dts, _ocodecCtx->time_base, _videoStream->time_base);
+            _opacket->duration = av_rescale_q(_opacket->duration, _ocodecCtx->time_base, _videoStream->time_base);
+            _opacket->stream_index = _videoStream->index;
             if(av_write_frame(_ofmtCtx, _opacket) != 0)
                 display_message(NAME, "failed to write frame", MESSAGE_WARN);
             av_packet_unref(_opacket);
@@ -318,6 +354,7 @@ void MediaHandler::recordInternal()
     if(av_write_trailer(_ofmtCtx) != 0)
         display_message(NAME, "failed to write trailer to " + _outFilePath, MESSAGE_WARN);
     display_message(NAME, "stopped recording", MESSAGE_INFO);
+    display_message(NAME, "output saved to " + _outFilePath, MESSAGE_INFO);
     _recording = false;
 }
 

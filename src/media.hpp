@@ -29,7 +29,6 @@ public:
     bool IsRecording();
 
     void UI();
-    void UIAudio();
 
     const std::string NAME = "MediaHandler";
 
@@ -40,13 +39,18 @@ private:
     void recordInternal();
     bool decodeVideo(AVCodecContext* icodecCtx, AVFrame* iframe, AVPacket* ipacket);
     bool encodeVideo(AVCodecContext* ocodecCtx, AVFrame* oframe, AVPacket* opacket);
+    void validateOutputFormat();
 
-    // record size
+    // video settings
     int _rX, _rY, _rW, _rH, _fps;
     int _bitrate, _delaySeconds;
     bool _bitrateAuto;
-    bool _recording;
+    // audio settings
+    bool _captureAudio;
+    bool _captureMic;
+    // output file path
     std::string _outFilePath;
+    bool _recording;
 
     bool _recordLoop;
     std::thread _recordT;
