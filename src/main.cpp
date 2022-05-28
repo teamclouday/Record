@@ -1,4 +1,4 @@
-#include "video.hpp"
+#include "media.hpp"
 #include "context.hpp"
 #include "utils.hpp"
 #include <imgui.h>
@@ -8,13 +8,14 @@
 int main()
 {
     std::shared_ptr<AppContext> ctx;
-    std::shared_ptr<VideoHandler> handler;
+    std::shared_ptr<MediaHandler> handler;
     const std::string appname = "Recorder";
 
+    // init variables
     try
     {
         ctx = std::make_shared<AppContext>(appname);
-        handler = std::make_shared<VideoHandler>();
+        handler = std::make_shared<MediaHandler>();
     }catch(const std::exception& e)
     {
         display_message(appname, e.what(), MESSAGE_ERROR);
@@ -22,6 +23,7 @@ int main()
         return -1;
     }
 
+    // define custom UI function
     auto renderUI = [&]()
     {
         auto& io = ImGui::GetIO();
@@ -47,7 +49,9 @@ int main()
         ImGui::End();
     };
 
+    // attach handler
     ctx->AttachHandler(handler);
+    // start app loop
     ctx->AppLoop(renderUI);
 
     return 0;

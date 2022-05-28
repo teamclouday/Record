@@ -14,6 +14,12 @@
 /// Message level ERROR
 #define MESSAGE_ERROR   2
 
+/// 1 if on Windows, 0 otherwise
+#define PLATFORM_WIN    defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
+
+/// 1 if on Linux, 0 otherwise
+#define PLATFORM_LINUX  __linux__
+
 /**
  * @brief Print arbitrary number of arguments to console
  * 

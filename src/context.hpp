@@ -1,7 +1,7 @@
 #pragma once
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
-#include "video.hpp"
+#include "media.hpp"
 #include <string>
 #include <memory>
 #include <functional>
@@ -40,11 +40,11 @@ public:
     /**
      * @brief Attach Video Handler
      * 
-     * Attach a VideoHandler instance to update record events.
+     * Attach a MediaHandler instance to update record events.
      * 
-     * @param handler A pointer to VideoHandler instance
+     * @param handler A pointer to MediaHandler instance
      */
-    void AttachHandler(std::shared_ptr<VideoHandler> handler);
+    void AttachHandler(std::shared_ptr<MediaHandler> handler);
 
     /**
      * @brief UI Calls
@@ -70,13 +70,17 @@ private:
     /// Prepare shader program to draw border
     void prepareBorder();
 
+    /// toggle UI and related window states
+    void toggleUI();
+
     int _winWidth, _winHeight;
     int _winPosX, _winPosY;
+    float _alpha;
     std::string _title;
     int _windowConfig[4];
     GLFWwindow* _window;
     bool _displayUI;
     GLuint _borderProg;
 
-    std::shared_ptr<VideoHandler> _videoHandler;
+    std::shared_ptr<MediaHandler> _mediaHandler;
 };

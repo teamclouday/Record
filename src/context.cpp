@@ -10,6 +10,7 @@
 AppContext::AppContext(const std::string& title)
 {
     _displayUI = true;
+    _alpha = 0.6f;
     // init window
     _winWidth = 800;
     _winHeight = 600;
@@ -94,20 +95,20 @@ void AppContext::glfw_key_callback(GLFWwindow* window, int key, int scancode, in
                 }
                 break;
             }
-            case GLFW_KEY_F10: // toggle UI
+            case GLFW_KEY_F10: // toggle UI and start/stop recording
             {
-                user->_displayUI = !user->_displayUI;
-                if(user->_displayUI)
+                user->toggleUI();
+                // start/stop recording
+                if(user->_displayUI && user->_mediaHandler)
+                    user->_mediaHandler->StopRecord();
+                else if(!user->_displayUI && user->_mediaHandler)
                 {
-                    glfwSetWindowAttrib(user->_window, GLFW_MOUSE_PASSTHROUGH, GLFW_FALSE);
-                    glfwSetWindowAttrib(user->_window, GLFW_DECORATED, GLFW_TRUE);
-                    glfwSetWindowAttrib(user->_window, GLFW_RESIZABLE, GLFW_TRUE);
-                }
-                else
-                {
-                    glfwSetWindowAttrib(user->_window, GLFW_MOUSE_PASSTHROUGH, GLFW_TRUE);
-                    glfwSetWindowAttrib(user->_window, GLFW_DECORATED, GLFW_FALSE);
-                    glfwSetWindowAttrib(user->_window, GLFW_RESIZABLE, GLFW_FALSE);
+                    user->_mediaHandler->ConfigWindow(
+                        user->_winPosX + WIN_BORDER_PIXELS,
+                        user->_winPosY + WIN_BORDER_PIXELS,
+                        user->_winWidth - WIN_BORDER_PIXELS * 2,
+                        user->_winHeight - WIN_BORDER_PIXELS * 2);
+                    user->_mediaHandler->StartRecord();
                 }
                 break;
             }
@@ -200,18 +201,37 @@ void AppContext::prepareBorder()
     glDeleteShader(fragShader);
 }
 
-void AppContext::AttachHandler(std::shared_ptr<VideoHandler> handler)
+void AppContext::toggleUI()
 {
-    _videoHandler = handler;
+    _displayUI = !_displayUI;
+    if(_displayUI)
+    {
+        glfwSetWindowAttrib(_window, GLFW_MOUSE_PASSTHROUGH, GLFW_FALSE);
+        glfwSetWindowAttrib(_window, GLFW_DECORATED, GLFW_TRUE);
+        glfwSetWindowAttrib(_window, GLFW_RESIZABLE, GLFW_TRUE);
+    }
+    else
+    {
+        glfwSetWindowAttrib(_window, GLFW_MOUSE_PASSTHROUGH, GLFW_TRUE);
+        glfwSetWindowAttrib(_window, GLFW_DECORATED, GLFW_FALSE);
+        glfwSetWindowAttrib(_window, GLFW_RESIZABLE, GLFW_FALSE);
+    }
+}
+
+void AppContext::AttachHandler(std::shared_ptr<MediaHandler> handler)
+{
+    _mediaHandler = handler;
 }
 
 void AppContext::AppLoop(std::function<void()> customUI)
 {
     while(!glfwWindowShouldClose(_window))
     {
+        // set render area
         glViewport(0, 0, _winWidth, _winHeight);
-        glClearColor(0.0f, 0.0f, 0.0f, _displayUI ? 0.6f : 0.0f);
+        glClearColor(0.0f, 0.0f, 0.0f, _displayUI ? _alpha : 0.0f);
         glClear(GL_COLOR_BUFFER_BIT);
+        // prepare UI draw
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
@@ -229,7 +249,12 @@ void AppContext::AppLoop(std::function<void()> customUI)
         }
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+        // refresh frame
         glfwSwapBuffers(_window);
+        // poll events
         glfwPollEvents();
-        }
+        // check media handler state
+        if(!_displayUI && _mediaHandler && !_mediaHandler->IsRecording())
+            toggleUI();
+    }
 }
