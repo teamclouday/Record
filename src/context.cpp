@@ -232,12 +232,14 @@ void AppContext::AppLoop(std::function<void()> customUI)
         glClearColor(0.0f, 0.0f, 0.0f, _displayUI ? _alpha : 0.0f);
         glClear(GL_COLOR_BUFFER_BIT);
         // prepare UI draw
-        ImGui_ImplOpenGL3_NewFrame();
-        ImGui_ImplGlfw_NewFrame();
-        ImGui::NewFrame();
         if(_displayUI && customUI)
         {
+            ImGui_ImplOpenGL3_NewFrame();
+            ImGui_ImplGlfw_NewFrame();
+            ImGui::NewFrame();
             customUI();
+            ImGui::Render();
+            ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
         }
         else if(!_displayUI)
         {
@@ -247,8 +249,6 @@ void AppContext::AppLoop(std::function<void()> customUI)
             glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
             glUseProgram(0);
         }
-        ImGui::Render();
-        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
         // refresh frame
         glfwSwapBuffers(_window);
         // poll events
