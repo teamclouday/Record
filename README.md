@@ -26,7 +26,7 @@ Current supported output video formats are:
 - [x] Windows Support  
 - [ ] Audio Capture  
 - [ ] Microphone Audio  
-- [ ] Fully Support Fullscreen Capture  
+- [x] Fully Support Fullscreen Capture  
 - [ ] Support GIF  
 - [ ] Support Webm  
 

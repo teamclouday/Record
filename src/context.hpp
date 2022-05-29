@@ -66,6 +66,9 @@ private:
     /// GLFW window position callback
     static void glfw_windowpos_callback(GLFWwindow* window, int x, int y);
 
+    /// GLFW window focus state callback
+    static void glfw_windowfocus_callback(GLFWwindow* window, int focus);
+
     /// Prepare shader program to draw border
     void prepareBorder();
 
@@ -87,7 +90,7 @@ private:
     std::string _title;
     int _windowConfig[4];
     GLFWwindow* _window;
-    bool _displayUI;
+    bool _displayUI, _fullscreen;
     GLuint _borderProg;
     void* _hotkeyDpy; // X11 display for hotkey events
 

@@ -20,6 +20,7 @@
 AppContext::AppContext(const std::string& title)
 {
     _displayUI = true;
+    _fullscreen = false;
     _alpha = 0.75f;
     // init window
     _winWidth = 800;
@@ -41,6 +42,7 @@ AppContext::AppContext(const std::string& title)
     glfwSetKeyCallback(_window, glfw_key_callback);
     glfwSetWindowPosCallback(_window, glfw_windowpos_callback);
     glfwSetWindowSizeCallback(_window, glfw_windowsize_callback);
+    glfwSetWindowFocusCallback(_window, glfw_windowfocus_callback);
     glfwMakeContextCurrent(_window);
     glfwSwapInterval(1);
     glfwGetWindowPos(_window, &_winPosX, &_winPosY);
@@ -96,6 +98,7 @@ void AppContext::glfw_key_callback(GLFWwindow* window, int key, int scancode, in
                         window, nullptr, 
                         user->_windowConfig[0], user->_windowConfig[1], 
                         user->_windowConfig[2], user->_windowConfig[3], 0);
+                    user->_fullscreen = false;
                 }
                 else
                 {
@@ -107,6 +110,7 @@ void AppContext::glfw_key_callback(GLFWwindow* window, int key, int scancode, in
                         auto mode = glfwGetVideoMode(monitor);
                         glfwSetWindowMonitor(window, monitor, 0, 0, mode->width, mode->height, 0);
                     }
+                    user->_fullscreen = true;
                 }
                 break;
             }
@@ -126,6 +130,12 @@ void AppContext::glfw_windowpos_callback(GLFWwindow* window, int x, int y)
     AppContext* user = reinterpret_cast<AppContext*>(glfwGetWindowUserPointer(window));
     user->_winPosX = x;
     user->_winPosY = y;
+}
+
+void AppContext::glfw_windowfocus_callback(GLFWwindow* window, int focus)
+{
+    // this is a fix for a bug when recording on fullscreen mode
+    glfwSetWindowAttrib(window, GLFW_FLOATING, GLFW_TRUE);
 }
 
 void AppContext::prepareBorder()
@@ -202,16 +212,43 @@ void AppContext::prepareBorder()
 void AppContext::toggleUI()
 {
     _displayUI = !_displayUI;
-    if(_displayUI)
+    if(_fullscreen)
     {
-        glfwSetWindowAttrib(_window, GLFW_MOUSE_PASSTHROUGH, GLFW_FALSE);
-        glfwSetWindowAttrib(_window, GLFW_DECORATED, GLFW_TRUE);
+        // in fullscreen mode, hide window if in recording
+        if(_displayUI)
+        {
+            // restore fullscreen
+            glfwShowWindow(_window);
+            auto monitor = glfwGetPrimaryMonitor();
+            if(monitor)
+            {
+                auto mode = glfwGetVideoMode(monitor);
+                glfwSetWindowMonitor(_window, monitor, 0, 0, mode->width, mode->height, 0);
+            }
+        }
+        else
+        {
+            // switch to windowed mode to hide
+            glfwSetWindowMonitor(_window, nullptr,
+                _winPosX, _winPosY, _winWidth, _winHeight, 0);
+            glfwHideWindow(_window);
+        }
     }
     else
     {
-        glfwSetWindowAttrib(_window, GLFW_MOUSE_PASSTHROUGH, GLFW_TRUE);
-        glfwSetWindowAttrib(_window, GLFW_DECORATED, GLFW_FALSE);
+        // in windowed mode, do passthrough
+        if(_displayUI)
+        {
+            glfwSetWindowAttrib(_window, GLFW_DECORATED, GLFW_TRUE);
+            glfwSetWindowAttrib(_window, GLFW_MOUSE_PASSTHROUGH, GLFW_FALSE);
+        }
+        else
+        {
+            glfwSetWindowAttrib(_window, GLFW_DECORATED, GLFW_FALSE);
+            glfwSetWindowAttrib(_window, GLFW_MOUSE_PASSTHROUGH, GLFW_TRUE);
+        }
     }
+    glfwFocusWindow(_window);
 }
 
 void AppContext::AttachHandler(std::shared_ptr<MediaHandler> handler)
@@ -237,7 +274,7 @@ void AppContext::AppLoop(std::function<void()> customUI)
             ImGui::Render();
             ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
         }
-        else if(!_displayUI)
+        else if(!_displayUI && !_fullscreen)
         {
             glUseProgram(_borderProg);
             glUniform1f(glGetUniformLocation(_borderProg, "dW"), WIN_BORDER_PIXELS / static_cast<float>(_winWidth));
@@ -249,7 +286,7 @@ void AppContext::AppLoop(std::function<void()> customUI)
         glfwSwapBuffers(_window);
         // poll events
         glfwPollEvents();
-        // check hot key
+        // check hotkey
         hotKeyPollEvents();
     }
 }
@@ -262,8 +299,8 @@ void AppContext::registerHotKey()
     auto display = XOpenDisplay(0);
     _hotkeyDpy = (void*)display;
     auto window = DefaultRootWindow(display);
-    XGrabKey(display, XKeysymToKeycode(display, XK_F12), ControlMask, window,
-        True, GrabModeAsync, GrabModeAsync);
+    XGrabKey(display, XKeysymToKeycode(display, XK_F12), ControlMask,
+        window, False, GrabModeAsync, GrabModeAsync);
     XSelectInput(display, window, KeyPressMask);
 #endif
 }
@@ -293,7 +330,6 @@ void AppContext::hotKeyPollEvents()
     if(e.type != KeyPress) return;
 #endif
     // if pressed update state
-    glfwFocusWindow(_window);
     bool success = true;
     toggleUI();
     // start/stop recording
@@ -302,10 +338,10 @@ void AppContext::hotKeyPollEvents()
     else if(!_displayUI && _mediaHandler)
     {
         _mediaHandler->ConfigWindow(
-            _winPosX + WIN_BORDER_PIXELS,
-            _winPosY + WIN_BORDER_PIXELS,
-            _winWidth - WIN_BORDER_PIXELS * 2,
-            _winHeight - WIN_BORDER_PIXELS * 2);
+            _winPosX + (_fullscreen ? 0 : WIN_BORDER_PIXELS),
+            _winPosY + (_fullscreen ? 0 : WIN_BORDER_PIXELS),
+            _winWidth - (_fullscreen ? 0 : (WIN_BORDER_PIXELS * 2)),
+            _winHeight - (_fullscreen ? 0 : (WIN_BORDER_PIXELS * 2)));
         success = _mediaHandler->StartRecord();
     }
     if(!success) toggleUI();

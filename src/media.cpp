@@ -108,12 +108,12 @@ void MediaHandler::SelectOutputPath()
         --filename=\"out.mp4\"", "r");
     fgets(filepath, 1024, f);
     pclose(f);
+    filepath[strlen(filepath)-1] = 0;
 #else
     // unsupported platform
     _outFilePath = fs::absolute(VIDEO_DEFAULT_OUTPUT).string();
     display_message(NAME, "unsupported capture platform!", MESSAGE_WARN);
 #endif
-    filepath[1024] = '\0';
     _outFilePath = std::string(filepath);
     validateOutputFormat();
 }
@@ -126,7 +126,7 @@ void MediaHandler::validateOutputFormat()
     auto ext = fs::path(_outFilePath).extension().string();
     for(auto& sup : SUPPORT_EXTS)
     {
-        if(ext == sup)
+        if(!ext.compare(sup))
             return;
     }
     display_message(NAME, "unsupported output format " + ext + ", setting to default", MESSAGE_WARN);
