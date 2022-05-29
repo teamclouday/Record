@@ -330,7 +330,7 @@ void AppContext::hotKeyPollEvents()
     bool hasHotkey = false;
     while(PeekMessage(&msg, glfwGetWin32Window(_window), WM_HOTKEY, WM_HOTKEY, PM_REMOVE))
     {
-        if(key.message == WM_HOTKEY)
+        if(msg.message == WM_HOTKEY)
         {
             hasHotkey = true;
             break;

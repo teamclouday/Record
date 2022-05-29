@@ -22,7 +22,7 @@ Current supported output video formats are:
 
 ## Feature Plans
 
-- [ ] Global Hotkey for Window Refocus  
+- [x] Global Hotkey for Window Refocus  
 - [x] Windows Support  
 - [ ] Audio Capture  
 - [ ] Microphone Audio  
