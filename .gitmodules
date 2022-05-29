@@ -11,3 +11,6 @@
 [submodule "external/termcolor"]
 	path = external/termcolor
 	url = https://github.com/ikalnytskyi/termcolor.git
+[submodule "external/FFmpeg-Builds"]
+	path = external/FFmpeg-Builds
+	url = https://github.com/teamclouday/FFmpeg-Builds.git
