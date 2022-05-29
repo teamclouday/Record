@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['opencapture_0',['openCapture',['../classMediaHandler.html#a5e6c5197dfa62b8d84641373d7c32fb5',1,'MediaHandler']]]
+  ['isrecording_0',['IsRecording',['../classMediaHandler.html#ac32b0d47efa5a52fa75c2588d00bb3da',1,'MediaHandler']]]
 ];

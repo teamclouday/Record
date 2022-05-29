@@ -70,6 +70,17 @@ $(function() {
  This project aims to have similar features as Peek.</p>
 <hr  />
 <h1><a class="anchor" id="autotoc_md2"></a>
+Controls</h1>
+<ul>
+<li><code>ESC</code>: exit app <br  />
+</li>
+<li><code>F11</code>: toggle fullscreen <br  />
+</li>
+<li><code>CTRL+F10</code> (global hotkey): start/stop recording <br  />
+</li>
+</ul>
+<p >Because of global hotkey registration, this application can only launch one instance (at least on linux X11) at a time.</p>
+<h1><a class="anchor" id="autotoc_md3"></a>
 Platform</h1>
 <p >Current supported platforms are: <br  />
 </p><ul>
@@ -79,7 +90,7 @@ Platform</h1>
 </li>
 </ul>
 <p >Note that on Windows it is a static build, while on Linux it is shared.</p>
-<h1><a class="anchor" id="autotoc_md3"></a>
+<h1><a class="anchor" id="autotoc_md4"></a>
 Formats</h1>
 <p >Current supported output video formats are: <br  />
 </p><ul>
@@ -87,10 +98,10 @@ Formats</h1>
 </li>
 <li>mkv</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md4"></a>
+<h1><a class="anchor" id="autotoc_md5"></a>
 Feature Plans</h1>
 <ul>
-<li>[ ] Global Hotkey for Window Refocus <br  />
+<li>[x] Global Hotkey for Window Refocus <br  />
 </li>
 <li>[x] Windows Support <br  />
 </li>
@@ -98,14 +109,14 @@ Feature Plans</h1>
 </li>
 <li>[ ] Microphone Audio <br  />
 </li>
-<li>[ ] Fully Support Fullscreen Capture <br  />
+<li>[x] Fully Support Fullscreen Capture <br  />
 </li>
 <li>[ ] Support GIF <br  />
 </li>
 <li>[ ] Support Webm <br  />
 </li>
 </ul>
-<h1><a class="anchor" id="autotoc_md5"></a>
+<h1><a class="anchor" id="autotoc_md6"></a>
 Dependencies</h1>
 <ul>
 <li><a href="https://github.com/ocornut/imgui">ImGui</a> <br  />
@@ -149,7 +160,7 @@ The following libs are required for Windows static build, but should all exist i
 <p ><details>
 </details>
 </p>
-<h1><a class="anchor" id="autotoc_md6"></a>
+<h1><a class="anchor" id="autotoc_md7"></a>
 Compilation</h1>
 <p >First pull the repo: </p><div class="fragment"><div class="line">git submodule update --init --recursive</div>
 </div><!-- fragment --><p ><details>
@@ -189,7 +200,7 @@ If you are not using X11, run following: </p><div class="fragment"><div class="l
 </div><!-- fragment --><p >Build (Linux): </p><div class="fragment"><div class="line">make -j4</div>
 </div><!-- fragment --><p >Build (Windows): </p><div class="fragment"><div class="line">cmake --build . --config Release</div>
 </div><!-- fragment --><hr  />
-<h1><a class="anchor" id="autotoc_md8"></a>
+<h1><a class="anchor" id="autotoc_md9"></a>
 Releases</h1>
 <p >work in progress... </p>
 </div></div><!-- PageDoc -->

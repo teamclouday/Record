@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['opencapture_0',['openCapture',['../classMediaHandler.html#a5e6c5197dfa62b8d84641373d7c32fb5',1,'MediaHandler']]]
+  ['name_0',['NAME',['../classAppContext.html#ab44d505dc2ff137aa129e919b476a1ad',1,'AppContext']]]
 ];

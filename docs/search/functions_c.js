@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['ui_0',['UI',['../classAppContext.html#a3332fa202e5f1751652b49de5e6c9f99',1,'AppContext::UI()'],['../classMediaHandler.html#abf96e6be4fce2768e547fedb2b911ed1',1,'MediaHandler::UI()']]]
+  ['toggleui_0',['toggleUI',['../classAppContext.html#a42c4b191eae37e56abda6d4c7669d0a6',1,'AppContext']]]
 ];

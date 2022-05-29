@@ -12,6 +12,8 @@ This project aims to have similar features as Peek.
 * `F11`: toggle fullscreen  
 * `CTRL+F10` (global hotkey): start/stop recording  
 
+Because of global hotkey registration, this application can only launch one instance (at least on linux X11) at a time.
+
 ## Platform  
 
 Current supported platforms are:  
