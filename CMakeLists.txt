@@ -48,18 +48,6 @@ target_include_directories(ImGui PRIVATE
     ${CMAKE_SOURCE_DIR}/external/imgui/backends
 )
 
-# find_package(PkgConfig REQUIRED)
-# pkg_check_modules(LIBAV REQUIRED IMPORTED_TARGET
-#     libavdevice
-#     libavfilter
-#     libavformat
-#     libavcodec
-#     libswresample
-#     libswscale
-#     libavutil
-# )
-find_package(LibAV REQUIRED)
-
 find_package(Threads REQUIRED)
 
 file(GLOB SRC_FILES ${CMAKE_SOURCE_DIR}/src/*.cpp ${CMAKE_SOURCE_DIR}/src/*.hpp)
@@ -78,13 +66,38 @@ target_include_directories(recorder PRIVATE
     ${CMAKE_SOURCE_DIR}/external/imgui
     ${CMAKE_SOURCE_DIR}/external/imgui/backends
     ${CMAKE_SOURCE_DIR}/external/termcolor/include
-    ${LIBAV_INCLUDE_DIRS}
 )
 target_link_libraries(recorder PRIVATE
     libglew_static
     glfw
     ImGui
     OpenGL::GL
-    ${LIBAV_LIBRARIES}
     Threads::Threads
 )
+if(WIN32)
+    target_include_directories(recorder PRIVATE
+        ${CMAKE_SOURCE_DIR}/external/FFmpeg-Builds/windows/include
+    )
+    target_link_directories(recorder PRIVATE
+        ${CMAKE_SOURCE_DIR}/external/FFmpeg-Builds/windows/lib
+    )
+    target_link_libraries(recorder PRIVATE
+        libavcodec.a
+        libavdevice.a
+        libavfilter.a
+        libavformat.a
+        libavutil.a
+        libswresample.a
+        libswscale.a
+    )
+elseif(UNIX)
+    find_package(LibAV REQUIRED)
+    target_include_directories(recorder PRIVATE
+        ${LIBAV_INCLUDE_DIRS}
+    )
+    target_link_libraries(recorder PRIVATE
+        ${LIBAV_LIBRARIES}
+    )
+else()
+    message(FATAL_ERROR "Unsupported platform for libav!")
+endif()
