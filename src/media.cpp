@@ -63,10 +63,12 @@ void MediaHandler::freeLibAV()
 bool MediaHandler::openCapture()
 {
     std::string captureSource = "";
+    std::string captureURL = "";
     // prepare capture source
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
     // use gdi on windows
     captureSource = "gdigrab";
+    captureURL = "desktop";
 #elif __linux__
     // by default assume X11 backend (wayland won't work)
     captureSource = "x11grab";
@@ -76,7 +78,7 @@ bool MediaHandler::openCapture()
 #endif
     // get format and try to open
     auto formatIn = av_find_input_format(captureSource.c_str());
-    if(0 != avformat_open_input(&_ifmtCtx, nullptr, formatIn, &_options))
+    if(0 != avformat_open_input(&_ifmtCtx, captureURL.c_str(), formatIn, &_options))
     {
         display_message(NAME, "failed to open capture source " + captureSource, MESSAGE_WARN);
         return false;
@@ -111,7 +113,7 @@ void MediaHandler::SelectOutputPath()
     _outFilePath = fs::absolute(VIDEO_DEFAULT_OUTPUT).string();
     display_message(NAME, "unsupported capture platform!", MESSAGE_WARN);
 #endif
-    filepath[strlen(filepath) - 1] = '\0';
+    filepath[1024] = '\0';
     _outFilePath = std::string(filepath);
     validateOutputFormat();
 }
