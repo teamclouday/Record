@@ -17,6 +17,9 @@ extern "C"
 /// Video capture default FPS
 #define VIDEO_DEFAULT_FPS       30
 
+/// Video skip frames at beginning
+#define VIDEO_FRAMES_SKIP       10
+
 /// Video capture default bit rate
 #define VIDEO_DEFAULT_BITRATE   4000000
 

@@ -33,6 +33,8 @@ AppContext::AppContext(const std::string& title)
     glfwSetWindowSizeCallback(_window, glfw_windowsize_callback);
     glfwMakeContextCurrent(_window);
     glfwSwapInterval(1);
+    glfwGetWindowPos(_window, &_winPosX, &_winPosY);
+    glfwGetWindowSize(_window, &_winWidth, &_winHeight);
     // init opengl context
     glewExperimental = GL_TRUE;
     if(glewInit() != GLEW_OK)

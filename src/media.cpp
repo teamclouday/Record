@@ -138,8 +138,13 @@ bool MediaHandler::prepareParams()
     if(_options) av_dict_free(&_options);
     auto size = std::to_string(_rW) + "x" + std::to_string(_rH);
     if(av_dict_set(&_options,"framerate",std::to_string(_fps).c_str(),0) < 0) goto failedconfig;
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
+    if(av_dict_set(&_options,"offset_x",std::to_string(_rX).c_str(),0) < 0) goto failedconfig;
+    if(av_dict_set(&_options,"offset_y",std::to_string(_rY).c_str(),0) < 0) goto failedconfig;
+#elif __linux__
     if(av_dict_set(&_options,"grab_x",std::to_string(_rX).c_str(),0) < 0) goto failedconfig;
     if(av_dict_set(&_options,"grab_y",std::to_string(_rY).c_str(),0) < 0) goto failedconfig;
+#endif
     if(av_dict_set(&_options,"video_size",size.c_str(),0) < 0) goto failedconfig;
     return true;
 failedconfig:
@@ -346,8 +351,14 @@ void MediaHandler::recordInternal()
     std::this_thread::sleep_for(std::chrono::seconds(_delaySeconds));
     display_message(NAME, "started recording", MESSAGE_INFO);
     // start reading frames
+    int countDown = VIDEO_FRAMES_SKIP;
     while(_recordLoop && av_read_frame(_ifmtCtx, _ipacket) >= 0)
     {
+        if(countDown > 0)
+        {
+            countDown--;
+            continue;
+        }
         if(_ipacket->stream_index == _videoStreamIdx)
         {
             if(!decodeVideo(_icodecCtx, _iAVFrame, _ipacket)) continue;
