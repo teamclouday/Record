@@ -89,6 +89,7 @@ if(WIN32)
         libavutil.a
         libswresample.a
         libswscale.a
+        comdlg32
     )
 elseif(UNIX)
     find_package(LibAV REQUIRED)

@@ -9,6 +9,11 @@
 #include <filesystem>
 #include <vector>
 
+#if PLATFORM_WIN
+#include <Windows.h>
+#include <commdlg.h>
+#endif
+
 namespace fs = std::filesystem;
 
 // reference: https://github.com/leandromoreira/ffmpeg-libav-tutorial
@@ -84,6 +89,17 @@ void MediaHandler::SelectOutputPath()
     char filepath[1025];
 #if PLATFORM_WIN
     // TODO: implement code for windows
+    filepath[0] = '\0';
+    OPENFILENAMEA f{};
+    f.lStructSize = sizeof(OPENFILENAMEA);
+    f.hwndOwner = NULL;
+    f.lpstrFile = filepath;
+    f.lpstrFilter = "MP4\0*.mp4\0MKV\0*.mkv\0All Files\0*.*\0\0";
+    f.lpstrTitle = "Set Output File";
+    f.nMaxFile = 1024;
+    f.lpstrDefExt = "mp4";
+    f.Flags = OFN_EXPLORER | OFN_PATHMUSTEXIST | OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT;
+    GetOpenFileNameA(&f);
 #elif PLATFORM_LINUX
     FILE* f = popen("zenity --file-selection --save --confirm-overwrite\
         --title=\"Set Output File\"\
