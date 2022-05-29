@@ -295,7 +295,7 @@ void AppContext::AppLoop(std::function<void()> customUI)
 void AppContext::registerHotKey()
 {
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
-    RegisterHotKey(NULL, WINHOTKEY_ID, MOD_CONTROL | MOD_NOREPEAT, VK_F10);
+    RegisterHotKey(glfwGetWin32Window(_window), WINHOTKEY_ID, MOD_CONTROL | MOD_NOREPEAT, VK_F10);
 #elif __linux__
     auto display = XOpenDisplay(0);
     _hotkeyDpy = (void*)display;
@@ -309,7 +309,7 @@ void AppContext::registerHotKey()
 void AppContext::unregisterHotKey()
 {
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
-    UnregisterHotKey(NULL, WINHOTKEY_ID);
+    UnregisterHotKey(glfwGetWin32Window(_window), WINHOTKEY_ID);
 #elif __linux__
     auto display = reinterpret_cast<Display*>(_hotkeyDpy);
     auto window = DefaultRootWindow(display);
@@ -322,7 +322,22 @@ void AppContext::hotKeyPollEvents()
 {
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
     static MSG msg = {0};
-    if(!PeekMessage(&msg, NULL, WM_HOTKEY, WM_HOTKEY, PM_REMOVE)) return;
+    // following will cause window freeze (lol)
+    // see https://docs.microsoft.com/en-us/troubleshoot/windows/win32/application-using-message-filters-unresponsive-win10
+    // if(!PeekMessage(&msg, glfwGetWin32Window(_window), WM_HOTKEY, WM_HOTKEY, PM_REMOVE)) return;
+
+    // following works
+    bool hasHotkey = false;
+    while(PeekMessage(&msg, glfwGetWin32Window(_window), WM_HOTKEY, WM_HOTKEY, PM_REMOVE))
+    {
+        if(key.message == WM_HOTKEY)
+        {
+            hasHotkey = true;
+            break;
+        }
+        else DispatchMessage(&msg);
+    }
+    if(!hasHotkey) return;
 #elif __linux__
     static XEvent e;
     auto display = reinterpret_cast<Display*>(_hotkeyDpy);
