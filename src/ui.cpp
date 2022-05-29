@@ -13,7 +13,7 @@ void AppContext::UI()
     {
         if(ImGui::TreeNode("ESC")){ImGui::Text("Exit Application"); ImGui::TreePop();}
         if(ImGui::TreeNode("F11")){ImGui::Text("Maximize Window"); ImGui::TreePop();}
-        if(ImGui::TreeNode("F10")){ImGui::Text("Toggle Recording"); ImGui::TreePop();}
+        if(ImGui::TreeNode("CTRL+F12")){ImGui::Text("Toggle Recording"); ImGui::TreePop();}
     }
 }
 

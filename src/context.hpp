@@ -72,6 +72,15 @@ private:
     /// toggle UI and related window states
     void toggleUI();
 
+    /// register global hotkey to refocus window
+    void registerHotKey();
+
+    /// unregister global hotkey
+    void unregisterHotKey();
+
+    /// handle hot key events
+    void hotKeyPollEvents();
+
     int _winWidth, _winHeight;
     int _winPosX, _winPosY;
     float _alpha;
@@ -80,6 +89,7 @@ private:
     GLFWwindow* _window;
     bool _displayUI;
     GLuint _borderProg;
+    void* _hotkeyDpy; // X11 display for hotkey events
 
     std::shared_ptr<MediaHandler> _mediaHandler;
 };

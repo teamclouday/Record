@@ -7,6 +7,16 @@
 #include <sstream>
 #include <cstring>
 
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
+// TODO: implement for windows
+#define GLFW_EXPOSE_NATIVE_WIN32
+#elif __linux__
+#include <X11/Xlib.h>
+#include <X11/keysym.h>
+#define GLFW_EXPOSE_NATIVE_X11
+#endif
+#include <GLFW/glfw3native.h>
+
 AppContext::AppContext(const std::string& title)
 {
     _displayUI = true;
@@ -54,10 +64,13 @@ AppContext::AppContext(const std::string& title)
     ImGui_ImplOpenGL3_Init("#version 130");
     // prepare border shader
     prepareBorder();
+    // register global hotkey
+    registerHotKey();
 }
 
 AppContext::~AppContext()
 {
+    unregisterHotKey();
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext();
@@ -95,25 +108,6 @@ void AppContext::glfw_key_callback(GLFWwindow* window, int key, int scancode, in
                         glfwSetWindowMonitor(window, monitor, 0, 0, mode->width, mode->height, 0);
                     }
                 }
-                break;
-            }
-            case GLFW_KEY_F10: // toggle UI and start/stop recording
-            {
-                bool success = true;
-                user->toggleUI();
-                // start/stop recording
-                if(user->_displayUI && user->_mediaHandler)
-                    success = user->_mediaHandler->StopRecord();
-                else if(!user->_displayUI && user->_mediaHandler)
-                {
-                    user->_mediaHandler->ConfigWindow(
-                        user->_winPosX + WIN_BORDER_PIXELS,
-                        user->_winPosY + WIN_BORDER_PIXELS,
-                        user->_winWidth - WIN_BORDER_PIXELS * 2,
-                        user->_winHeight - WIN_BORDER_PIXELS * 2);
-                    success = user->_mediaHandler->StartRecord();
-                }
-                if(!success) user->toggleUI();
                 break;
             }
         }
@@ -255,5 +249,64 @@ void AppContext::AppLoop(std::function<void()> customUI)
         glfwSwapBuffers(_window);
         // poll events
         glfwPollEvents();
+        // check hot key
+        hotKeyPollEvents();
     }
+}
+
+void AppContext::registerHotKey()
+{
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
+    // TODO: implement for windows
+#elif __linux__
+    auto display = XOpenDisplay(0);
+    _hotkeyDpy = (void*)display;
+    auto window = DefaultRootWindow(display);
+    XGrabKey(display, XKeysymToKeycode(display, XK_F12), ControlMask, window,
+        True, GrabModeAsync, GrabModeAsync);
+    XSelectInput(display, window, KeyPressMask);
+#endif
+}
+
+void AppContext::unregisterHotKey()
+{
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
+    // TODO: implement for windows
+#elif __linux__
+    auto display = reinterpret_cast<Display*>(_hotkeyDpy);
+    auto window = DefaultRootWindow(display);
+    XUngrabKey(display, XKeysymToKeycode(display, XK_F12), ControlMask, window);
+    XCloseDisplay(display);
+#endif
+}
+
+void AppContext::hotKeyPollEvents()
+{
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
+    // TODO: implement for windows
+    return;
+#elif __linux__
+    static XEvent e;
+    auto display = reinterpret_cast<Display*>(_hotkeyDpy);
+    if(!XPending(display)) return;
+    XNextEvent(display, &e);
+    if(e.type != KeyPress) return;
+#endif
+    // if pressed update state
+    glfwFocusWindow(_window);
+    bool success = true;
+    toggleUI();
+    // start/stop recording
+    if(_displayUI && _mediaHandler)
+        success = _mediaHandler->StopRecord();
+    else if(!_displayUI && _mediaHandler)
+    {
+        _mediaHandler->ConfigWindow(
+            _winPosX + WIN_BORDER_PIXELS,
+            _winPosY + WIN_BORDER_PIXELS,
+            _winWidth - WIN_BORDER_PIXELS * 2,
+            _winHeight - WIN_BORDER_PIXELS * 2);
+        success = _mediaHandler->StartRecord();
+    }
+    if(!success) toggleUI();
 }

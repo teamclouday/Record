@@ -89,11 +89,14 @@ if(WIN32)
     )
 elseif(UNIX)
     find_package(LibAV REQUIRED)
+    find_package(X11 REQUIRED)
     target_include_directories(recorder PRIVATE
         ${LIBAV_INCLUDE_DIRS}
+        ${X11_INCLUDE_DIRS}
     )
     target_link_libraries(recorder PRIVATE
         ${LIBAV_LIBRARIES}
+        ${X11_LIBRARIES}
     )
 else()
     message(FATAL_ERROR "Unsupported platform for libav!")
