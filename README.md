@@ -4,7 +4,8 @@
 
 A cross-platform screen capture application that is able to record a user-defined area on screen.  
 On Linux there is an awesome screen capture application ([Peek](https://github.com/phw/peek)) but on Windows I cannot find anything. That's why this project is created.  
-This project aims to have similar features as Peek.
+This project aims to have similar features as Peek.  
+Application is designed to run from a console (e.g. Windoes Terminal).  
 
 ------
 
@@ -40,6 +41,7 @@ Current supported output video formats are:
 - [ ] Support GIF  
 - [ ] Support Webm  
 - [x] Compile with App Icon  
+- [ ] Better UI Fonts  
 
 ## Dependencies
 
@@ -118,4 +120,4 @@ cmake --build . --config Release
 
 ## Releases
 
-work in progress...
+[Windows Builds](https://github.com/teamclouday/Record/releases)
