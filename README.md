@@ -10,6 +10,7 @@ This project aims to have similar features as Peek.
 
 Current supported platforms are:  
 * Linux (X11 backend)  
+* Windows (work in progress)  
 
 ## Formats
 
