@@ -6,6 +6,12 @@ This project aims to have similar features as Peek.
 
 ------
 
+## Controls
+
+* `ESC`: exit app  
+* `F11`: toggle fullscreen  
+* `CTRL+F10` (global hotkey): start/stop recording  
+
 ## Platform  
 
 Current supported platforms are:  
