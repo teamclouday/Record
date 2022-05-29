@@ -9,7 +9,7 @@
 #include <filesystem>
 #include <vector>
 
-#if PLATFORM_WIN
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
 #include <Windows.h>
 #include <commdlg.h>
 #endif
@@ -64,10 +64,10 @@ bool MediaHandler::openCapture()
 {
     std::string captureSource = "";
     // prepare capture source
-#if PLATFORM_WIN
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
     // use gdi on windows
     captureSource = "gdigrab";
-#elif PLATFORM_LINUX
+#elif __linux__
     // by default assume X11 backend (wayland won't work)
     captureSource = "x11grab";
 #else
@@ -87,7 +87,7 @@ bool MediaHandler::openCapture()
 void MediaHandler::SelectOutputPath()
 {
     char filepath[1025];
-#if PLATFORM_WIN
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
     // TODO: implement code for windows
     filepath[0] = '\0';
     OPENFILENAMEA f{};
@@ -100,7 +100,7 @@ void MediaHandler::SelectOutputPath()
     f.lpstrDefExt = "mp4";
     f.Flags = OFN_EXPLORER | OFN_PATHMUSTEXIST | OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT;
     GetOpenFileNameA(&f);
-#elif PLATFORM_LINUX
+#elif __linux__
     FILE* f = popen("zenity --file-selection --save --confirm-overwrite\
         --title=\"Set Output File\"\
         --filename=\"out.mp4\"", "r");

@@ -82,14 +82,10 @@ if(WIN32)
         ${CMAKE_SOURCE_DIR}/external/FFmpeg-Builds/windows/lib
     )
     target_link_libraries(recorder PRIVATE
-        libavcodec.a
-        libavdevice.a
-        libavfilter.a
-        libavformat.a
-        libavutil.a
-        libswresample.a
-        libswscale.a
-        comdlg32
+        avcodec avdevice avfilter avformat avutil
+        swresample swscale
+        comdlg32 mfplat mfuuid strmiids
+        secur32 shlwapi vfw32 ws2_32 bcrypt
     )
 elseif(UNIX)
     find_package(LibAV REQUIRED)
