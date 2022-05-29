@@ -8,7 +8,8 @@
 #include <cstring>
 
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
-// TODO: implement for windows
+#include <Windows.h>
+#define WINHOTKEY_ID    100
 #define GLFW_EXPOSE_NATIVE_WIN32
 #elif __linux__
 #include <X11/Xlib.h>
@@ -95,7 +96,7 @@ void AppContext::glfw_key_callback(GLFWwindow* window, int key, int scancode, in
                 if(glfwGetWindowMonitor(window))
                 {
                     glfwSetWindowMonitor(
-                        window, nullptr, 
+                        window, nullptr,
                         user->_windowConfig[0], user->_windowConfig[1], 
                         user->_windowConfig[2], user->_windowConfig[3], 0);
                     user->_fullscreen = false;
@@ -284,22 +285,22 @@ void AppContext::AppLoop(std::function<void()> customUI)
         }
         // refresh frame
         glfwSwapBuffers(_window);
-        // poll events
-        glfwPollEvents();
         // check hotkey
         hotKeyPollEvents();
+        // poll events
+        glfwPollEvents();
     }
 }
 
 void AppContext::registerHotKey()
 {
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
-    // TODO: implement for windows
+    RegisterHotKey(NULL, WINHOTKEY_ID, MOD_CONTROL | MOD_NOREPEAT, VK_F10);
 #elif __linux__
     auto display = XOpenDisplay(0);
     _hotkeyDpy = (void*)display;
     auto window = DefaultRootWindow(display);
-    XGrabKey(display, XKeysymToKeycode(display, XK_F12), ControlMask,
+    XGrabKey(display, XKeysymToKeycode(display, XK_F10), ControlMask,
         window, False, GrabModeAsync, GrabModeAsync);
     XSelectInput(display, window, KeyPressMask);
 #endif
@@ -308,11 +309,11 @@ void AppContext::registerHotKey()
 void AppContext::unregisterHotKey()
 {
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
-    // TODO: implement for windows
+    UnregisterHotKey(NULL, WINHOTKEY_ID);
 #elif __linux__
     auto display = reinterpret_cast<Display*>(_hotkeyDpy);
     auto window = DefaultRootWindow(display);
-    XUngrabKey(display, XKeysymToKeycode(display, XK_F12), ControlMask, window);
+    XUngrabKey(display, XKeysymToKeycode(display, XK_F10), ControlMask, window);
     XCloseDisplay(display);
 #endif
 }
@@ -320,8 +321,8 @@ void AppContext::unregisterHotKey()
 void AppContext::hotKeyPollEvents()
 {
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
-    // TODO: implement for windows
-    return;
+    static MSG msg = {0};
+    if(!PeekMessage(&msg, NULL, WM_HOTKEY, WM_HOTKEY, PM_REMOVE)) return;
 #elif __linux__
     static XEvent e;
     auto display = reinterpret_cast<Display*>(_hotkeyDpy);
