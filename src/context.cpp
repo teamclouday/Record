@@ -21,7 +21,7 @@
 
 extern const int APPICON_W;
 extern const int APPICON_H;
-extern std::vector<unsigned char> APPICON_DATA;
+extern const std::vector<unsigned char> APPICON_DATA;
 
 AppContext::AppContext(const std::string& title)
 {
@@ -57,7 +57,7 @@ AppContext::AppContext(const std::string& title)
     GLFWimage icon;
     icon.width = APPICON_W;
     icon.height = APPICON_H;
-    icon.pixels = APPICON_DATA.data();
+    icon.pixels = const_cast<unsigned char*>(APPICON_DATA.data());
     glfwSetWindowIcon(_window, 1, &icon);
     // init opengl context
     glewExperimental = GL_TRUE;

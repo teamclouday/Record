@@ -50,7 +50,7 @@ target_include_directories(ImGui PRIVATE
 
 find_package(Threads REQUIRED)
 
-file(GLOB SRC_FILES ${CMAKE_SOURCE_DIR}/src/*.cpp ${CMAKE_SOURCE_DIR}/src/*.hpp)
+file(GLOB SRC_FILES ${CMAKE_SOURCE_DIR}/src/*)
 add_executable(recorder ${SRC_FILES})
 
 set_target_properties(recorder
