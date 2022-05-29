@@ -10,7 +10,9 @@ This project aims to have similar features as Peek.
 
 Current supported platforms are:  
 * Linux (X11 backend)  
-* Windows (work in progress)  
+* Windows  
+
+Note that on Windows it is a static build, while on Linux it is shared.
 
 ## Formats
 
@@ -21,7 +23,7 @@ Current supported output video formats are:
 ## Feature Plans
 
 - [ ] Global Hotkey for Window Refocus  
-- [ ] Windows Support  
+- [x] Windows Support  
 - [ ] Audio Capture  
 - [ ] Microphone Audio  
 - [ ] Fully Support Fullscreen Capture  
@@ -35,6 +37,22 @@ Current supported output video formats are:
 * [GLEW](http://glew.sourceforge.net/)  
 * [FFmpeg 5.0 Libav](https://github.com/FFmpeg/FFmpeg)  
 * [termcolor](https://github.com/ikalnytskyi/termcolor)  
+
+<details>
+<summary>Windows Additional Libs</summary>
+
+The following libs are required for Windows static build, but should all exist in a standard Windows environment:  
+* comdlg32.lib  
+* mfplat.lib  
+* mfuuid.lib  
+* strmiids.lib  
+* secur32.lib  
+* shlwapi.lib  
+* vfw32.lib  
+* ws2_32.lib  
+* bcrypt.lib  
+
+</details>
 
 ## Compilation
 

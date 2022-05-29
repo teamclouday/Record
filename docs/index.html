@@ -65,8 +65,133 @@ $(function() {
   <div class="headertitle"><div class="title">Record </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p ><a class="anchor" id="md_README"></a> Record your steps in the given window, save as a video file.</p>
-<p >This is a program that aims to provide similar functionality as <a href="https://github.com/phw/peek">Peek</a>, but written in C++ with OpenGL context. Hopefully supports Windows platform as well. </p>
+<div class="textblock"><p ><a class="anchor" id="md_README"></a> A cross-platform screen capture application that is able to record a user-defined area on screen. <br  />
+ On Linux there is an awesome screen capture application (<a href="https://github.com/phw/peek">Peek</a>) but on Windows I cannot find anything. That's why this project is created. <br  />
+ This project aims to have similar features as Peek.</p>
+<hr  />
+<h1><a class="anchor" id="autotoc_md2"></a>
+Platform</h1>
+<p >Current supported platforms are: <br  />
+</p><ul>
+<li>Linux (X11 backend) <br  />
+</li>
+<li>Windows <br  />
+</li>
+</ul>
+<p >Note that on Windows it is a static build, while on Linux it is shared.</p>
+<h1><a class="anchor" id="autotoc_md3"></a>
+Formats</h1>
+<p >Current supported output video formats are: <br  />
+</p><ul>
+<li>mp4 <br  />
+</li>
+<li>mkv</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md4"></a>
+Feature Plans</h1>
+<ul>
+<li>[ ] Global Hotkey for Window Refocus <br  />
+</li>
+<li>[x] Windows Support <br  />
+</li>
+<li>[ ] Audio Capture <br  />
+</li>
+<li>[ ] Microphone Audio <br  />
+</li>
+<li>[ ] Fully Support Fullscreen Capture <br  />
+</li>
+<li>[ ] Support GIF <br  />
+</li>
+<li>[ ] Support Webm <br  />
+</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md5"></a>
+Dependencies</h1>
+<ul>
+<li><a href="https://github.com/ocornut/imgui">ImGui</a> <br  />
+</li>
+<li><a href="https://github.com/glfw/glfw">GLFW 3.4</a> <br  />
+</li>
+<li><a href="http://glew.sourceforge.net/">GLEW</a> <br  />
+</li>
+<li><a href="https://github.com/FFmpeg/FFmpeg">FFmpeg 5.0 Libav</a> <br  />
+</li>
+<li><a href="https://github.com/ikalnytskyi/termcolor">termcolor</a> <br  />
+</li>
+</ul>
+<p ><details>
+ <summary>Windows Additional Libs</summary></details>
+</p>
+<p ><details>
+The following libs are required for Windows static build, but should all exist in a standard Windows environment: <br  />
+</p><ul>
+<li>comdlg32.lib <br  />
+</li>
+<li>mfplat.lib <br  />
+</li>
+<li>mfuuid.lib <br  />
+</li>
+<li>strmiids.lib <br  />
+</li>
+<li>secur32.lib <br  />
+</li>
+<li>shlwapi.lib <br  />
+</li>
+<li>vfw32.lib <br  />
+</li>
+<li>ws2_32.lib <br  />
+</li>
+<li>bcrypt.lib <br  />
+</li>
+</ul>
+<p></details>
+</p>
+<p ><details>
+</details>
+</p>
+<h1><a class="anchor" id="autotoc_md6"></a>
+Compilation</h1>
+<p >First pull the repo: </p><div class="fragment"><div class="line">git submodule update --init --recursive</div>
+</div><!-- fragment --><p ><details>
+ <summary>Steps for Linux</summary></details>
+</p>
+<p ><details>
+On linux, make sure <code>ffmpeg</code> (version 5.0) and related <code>libav</code> libraries are installed. If you are not sure: </p><div class="fragment"><div class="line">ldconfig -p | grep libav</div>
+<div class="line">ldconfig -p | grep libsw</div>
+</div><!-- fragment --><p> and look for the following libraries:</p><ul>
+<li><code>libavdevice</code> <br  />
+</li>
+<li><code>libavfilter</code> <br  />
+</li>
+<li><code>libavformat</code> <br  />
+</li>
+<li><code>libavcodec</code> <br  />
+</li>
+<li><code>libswresample</code> <br  />
+</li>
+<li><code>libswscale</code> <br  />
+</li>
+<li><code>libavutil</code> <br  />
+</li>
+</ul>
+<p></details>
+</p>
+<p ><details>
+If you are not using X11, run following: </p><div class="fragment"><div class="line">export GDK_BACKEND=x11</div>
+</div><!-- fragment --><p> to force x11 backend.</details>
+</p>
+<p ><details>
+</details>
+</p>
+<p >Then init build files: </p><div class="fragment"><div class="line">mkdir build</div>
+<div class="line">cd build</div>
+<div class="line">cmake ..</div>
+</div><!-- fragment --><p >Build (Linux): </p><div class="fragment"><div class="line">make -j4</div>
+</div><!-- fragment --><p >Build (Windows): </p><div class="fragment"><div class="line">cmake --build . --config Release</div>
+</div><!-- fragment --><hr  />
+<h1><a class="anchor" id="autotoc_md8"></a>
+Releases</h1>
+<p >work in progress... </p>
 </div></div><!-- PageDoc -->
 </div><!-- contents -->
 <!-- start footer part -->
