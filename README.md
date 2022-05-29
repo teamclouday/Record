@@ -1,5 +1,7 @@
 # Record
 
+<img src="assets/icon.png" width="150" alt="Icon">
+
 A cross-platform screen capture application that is able to record a user-defined area on screen.  
 On Linux there is an awesome screen capture application ([Peek](https://github.com/phw/peek)) but on Windows I cannot find anything. That's why this project is created.  
 This project aims to have similar features as Peek.
@@ -37,6 +39,7 @@ Current supported output video formats are:
 - [x] Fully Support Fullscreen Capture  
 - [ ] Support GIF  
 - [ ] Support Webm  
+- [x] Compile with App Icon  
 
 ## Dependencies
 

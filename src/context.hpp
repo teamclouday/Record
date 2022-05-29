@@ -17,6 +17,15 @@
 /// Window border number of pixels
 #define WIN_BORDER_PIXELS   1
 
+// /// APP Icon Width (icon.cpp)
+// extern const int APPICON_W;
+
+// /// APP Icon Height (icon.cpp)
+// extern const int APPICON_H;
+
+// /// APP Icon Raw Data (icon.cpp)
+// extern std::vector<unsigned char> APPICON_DATA;
+
 /**
  * @brief Application Context
  * 

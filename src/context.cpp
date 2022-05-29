@@ -6,6 +6,7 @@
 #include <stdexcept>
 #include <sstream>
 #include <cstring>
+#include <vector>
 
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
 #include <Windows.h>
@@ -17,6 +18,10 @@
 #define GLFW_EXPOSE_NATIVE_X11
 #endif
 #include <GLFW/glfw3native.h>
+
+extern const int APPICON_W;
+extern const int APPICON_H;
+extern std::vector<unsigned char> APPICON_DATA;
 
 AppContext::AppContext(const std::string& title)
 {
@@ -48,6 +53,12 @@ AppContext::AppContext(const std::string& title)
     glfwSwapInterval(1);
     glfwGetWindowPos(_window, &_winPosX, &_winPosY);
     glfwGetWindowSize(_window, &_winWidth, &_winHeight);
+    // load app icon
+    GLFWimage icon;
+    icon.width = APPICON_W;
+    icon.height = APPICON_H;
+    icon.pixels = APPICON_DATA.data();
+    glfwSetWindowIcon(_window, 1, &icon);
     // init opengl context
     glewExperimental = GL_TRUE;
     if(glewInit() != GLEW_OK)
