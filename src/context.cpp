@@ -6,7 +6,6 @@
 #include <stdexcept>
 #include <sstream>
 #include <cstring>
-#include <vector>
 
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
 #include <Windows.h>
@@ -28,6 +27,7 @@ AppContext::AppContext(const std::string& title)
     _displayUI = true;
     _fullscreen = false;
     _alpha = 0.75f;
+    _borderColor = {1.0f,0.5f,0.5f};
     // init window
     _winWidth = 800;
     _winHeight = 600;
@@ -181,6 +181,7 @@ void AppContext::prepareBorder()
      varying vec2 coord;\
      uniform float dW;\
      uniform float dH;\
+     uniform vec3 color;\
      void main()\
      {\
         vec2 w = vec2(dW, 1.0 - dW);\
@@ -189,7 +190,7 @@ void AppContext::prepareBorder()
            coord.y < h.y && coord.y > h.x)\
            {discard;}\
         else\
-            {gl_FragColor = vec4(1,0.5,0.5,1.0);}\
+            {gl_FragColor = vec4(color,1.0);}\
      }\
     ";
     auto fragShader = glCreateShader(GL_FRAGMENT_SHADER);
@@ -291,6 +292,7 @@ void AppContext::AppLoop(std::function<void()> customUI)
             glUseProgram(_borderProg);
             glUniform1f(glGetUniformLocation(_borderProg, "dW"), WIN_BORDER_PIXELS / static_cast<float>(_winWidth));
             glUniform1f(glGetUniformLocation(_borderProg, "dH"), WIN_BORDER_PIXELS / static_cast<float>(_winHeight));
+            glUniform3fv(glGetUniformLocation(_borderProg, "color"), 1, _borderColor.data());
             glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
             glUseProgram(0);
         }

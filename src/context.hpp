@@ -3,6 +3,7 @@
 #include <GLFW/glfw3.h>
 #include "media.hpp"
 #include <string>
+#include <vector>
 #include <memory>
 #include <functional>
 
@@ -92,6 +93,7 @@ private:
     GLFWwindow* _window;
     bool _displayUI, _fullscreen;
     GLuint _borderProg;
+    std::vector<float> _borderColor; // vec3
     void* _hotkeyDpy; // X11 display for hotkey events
 
     std::shared_ptr<MediaHandler> _mediaHandler;
