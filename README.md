@@ -35,13 +35,19 @@ Current supported output video formats are:
 
 - [x] Global Hotkey for Window Refocus  
 - [x] Windows Support  
-- [ ] Audio Capture  
-- [ ] Microphone Audio  
 - [x] Fully Support Fullscreen Capture  
-- [ ] Support GIF  
-- [ ] Support Webm  
 - [x] Compile with App Icon  
+- [ ] Audio Capture  
+- [ ] Audio with Mic  
 - [ ] Better UI Fonts  
+- [ ] Video Formats:  
+    - [ ] gif  
+    - [ ] mov  
+    - [ ] wmv  
+    - [ ] webm  
+    - [ ] ogg  
+    - [ ] flv  
+    - [ ] avi  
 
 ## Dependencies
 
@@ -69,7 +75,7 @@ The following libs are required for Windows static build, but should all exist i
 
 ## Compilation
 
-First pull the repo:
+First pull the repo and run:
 ```bash
 git submodule update --init --recursive
 ```
@@ -115,6 +121,8 @@ Build (Windows):
 ```powershell
 cmake --build . --config Release
 ```
+
+Executable is under `bin` folder
 
 ------
 
