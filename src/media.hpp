@@ -115,6 +115,12 @@ private:
     /// Validate selected output file format
     void validateOutputFormat();
 
+    /// Try to lock output file
+    bool lockMediaFile();
+
+    /// Unlock file after recording stop
+    void unlockMediaFile();
+
     // video settings
     int _rX, _rY, _rW, _rH, _fps;
     int _bitrate, _delaySeconds;

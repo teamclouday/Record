@@ -8,6 +8,7 @@
 #include <cstdio>
 #include <filesystem>
 #include <vector>
+#include <fstream>
 
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
 #include <Windows.h>
@@ -88,7 +89,7 @@ bool MediaHandler::openCapture()
 
 void MediaHandler::SelectOutputPath()
 {
-    char filepath[1025];
+    char filepath[1025] = "out";
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
     // TODO: implement code for windows
     filepath[0] = '\0';
@@ -133,6 +134,34 @@ void MediaHandler::validateOutputFormat()
     _outFilePath = fs::absolute(VIDEO_DEFAULT_OUTPUT).string();
 }
 
+bool MediaHandler::lockMediaFile()
+{
+    auto lockFileName = _outFilePath + ".lock";
+    // check if lock exists
+    if(fs::exists(lockFileName))
+    {
+        display_message(NAME,
+            "media file is locked by another program. If not, delete \"" +
+            lockFileName + "\" and try again", MESSAGE_WARN);
+        return false;
+    }
+    // create lock file
+    std::fstream f(lockFileName, std::ios::out);
+    if(!f.is_open())
+    {
+        display_message(NAME, "failed to lock media file", MESSAGE_WARN);
+        return false;
+    }
+    f.close();
+    return true;
+}
+
+void MediaHandler::unlockMediaFile()
+{
+    auto lockFileName = _outFilePath + ".lock";
+    fs::remove(lockFileName);
+}
+
 bool MediaHandler::prepareParams()
 {
     if(_options) av_dict_free(&_options);
@@ -166,6 +195,8 @@ bool MediaHandler::StartRecord()
     freeLibAV();
     _icodecParams = avcodec_parameters_alloc();
     _ocodecParams = avcodec_parameters_alloc();
+    // try to lock output file
+    if(!lockMediaFile()) return false;
     // prepare parameters
     if(!prepareParams()) return false;
     // try to open capture device
@@ -384,6 +415,7 @@ void MediaHandler::recordInternal()
         display_message(NAME, "failed to write trailer to " + _outFilePath, MESSAGE_WARN);
     display_message(NAME, "stopped recording", MESSAGE_INFO);
     display_message(NAME, "output saved to " + _outFilePath, MESSAGE_INFO);
+    unlockMediaFile();
     _recording = false;
 }
 

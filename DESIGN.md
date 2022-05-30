@@ -56,3 +56,6 @@ List what features can be added for future development
   Would be cool to record itself recording!  
   But has this global key limitation  
   Idea: On start, try register F1-F10 (at most 10 instance)  
+* Multi-access file  
+  Two app writing on same video file?  
+  Need to warn/prevent  

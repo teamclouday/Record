@@ -14,7 +14,7 @@ On Linux there is an awesome screen capture application ([Peek](https://github.c
 * `CTRL` + Global Hotkey: start/stop recording  
 
 __Global Hotkey__:  
-The program will select from (`F10`, `F9`, `F8`, `F7`, `F6`) or raise error if none can be registered. See `Control` on UI to see which one it is using (`F10` is the default).  
+The program will select from (`F10`, `F9`, `F8`, `F7`, `F6`) or raise error if none can be registered. See `Control` on app UI for details (`F10` is the default).  
 At most 5 instance of this application can be launched at the same time!
 
 ## Platform  
@@ -33,14 +33,17 @@ Current supported output video formats are:
 
 ## Feature Plans
 
-- [x] Global Hotkey for Window Refocus  
-- [x] Windows Support  
-- [x] Fully Support Fullscreen Capture  
-- [x] Compile with App Icon  
+- [x] Global Hotkey for Window Re-focus  
+- [x] Windows Platform Support  
+- [x] Fullscreen Capture  
+- [x] App Icon  
+- [x] Media File Multi-Access Protection  
 - [ ] Audio Capture  
-- [ ] Audio with Mic  
+- [ ] Microphone Support  
 - [ ] Better UI Fonts  
 - [ ] Video Formats:  
+    - [x] mp4  
+    - [x] mkv  
     - [ ] gif  
     - [ ] mov  
     - [ ] wmv  
