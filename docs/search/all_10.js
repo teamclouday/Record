@@ -1,9 +1,7 @@
 var searchData=
 [
-  ['validateoutputformat_0',['validateOutputFormat',['../classMediaHandler.html#a9518532ee10a6994ec19417ea6ac8978',1,'MediaHandler']]],
-  ['video_5fdefault_5fbitrate_1',['VIDEO_DEFAULT_BITRATE',['../media_8hpp.html#a53498c8c33136a14f6c08dd145d8a8ea',1,'media.hpp']]],
-  ['video_5fdefault_5ffps_2',['VIDEO_DEFAULT_FPS',['../media_8hpp.html#a4d5bd0728f4be2af0c170f02cec39c10',1,'media.hpp']]],
-  ['video_5fdefault_5foutput_3',['VIDEO_DEFAULT_OUTPUT',['../media_8hpp.html#a591b7089e431a06581a925b32459560c',1,'media.hpp']]],
-  ['video_5fdelay_5fseconds_4',['VIDEO_DELAY_SECONDS',['../media_8hpp.html#aae3f9356bc1262a2e5c1565bb1e65dfb',1,'media.hpp']]],
-  ['video_5fframes_5fskip_5',['VIDEO_FRAMES_SKIP',['../media_8hpp.html#a43f5e00315c69e4729a9817137481826',1,'media.hpp']]]
+  ['ui_0',['UI',['../classAppContext.html#a3332fa202e5f1751652b49de5e6c9f99',1,'AppContext::UI()'],['../classMediaHandler.html#abf96e6be4fce2768e547fedb2b911ed1',1,'MediaHandler::UI()']]],
+  ['unlockmediafile_1',['unlockMediaFile',['../classMediaHandler.html#a0088e4be07e724e93408e90eef76ab91',1,'MediaHandler']]],
+  ['unregisterhotkey_2',['unregisterHotKey',['../classAppContext.html#a886341d6e20c40a61337bedaca6fa90b',1,'AppContext']]],
+  ['utils_2ehpp_3',['utils.hpp',['../utils_8hpp.html',1,'']]]
 ];

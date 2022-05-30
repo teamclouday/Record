@@ -8,7 +8,7 @@ from PIL import Image
 ICON_FILE = os.path.join("assets", "icon.png")
 CPP_FILE = os.path.join("src", "icon.cpp")
 
-CPP_CONTENT = """
+CPP_CONTENT = """\
 // Auto-generated file from genicon.py
 #include <vector>
 extern const int APPICON_W = {};
@@ -30,10 +30,9 @@ img = img[:, :, [3,0,2,1]]
 img = Image.fromarray(img)
 
 # load raw data
-bytearray = io.BytesIO()
-img.save(bytearray, format="bmp")
-APPICON_DATA = ",".join("0x{:02x}".format(b) for b in bytearray.getvalue())
-
+arr = io.BytesIO()
+img.save(arr, format="bmp")
+APPICON_DATA = ",".join("0x{:02x}".format(b) for b in arr.getvalue())
 
 # save file
 output = CPP_CONTENT.format(APPICON_W, APPICON_H, APPICON_DATA)

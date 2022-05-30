@@ -18,6 +18,9 @@
 /// Window border number of pixels
 #define WIN_BORDER_PIXELS   1
 
+/// Window UI font size
+#define WIN_UI_FONT_SIZE    25
+
 /**
  * @brief Application Context
  * 

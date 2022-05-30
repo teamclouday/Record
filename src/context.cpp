@@ -21,6 +21,8 @@
 extern const int APPICON_W;
 extern const int APPICON_H;
 extern const std::vector<unsigned char> APPICON_DATA;
+extern const int APPFONT_SIZE;
+extern const std::vector<unsigned char> APPFONT_DATA;
 
 AppContext::AppContext(const std::string& title)
 {
@@ -70,10 +72,12 @@ AppContext::AppContext(const std::string& title)
     auto& io = ImGui::GetIO();
     io.IniFilename = nullptr;
     ImFontConfig fontConfig;
-    fontConfig.SizePixels = 20.0f;
     fontConfig.OversampleH = fontConfig.OversampleV = 1;
     fontConfig.PixelSnapH = true;
-    io.Fonts->AddFontDefault(&fontConfig);
+    fontConfig.FontDataOwnedByAtlas = false;
+    io.Fonts->AddFontFromMemoryTTF(
+        const_cast<unsigned char*>(APPFONT_DATA.data()),
+        APPFONT_SIZE, WIN_UI_FONT_SIZE, &fontConfig);
     ImGui::StyleColorsDark();
     ImGui_ImplGlfw_InitForOpenGL(_window, true);
     ImGui_ImplOpenGL3_Init("#version 130");

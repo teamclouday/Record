@@ -60,3 +60,5 @@ List what features can be added for future development
 * Multi-access file  
   Two app writing on same video file?  
   Need to warn/prevent  
+* Adjust font size  
+  May be useful for users with 4k screen, but not necessary  

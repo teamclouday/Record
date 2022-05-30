@@ -38,9 +38,9 @@ Current supported output video formats are:
 - [x] Fullscreen Capture  
 - [x] App Icon  
 - [x] Media File Multi-Access Protection  
+- [x] Better UI Fonts (Hurmit Font)  
 - [ ] Audio Capture  
 - [ ] Microphone Support  
-- [ ] Better UI Fonts  
 - [ ] Video Formats:  
     - [x] mp4  
     - [x] mkv  

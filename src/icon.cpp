@@ -1,4 +1,3 @@
-
 // Auto-generated file from genicon.py
 #include <vector>
 extern const int APPICON_W = 256;

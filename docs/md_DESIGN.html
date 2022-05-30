@@ -88,6 +88,10 @@ Control</h2>
 </li>
 <li>UI Window Transparency <br  />
 </li>
+<li>Border color when recording <br  />
+</li>
+<li>Border size control <br  />
+</li>
 <li>Record frame rate <br  />
 </li>
 <li>Record output path and format (selected via dialogs) <br  />
@@ -96,19 +100,61 @@ Control</h2>
 </li>
 <li>Record bitrate <br  />
 </li>
+<li>Delay before recording starts <br  />
+</li>
 </ul>
 <h1><a class="anchor" id="autotoc_md14"></a>
 Other</h1>
 <ul>
-<li>This program should be designed as console-based (instead of window-based) app. Otherwise I have to change <code>main</code> function to support Windows. <br  />
+<li>This program should be designed as console-based (instead of window-based) app. Otherwise I have to change <code>main</code> function to support Windows <br  />
 </li>
-<li>So any error message will be displayed in console. <br  />
+<li>So any error message will be displayed in console <br  />
+</li>
+<li>Consider create two video/audio classes to handle two streams separately <br  />
 </li>
 </ul>
 <h1><a class="anchor" id="autotoc_md15"></a>
-Future Plan</h1>
+Feature Thoughts</h1>
 <p >List what features can be added for future development <br  />
- </p>
+</p>
+<ul>
+<li>Audio support <br  />
+ This is very necessary and has top priority <br  />
+ Also consider mixing microphone inputs <br  />
+</li>
+<li>Add more video format supports <br  />
+ Some more common formats <br  />
+</li>
+<li>Test on multi-monitor <br  />
+ Not sure if current build works on multi-monitor setup <br  />
+ But I don't have such environment to test it <br  />
+</li>
+<li>Large recorded file warning <br  />
+ Not necessary, but can be a feature <br  />
+</li>
+<li>MacOS Support <br  />
+ I need to have a Macbook first <br  />
+</li>
+<li>Screen shots (images) <br  />
+ Not in the scope of this app <br  />
+</li>
+<li>Video post-effects <br  />
+ Don't think it is in the scope <br  />
+ Can always use another offline app (e.g. ffmpeg) <br  />
+</li>
+<li>Multi-instance <br  />
+ Would be cool to record itself recording! <br  />
+ But has this global key limitation <br  />
+ Idea: On start, try register F1-F10 (at most 10 instance) <br  />
+</li>
+<li>Multi-access file <br  />
+ Two app writing on same video file? <br  />
+ Need to warn/prevent <br  />
+</li>
+<li>Adjust font size <br  />
+ May be useful for users with 4k screen, but not necessary <br  />
+ </li>
+</ul>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->
 <!-- start footer part -->

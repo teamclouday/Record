@@ -68,8 +68,6 @@ $(function() {
 <div class="textblock"><p ><a class="anchor" id="md_README"></a> <img src="assets/icon.png" alt="Icon" width="150" class="inline"/></p>
 <p >A cross-platform screen capture application that is able to record a user-defined area on screen. <br  />
  On Linux there is an awesome screen capture application (<a href="https://github.com/phw/peek">Peek</a>) but on Windows I cannot find anything. That's why this project is created. <br  />
- This project aims to have similar features as Peek. <br  />
- Application is designed to run from a console (e.g. Windoes Terminal). <br  />
 </p>
 <hr  />
 <h1><a class="anchor" id="autotoc_md2"></a>
@@ -79,10 +77,12 @@ Controls</h1>
 </li>
 <li><code>F11</code>: toggle fullscreen <br  />
 </li>
-<li><code>CTRL+F10</code> (global hotkey): start/stop recording <br  />
+<li><code>CTRL</code> + Global Hotkey: start/stop recording <br  />
 </li>
 </ul>
-<p >Because of global hotkey registration, this application can only launch one instance (at least on linux X11) at a time.</p>
+<p ><b>Global Hotkey</b>: <br  />
+ The program will select from (<code>F10</code>, <code>F9</code>, <code>F8</code>, <code>F7</code>, <code>F6</code>) or raise error if none can be registered. See <code>Control</code> on app UI for details (<code>F10</code> is the default). <br  />
+ At most 5 instance of this application can be launched at the same time!</p>
 <h1><a class="anchor" id="autotoc_md3"></a>
 Platform</h1>
 <p >Current supported platforms are: <br  />
@@ -104,21 +104,43 @@ Formats</h1>
 <h1><a class="anchor" id="autotoc_md5"></a>
 Feature Plans</h1>
 <ul>
-<li>[x] Global Hotkey for Window Refocus <br  />
+<li>[x] Global Hotkey for Window Re-focus <br  />
 </li>
-<li>[x] Windows Support <br  />
+<li>[x] Windows Platform Support <br  />
+</li>
+<li>[x] Fullscreen Capture <br  />
+</li>
+<li>[x] App Icon <br  />
+</li>
+<li>[x] Media File Multi-Access Protection <br  />
+</li>
+<li>[x] Better UI Fonts (Hurmit Font) <br  />
 </li>
 <li>[ ] Audio Capture <br  />
 </li>
-<li>[ ] Microphone Audio <br  />
+<li>[ ] Microphone Support <br  />
 </li>
-<li>[x] Fully Support Fullscreen Capture <br  />
+<li>[ ] Video Formats: <br  />
+<ul>
+<li>[x] mp4 <br  />
 </li>
-<li>[ ] Support GIF <br  />
+<li>[x] mkv <br  />
 </li>
-<li>[ ] Support Webm <br  />
+<li>[ ] gif <br  />
 </li>
-<li>[x] Compile with App Icon <br  />
+<li>[ ] mov <br  />
+</li>
+<li>[ ] wmv <br  />
+</li>
+<li>[ ] webm <br  />
+</li>
+<li>[ ] ogg <br  />
+</li>
+<li>[ ] flv <br  />
+</li>
+<li>[ ] avi <br  />
+</li>
+</ul>
 </li>
 </ul>
 <h1><a class="anchor" id="autotoc_md6"></a>
@@ -167,7 +189,7 @@ The following libs are required for Windows static build, but should all exist i
 </p>
 <h1><a class="anchor" id="autotoc_md7"></a>
 Compilation</h1>
-<p >First pull the repo: </p><div class="fragment"><div class="line">git submodule update --init --recursive</div>
+<p >First pull the repo and run: </p><div class="fragment"><div class="line">git submodule update --init --recursive</div>
 </div><!-- fragment --><p ><details>
  <summary>Steps for Linux</summary></details>
 </p>
@@ -204,7 +226,8 @@ If you are not using X11, run following: </p><div class="fragment"><div class="l
 <div class="line">cmake ..</div>
 </div><!-- fragment --><p >Build (Linux): </p><div class="fragment"><div class="line">make -j4</div>
 </div><!-- fragment --><p >Build (Windows): </p><div class="fragment"><div class="line">cmake --build . --config Release</div>
-</div><!-- fragment --><hr  />
+</div><!-- fragment --><p >Executable is under <code>bin</code> folder</p>
+<hr  />
 <h1><a class="anchor" id="autotoc_md9"></a>
 Releases</h1>
 <p ><a href="https://github.com/teamclouday/Record/releases">Windows Builds</a> </p>
