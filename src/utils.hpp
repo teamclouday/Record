@@ -47,7 +47,7 @@ inline void display_message(const std::string& title, const std::string& message
         break;
     case MESSAGE_INFO:
     default:
-        std::cout << "I[" << termcolor::italic << title << termcolor::reset <<
+        std::cout << "I[" << termcolor::green << title << termcolor::reset <<
             "]: " << message << std::endl;
         break;
     }
