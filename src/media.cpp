@@ -2,7 +2,6 @@
 #include "utils.hpp"
 #include <stdexcept>
 #include <sstream>
-#include <chrono>
 #include <limits>
 #include <cstring>
 #include <cstdio>
@@ -27,7 +26,7 @@ MediaHandler::MediaHandler()
     // default values
     _fps = VIDEO_DEFAULT_FPS;
     _bitrate = VIDEO_DEFAULT_BITRATE;
-    _delaySeconds = VIDEO_DELAY_SECONDS;
+    _skipFrames = VIDEO_FRAMES_SKIP;
     _outFilePath = fs::absolute(VIDEO_DEFAULT_OUTPUT).string();
     _bitrateAuto = true;
     _recording = false;
@@ -390,10 +389,9 @@ void MediaHandler::recordInternal()
 {
     _recording = true;
     // delay
-    std::this_thread::sleep_for(std::chrono::seconds(_delaySeconds));
     display_message(NAME, "started recording", MESSAGE_INFO);
     // start reading frames
-    int countDown = VIDEO_FRAMES_SKIP;
+    int countDown = _skipFrames;
     while(_recordLoop && av_read_frame(_ifmtCtx, _ipacket) >= 0)
     {
         if(countDown > 0)

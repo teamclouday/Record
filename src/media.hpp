@@ -11,9 +11,6 @@ extern "C"
 
 /** @file */
 
-/// Video capture start delay in seconds
-#define VIDEO_DELAY_SECONDS     0
-
 /// Video capture default FPS
 #define VIDEO_DEFAULT_FPS       30
 
@@ -125,7 +122,7 @@ private:
 
     // video settings
     int _rX, _rY, _rW, _rH, _fps;
-    int _bitrate, _delaySeconds;
+    int _bitrate, _skipFrames;
     bool _bitrateAuto;
     // audio settings
     bool _captureAudio;

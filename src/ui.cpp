@@ -29,7 +29,7 @@ void MediaHandler::UI()
     if(ImGui::Button("Set File"))
         SelectOutputPath();
     ImGui::DragInt("FPS", &_fps, 5, 5, 60);
-    ImGui::DragInt("Delay (s)", &_delaySeconds, 1, 0, 5);
+    ImGui::DragInt("Skip Frames", &_skipFrames, 1, 0, 100);
     ImGui::Checkbox("Auto Bit Rate", &_bitrateAuto);
     if(!_bitrateAuto) ImGui::DragInt("Bit Rate", &_bitrate, 10000, 10000, 10000000);
     ImGui::Separator();

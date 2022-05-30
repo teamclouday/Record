@@ -24,7 +24,8 @@ Determine what to should be added and controlled on UI
 * Record output path and format (selected via dialogs)  
 * Record audio inputs (desktop media / mic / both)  
 * Record bitrate  
-* Delay before recording starts  
+* ~~Delay before recording starts~~  
+* Control number of frames to skip before recording  
 
 ## Other
 

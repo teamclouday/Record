@@ -10,7 +10,6 @@ CPP_FILE = os.path.join("src", "icon.cpp")
 
 CPP_CONTENT = """\
 // Auto-generated file from genicon.py
-#include <vector>
 extern const int APPICON_W = {};
 extern const int APPICON_H = {};
 extern const unsigned char APPICON_DATA[] = {{

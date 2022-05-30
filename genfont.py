@@ -11,7 +11,6 @@ CPP_FILE = os.path.join("src", "font.cpp")
 
 CPP_CONTENT = """\
 // Auto-generated file from genfont.py
-#include <vector>
 extern const int APPFONT_SIZE = {};
 extern const unsigned char APPFONT_DATA[] = {{
 {}
