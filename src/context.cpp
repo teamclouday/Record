@@ -307,14 +307,43 @@ void AppContext::AppLoop(std::function<void()> customUI)
 
 void AppContext::registerHotKey()
 {
+
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
     RegisterHotKey(glfwGetWin32Window(_window), WINHOTKEY_ID, MOD_CONTROL | MOD_NOREPEAT, VK_F10);
 #elif __linux__
     auto display = XOpenDisplay(0);
     _hotkeyDpy = (void*)display;
     auto window = DefaultRootWindow(display);
-    XGrabKey(display, XKeysymToKeycode(display, XK_F10), ControlMask,
-        window, False, GrabModeAsync, GrabModeAsync);
+    _hotkeyNum = 10;
+    const std::vector<KeySym> keys = {
+        XK_F10, XK_F9, XK_F8, XK_F7, XK_F6
+    };
+    // begin error handler and ignore any later errors
+    static bool hasX11Error = false;
+    auto x11_error_handler = [](Display* dpy, XErrorEvent* e) -> int
+    {
+        hasX11Error = true;
+        return 0;
+    };
+    XSetErrorHandler(x11_error_handler);
+    // try keys to bind
+    for(auto& key : keys)
+    {
+        XGrabKey(display, XKeysymToKeycode(display, key), ControlMask,
+            window, False, GrabModeAsync, GrabModeAsync);
+        // check any error
+        XSync(display, False);
+        if(hasX11Error)
+        {
+            display_message(NAME, "failed to bind CTRL+F" + std::to_string(_hotkeyNum), MESSAGE_WARN);
+            hasX11Error = false;
+        }
+        else break;
+        _hotkeyNum--;
+    }
+    // check valid key
+    if(_hotkeyNum < 6)
+        throw std::runtime_error("failed to register global hotkey!");
     XSelectInput(display, window, KeyPressMask);
 #endif
 }
@@ -326,7 +355,10 @@ void AppContext::unregisterHotKey()
 #elif __linux__
     auto display = reinterpret_cast<Display*>(_hotkeyDpy);
     auto window = DefaultRootWindow(display);
-    XUngrabKey(display, XKeysymToKeycode(display, XK_F10), ControlMask, window);
+    const std::vector<KeySym> keys = {
+        XK_F10, XK_F9, XK_F8, XK_F7, XK_F6
+    };
+    XUngrabKey(display, XKeysymToKeycode(display, keys[10 - _hotkeyNum]), ControlMask, window);
     XCloseDisplay(display);
 #endif
 }

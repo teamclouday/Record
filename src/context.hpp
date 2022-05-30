@@ -95,6 +95,7 @@ private:
     GLuint _borderProg;
     std::vector<float> _borderColor; // vec3
     void* _hotkeyDpy; // X11 display for hotkey events
+    int _hotkeyNum;
 
     std::shared_ptr<MediaHandler> _mediaHandler;
 };

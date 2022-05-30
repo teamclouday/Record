@@ -4,8 +4,6 @@
 
 A cross-platform screen capture application that is able to record a user-defined area on screen.  
 On Linux there is an awesome screen capture application ([Peek](https://github.com/phw/peek)) but on Windows I cannot find anything. That's why this project is created.  
-This project aims to have similar features as Peek.  
-Application is designed to run from a console (e.g. Windoes Terminal).  
 
 ------
 
@@ -13,9 +11,11 @@ Application is designed to run from a console (e.g. Windoes Terminal).
 
 * `ESC`: exit app  
 * `F11`: toggle fullscreen  
-* `CTRL+F10` (global hotkey): start/stop recording  
+* `CTRL` + Global Hotkey: start/stop recording  
 
-Because of global hotkey registration, this application can only launch one instance (at least on linux X11) at a time.
+__Global Hotkey__:  
+The program will select from (`F10`, `F9`, `F8`, `F7`, `F6`) or raise error if none can be registered. See `Control` on UI to see which one it is using (`F10` is the default).  
+At most 5 instance of this application can be launched at the same time!
 
 ## Platform  
 

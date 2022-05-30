@@ -1,6 +1,7 @@
 #include "context.hpp"
 #include "media.hpp"
 #include <imgui.h>
+#include <string>
 
 void AppContext::UI()
 {
@@ -14,7 +15,8 @@ void AppContext::UI()
     {
         if(ImGui::TreeNode("ESC")){ImGui::Text("Exit Application"); ImGui::TreePop();}
         if(ImGui::TreeNode("F11")){ImGui::Text("Maximize Window"); ImGui::TreePop();}
-        if(ImGui::TreeNode("CTRL+F10")){ImGui::Text("Toggle Recording"); ImGui::TreePop();}
+        auto hotkey = "CTRL+F" + std::to_string(_hotkeyNum);
+        if(ImGui::TreeNode(hotkey.c_str())){ImGui::Text("Toggle Recording"); ImGui::TreePop();}
     }
 }
 
