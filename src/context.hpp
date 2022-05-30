@@ -93,6 +93,7 @@ private:
     GLFWwindow* _window;
     bool _displayUI, _fullscreen;
     GLuint _borderProg;
+    int _borderNumPixels;
     std::vector<float> _borderColor; // vec3
     void* _hotkeyDpy; // X11 display for hotkey events
     int _hotkeyNum;

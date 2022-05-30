@@ -28,6 +28,7 @@ AppContext::AppContext(const std::string& title)
     _fullscreen = false;
     _alpha = 0.75f;
     _borderColor = {1.0f,0.5f,0.5f};
+    _borderNumPixels = WIN_BORDER_PIXELS;
     // init window
     _winWidth = 800;
     _winHeight = 600;
@@ -290,8 +291,8 @@ void AppContext::AppLoop(std::function<void()> customUI)
         else if(!_displayUI && !_fullscreen)
         {
             glUseProgram(_borderProg);
-            glUniform1f(glGetUniformLocation(_borderProg, "dW"), WIN_BORDER_PIXELS / static_cast<float>(_winWidth));
-            glUniform1f(glGetUniformLocation(_borderProg, "dH"), WIN_BORDER_PIXELS / static_cast<float>(_winHeight));
+            glUniform1f(glGetUniformLocation(_borderProg, "dW"), _borderNumPixels / static_cast<float>(_winWidth));
+            glUniform1f(glGetUniformLocation(_borderProg, "dH"), _borderNumPixels / static_cast<float>(_winHeight));
             glUniform3fv(glGetUniformLocation(_borderProg, "color"), 1, _borderColor.data());
             glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
             glUseProgram(0);
@@ -416,10 +417,10 @@ void AppContext::hotKeyPollEvents()
     else if(!_displayUI && _mediaHandler)
     {
         _mediaHandler->ConfigWindow(
-            _winPosX + (_fullscreen ? 0 : WIN_BORDER_PIXELS),
-            _winPosY + (_fullscreen ? 0 : WIN_BORDER_PIXELS),
-            _winWidth - (_fullscreen ? 0 : (WIN_BORDER_PIXELS * 2)),
-            _winHeight - (_fullscreen ? 0 : (WIN_BORDER_PIXELS * 2)));
+            _winPosX + (_fullscreen ? 0 : _borderNumPixels),
+            _winPosY + (_fullscreen ? 0 : _borderNumPixels),
+            _winWidth - (_fullscreen ? 0 : (_borderNumPixels * 2)),
+            _winHeight - (_fullscreen ? 0 : (_borderNumPixels * 2)));
         success = _mediaHandler->StartRecord();
     }
     if(!success) toggleUI();
