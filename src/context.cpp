@@ -33,7 +33,7 @@ AppContext::AppContext(const std::string& title)
     _winHeight = 600;
     _title = title;
     if(!glfwInit())
-        throw std::runtime_error("Failed to init GLFW!");
+        throw std::runtime_error("failed to init GLFW!");
     glfwWindowHint(GLFW_TRANSPARENT_FRAMEBUFFER, GLFW_TRUE);
     glfwWindowHint(GLFW_FLOATING, GLFW_TRUE);
     glfwWindowHint(GLFW_DOUBLEBUFFER, GLFW_TRUE);
@@ -42,7 +42,7 @@ AppContext::AppContext(const std::string& title)
     glfwWindowHint(GLFW_DECORATED, GLFW_TRUE);
     _window = glfwCreateWindow(_winWidth, _winHeight, _title.c_str(), nullptr, nullptr);
     if(!_window)
-        throw std::runtime_error("Failed to create GLFW window!");
+        throw std::runtime_error("failed to create GLFW window!");
     glfwSetWindowSizeLimits(_window, WIN_MIN_WIDTH, WIN_MIN_HEIGHT, GLFW_DONT_CARE, GLFW_DONT_CARE);
     glfwSetWindowUserPointer(_window, this);
     glfwSetKeyCallback(_window, glfw_key_callback);
@@ -62,7 +62,7 @@ AppContext::AppContext(const std::string& title)
     // init opengl context
     glewExperimental = GL_TRUE;
     if(glewInit() != GLEW_OK)
-        throw std::runtime_error("Failed to init GLEW!");
+        throw std::runtime_error("failed to init GLEW!");
     // init imgui
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
@@ -309,7 +309,24 @@ void AppContext::registerHotKey()
 {
 
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
-    RegisterHotKey(glfwGetWin32Window(_window), WINHOTKEY_ID, MOD_CONTROL | MOD_NOREPEAT, VK_F10);
+    const std::vector<UINT> keys = {
+        VK_F10, VK_F9, VK_F8, VK_F7, VK_F6
+    };
+    _hotkeyNum = 10;
+    // try keys
+    for(auto& key : keys)
+    {
+        if(!RegisterHotKey(glfwGetWin32Window(_window), WINHOTKEY_ID,
+            MOD_CONTROL | MOD_NOREPEAT, key))
+        {
+            display_message(NAME, "failed to bind CTRL+F" + std::to_string(_hotkeyNum), MESSAGE_WARN);
+        }
+        else break;
+        _hotkeyNum--;
+    }
+    // check valid key
+    if(_hotkeyNum < 6)
+        throw std::runtime_error("failed to register global hotkey!");
 #elif __linux__
     auto display = XOpenDisplay(0);
     _hotkeyDpy = (void*)display;
