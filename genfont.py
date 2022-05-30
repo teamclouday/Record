@@ -5,9 +5,9 @@ import io
 import numpy as np
 
 FONT_FILE = os.path.join("assets",
-# "Arimo", "Arimo Regular Nerd Font Complete.ttf"
-# "HeavyData", "Heavy Data Nerd Font Complete.ttf"
-"Hermit", "Hurmit Medium Nerd Font Complete.otf"
+# "Arimo", "Arimo Regular Nerd Font Complete Windows Compatible.ttf"
+# "HeavyData", "Heavy Data Nerd Font Complete Windows Compatible.ttf"
+"Hermit", "Hurmit Medium Nerd Font Complete Windows Compatible.otf"
 )
 CPP_FILE = os.path.join("src", "font.cpp")
 
