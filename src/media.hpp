@@ -46,8 +46,10 @@ public:
      * @param y Top-left corner on monitor Y-axis
      * @param w Capture width
      * @param h Capture height
+     * @param mw Monitor Width
+     * @param mh Monitor height
      */
-    void ConfigWindow(int x, int y, int w, int h);
+    void ConfigWindow(int x, int y, int w, int h, int mw, int mh);
 
     /**
      * @brief Start Recording

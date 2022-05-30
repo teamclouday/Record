@@ -9,6 +9,7 @@
 #include <filesystem>
 #include <vector>
 #include <fstream>
+#include <algorithm>
 
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
 #include <Windows.h>
@@ -181,12 +182,22 @@ failedconfig:
     return false;
 }
 
-void MediaHandler::ConfigWindow(int x, int y, int w, int h)
+void MediaHandler::ConfigWindow(int x, int y, int w, int h, int mw, int mh)
 {
-    _rX = x;
-    _rY = y;
-    _rW = w;
-    _rH = h;
+    int xx = std::max(0, std::min(mw, x + w));
+    int yy = std::max(0, std::min(mh, y + h));
+    _rX = std::max(0, std::min(mw, x));
+    _rY = std::max(0, std::min(mh, y));
+    _rW = xx - _rX;
+    _rH = yy - _rY;
+    if(_rX != x || _rY != y || _rW != w || _rH != h)
+    {
+
+        display_message(NAME, "capture area changed to (" +
+            std::to_string(_rX) + "," + std::to_string(_rY) + "|" +
+            std::to_string(_rW) + "x" + std::to_string(_rH) + ")",
+            MESSAGE_WARN);
+    }
 }
 
 bool MediaHandler::StartRecord()

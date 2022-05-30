@@ -51,6 +51,7 @@ Current supported output video formats are:
     - [ ] ogg  
     - [ ] flv  
     - [ ] avi  
+- [ ] Multi-monitor Support  
 
 ## Dependencies
 

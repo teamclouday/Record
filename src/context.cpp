@@ -32,8 +32,8 @@ AppContext::AppContext(const std::string& title)
     _borderColor = {1.0f,0.5f,0.5f};
     _borderNumPixels = WIN_BORDER_PIXELS;
     // init window
-    _winWidth = 800;
-    _winHeight = 600;
+    _winWidth = _monWidth = 800;
+    _winHeight = _monHeight = 600;
     _title = title;
     if(!glfwInit())
         throw std::runtime_error("failed to init GLFW!");
@@ -56,6 +56,12 @@ AppContext::AppContext(const std::string& title)
     glfwSwapInterval(1);
     glfwGetWindowPos(_window, &_winPosX, &_winPosY);
     glfwGetWindowSize(_window, &_winWidth, &_winHeight);
+    auto mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+    if(mode)
+    {
+        _monWidth = mode->width;
+        _monHeight = mode->height;
+    }
     // load app icon
     GLFWimage icon;
     icon.width = APPICON_W;
@@ -113,7 +119,7 @@ void AppContext::glfw_key_callback(GLFWwindow* window, int key, int scancode, in
                 {
                     glfwSetWindowMonitor(
                         window, nullptr,
-                        user->_windowConfig[0], user->_windowConfig[1], 
+                        user->_windowConfig[0], user->_windowConfig[1],
                         user->_windowConfig[2], user->_windowConfig[3], 0);
                     user->_fullscreen = false;
                 }
@@ -124,8 +130,7 @@ void AppContext::glfw_key_callback(GLFWwindow* window, int key, int scancode, in
                     {
                         glfwGetWindowPos(window, &user->_windowConfig[0], &user->_windowConfig[1]);
                         glfwGetWindowSize(window, &user->_windowConfig[2], &user->_windowConfig[3]);
-                        auto mode = glfwGetVideoMode(monitor);
-                        glfwSetWindowMonitor(window, monitor, 0, 0, mode->width, mode->height, 0);
+                        glfwSetWindowMonitor(window, monitor, 0, 0, user->_monWidth, user->_monHeight, 0);
                     }
                     user->_fullscreen = true;
                 }
@@ -239,10 +244,7 @@ void AppContext::toggleUI()
             glfwShowWindow(_window);
             auto monitor = glfwGetPrimaryMonitor();
             if(monitor)
-            {
-                auto mode = glfwGetVideoMode(monitor);
-                glfwSetWindowMonitor(_window, monitor, 0, 0, mode->width, mode->height, 0);
-            }
+                glfwSetWindowMonitor(_window, monitor, 0, 0, _monWidth, _monHeight, 0);
         }
         else
         {
@@ -424,7 +426,8 @@ void AppContext::hotKeyPollEvents()
             _winPosX + (_fullscreen ? 0 : _borderNumPixels),
             _winPosY + (_fullscreen ? 0 : _borderNumPixels),
             _winWidth - (_fullscreen ? 0 : (_borderNumPixels * 2)),
-            _winHeight - (_fullscreen ? 0 : (_borderNumPixels * 2)));
+            _winHeight - (_fullscreen ? 0 : (_borderNumPixels * 2)),
+            _monWidth, _monHeight);
         success = _mediaHandler->StartRecord();
     }
     if(!success) toggleUI();

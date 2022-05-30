@@ -90,6 +90,7 @@ private:
 
     int _winWidth, _winHeight;
     int _winPosX, _winPosY;
+    int _monWidth, _monHeight;
     float _alpha;
     std::string _title;
     int _windowConfig[4];
