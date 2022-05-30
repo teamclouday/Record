@@ -1,13 +1,11 @@
 # This file load icon file and generate cpp file
 # that contains the raw data of selected font
 import os
-import io
-import numpy as np
 
 FONT_FILE = os.path.join("assets",
-# "Arimo", "Arimo Regular Nerd Font Complete Windows Compatible.ttf"
-# "HeavyData", "Heavy Data Nerd Font Complete Windows Compatible.ttf"
-"Hermit", "Hurmit Medium Nerd Font Complete Windows Compatible.otf"
+# "Arimo", "Arimo Regular Nerd Font Complete.ttf"
+# "HeavyData", "Heavy Data Nerd Font Complete.ttf"
+"Hermit", "Hurmit Medium Nerd Font Complete.otf"
 )
 CPP_FILE = os.path.join("src", "font.cpp")
 
@@ -15,7 +13,7 @@ CPP_CONTENT = """\
 // Auto-generated file from genfont.py
 #include <vector>
 extern const int APPFONT_SIZE = {};
-extern const std::vector<unsigned char> APPFONT_DATA = {{
+extern const unsigned char APPFONT_DATA[] = {{
 {}
 }};
 """

@@ -13,7 +13,7 @@ CPP_CONTENT = """\
 #include <vector>
 extern const int APPICON_W = {};
 extern const int APPICON_H = {};
-extern const std::vector<unsigned char> APPICON_DATA = {{
+extern const unsigned char APPICON_DATA[] = {{
 {}
 }};
 """

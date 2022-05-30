@@ -20,9 +20,9 @@
 
 extern const int APPICON_W;
 extern const int APPICON_H;
-extern const std::vector<unsigned char> APPICON_DATA;
+extern const unsigned char APPICON_DATA[];
 extern const int APPFONT_SIZE;
-extern const std::vector<unsigned char> APPFONT_DATA;
+extern const unsigned char APPFONT_DATA[];
 
 AppContext::AppContext(const std::string& title)
 {
@@ -60,7 +60,7 @@ AppContext::AppContext(const std::string& title)
     GLFWimage icon;
     icon.width = APPICON_W;
     icon.height = APPICON_H;
-    icon.pixels = const_cast<unsigned char*>(APPICON_DATA.data());
+    icon.pixels = const_cast<unsigned char*>(APPICON_DATA);
     glfwSetWindowIcon(_window, 1, &icon);
     // init opengl context
     glewExperimental = GL_TRUE;
@@ -76,7 +76,7 @@ AppContext::AppContext(const std::string& title)
     fontConfig.PixelSnapH = true;
     fontConfig.FontDataOwnedByAtlas = false;
     io.Fonts->AddFontFromMemoryTTF(
-        const_cast<unsigned char*>(APPFONT_DATA.data()),
+        const_cast<unsigned char*>(APPFONT_DATA),
         APPFONT_SIZE, WIN_UI_FONT_SIZE, &fontConfig);
     ImGui::StyleColorsDark();
     ImGui_ImplGlfw_InitForOpenGL(_window, true);
