@@ -25,12 +25,6 @@ Current supported platforms are:
 
 Note that on Windows it is a static build, while on Linux it is shared.
 
-## Formats
-
-Current supported output video formats are:  
-* mp4  
-* mkv
-
 ## Feature Plans
 
 - [x] Global Hotkey for Window Re-focus  
@@ -43,14 +37,13 @@ Current supported output video formats are:
 - [ ] Microphone Support  
 - [ ] Video Formats:  
     - [x] mp4  
-    - [x] mkv  
+    - [ ] mkv  
     - [ ] gif  
-    - [ ] mov  
-    - [ ] wmv  
+    - [x] mov  
+    - [x] wmv  
     - [ ] webm  
-    - [ ] ogg  
-    - [ ] flv  
-    - [ ] avi  
+    - [x] flv  
+    - [x] avi  
 - [ ] Multi-monitor Support  
 
 ## Dependencies

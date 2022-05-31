@@ -97,7 +97,7 @@ void MediaHandler::SelectOutputPath()
     f.lStructSize = sizeof(OPENFILENAMEA);
     f.hwndOwner = NULL;
     f.lpstrFile = filepath;
-    f.lpstrFilter = "MP4\0*.mp4\0MKV\0*.mkv\0All Files\0*.*\0\0";
+    f.lpstrFilter = "MP4\0*.mp4\0GIF\0*.gif\0WEBM\0*.webm\0MKV\0*.mkv\0MOV\0*.mov\0WMV\0*.wmv\0AVI\0*.avi\0FLV\0*.flv\0All Files\0*.*\0\0";
     f.lpstrTitle = "Set Output File";
     f.nMaxFile = 1024;
     f.lpstrDefExt = "mp4";
@@ -122,7 +122,7 @@ void MediaHandler::SelectOutputPath()
 void MediaHandler::validateOutputFormat()
 {
     const std::vector<std::string> SUPPORT_EXTS = {
-        ".mp4", ".mkv"
+        ".mp4", ".mkv", ".mov", ".wmv", ".gif", ".webm", ".avi", ".flv"
     };
     auto ext = fs::path(_outFilePath).extension().string();
     for(auto& sup : SUPPORT_EXTS)
@@ -191,7 +191,6 @@ void MediaHandler::ConfigWindow(int x, int y, int w, int h, int mw, int mh)
     _rH = yy - _rY;
     if(_rX != x || _rY != y || _rW != w || _rH != h)
     {
-
         display_message(NAME, "capture area changed to (" +
             std::to_string(_rX) + "," + std::to_string(_rY) + "|" +
             std::to_string(_rW) + "x" + std::to_string(_rH) + ")",
@@ -266,8 +265,7 @@ bool MediaHandler::StartRecord()
     _ocodecParams->width = _rW;
     _ocodecParams->height = _rH;
     _ocodecParams->bit_rate = _bitrate; // The average bitrate of the encoded data (in bits per second)
-    // _ocodecParams->codec_id = formatOut->video_codec;
-    _ocodecParams->codec_id = AV_CODEC_ID_MPEG4;
+    _ocodecParams->codec_id = formatOut->video_codec;
     _ocodecParams->codec_type = AVMEDIA_TYPE_VIDEO;
     _ocodecParams->format = 0;
     // prepare output codec
@@ -301,10 +299,11 @@ bool MediaHandler::StartRecord()
         display_message(NAME, "failed to prepare output context", MESSAGE_WARN);
         return false;
     }
-    // _ocodecCtx->pix_fmt = AV_PIX_FMT_RGB8;
-    _ocodecCtx->pix_fmt = AV_PIX_FMT_YUV420P;
+    if(_ocodecCtx->codec_id == AV_CODEC_ID_GIF)
+        _ocodecCtx->pix_fmt = AV_PIX_FMT_RGB8;
+    else
+        _ocodecCtx->pix_fmt = AV_PIX_FMT_YUV420P;
     _ocodecCtx->gop_size = 3; // the number of pictures in a group of pictures
-    _ocodecCtx->max_b_frames = 2;
     _ocodecCtx->time_base.num = 1;
     _ocodecCtx->time_base.den = _fps;
     if(avcodec_open2(_ocodecCtx, codecOut, nullptr) < 0)
@@ -321,7 +320,7 @@ bool MediaHandler::StartRecord()
         av_opt_set(_ocodecCtx->priv_data, "preset", "medium", 0);
     }
     // open output file
-    if(avio_open(&_ofmtCtx->pb, _outFilePath.c_str(), AVIO_FLAG_READ_WRITE) < 0)
+    if(avio_open(&_ofmtCtx->pb, _outFilePath.c_str(), AVIO_FLAG_WRITE) < 0)
     {
         display_message(NAME, "failed to prepare " + _outFilePath, MESSAGE_WARN);
         return false;
@@ -391,22 +390,24 @@ void MediaHandler::recordInternal()
     // delay
     display_message(NAME, "started recording", MESSAGE_INFO);
     // start reading frames
-    int countDown = _skipFrames;
+    int64_t frameCount = -_skipFrames;
     while(_recordLoop && av_read_frame(_ifmtCtx, _ipacket) >= 0)
     {
-        if(countDown > 0)
+        if(frameCount < 0)
         {
-            countDown--;
+            frameCount++;
             continue;
         }
         if(_ipacket->stream_index == _videoStreamIdx)
         {
+            frameCount++;
             if(!decodeVideo(_icodecCtx, _iAVFrame, _ipacket)) continue;
             sws_scale(_swsCtx, _iAVFrame->data, _iAVFrame->linesize, 0,
                 _icodecCtx->height, _oAVFrame->data, _oAVFrame->linesize);
             av_packet_unref(_opacket);
             _opacket->data = nullptr;
             _opacket->size = 0;
+            _oAVFrame->pts = frameCount;
             if(!encodeVideo(_ocodecCtx, _oAVFrame, _opacket)) continue;
             if(_opacket->pts != AV_NOPTS_VALUE)
                 _opacket->pts = av_rescale_q(_opacket->pts, _ocodecCtx->time_base, _videoStream->time_base);
@@ -414,7 +415,7 @@ void MediaHandler::recordInternal()
                 _opacket->dts = av_rescale_q(_opacket->dts, _ocodecCtx->time_base, _videoStream->time_base);
             _opacket->duration = av_rescale_q(_opacket->duration, _ocodecCtx->time_base, _videoStream->time_base);
             _opacket->stream_index = _videoStream->index;
-            if(av_write_frame(_ofmtCtx, _opacket) != 0)
+            if(av_interleaved_write_frame(_ofmtCtx, _opacket) != 0)
                 display_message(NAME, "failed to write frame", MESSAGE_WARN);
             av_packet_unref(_opacket);
         }
@@ -439,7 +440,13 @@ bool MediaHandler::decodeVideo(AVCodecContext* icodecCtx, AVFrame* iframe, AVPac
             MESSAGE_WARN);
         return false;
     }
-    avcodec_receive_frame(icodecCtx, iframe);
+    if((ret = avcodec_receive_frame(icodecCtx, iframe)) < 0)
+    {
+        display_message(NAME, "decode video (" +
+            std::string(av_make_error_string(buf, 512, ret)) + ")",
+            MESSAGE_WARN);
+        return false;
+    }
     return true;
 }
 
@@ -447,7 +454,13 @@ bool MediaHandler::encodeVideo(AVCodecContext* ocodecCtx, AVFrame* oframe, AVPac
 {
     int ret;
     char buf[512];
-    avcodec_send_frame(ocodecCtx, oframe);
+    if((ret = avcodec_send_frame(ocodecCtx, oframe) < 0))
+    {
+        display_message(NAME, "encode video (" +
+            std::string(av_make_error_string(buf, 512, ret)) + ")",
+            MESSAGE_WARN);
+        return false;
+    }
     if((ret = avcodec_receive_packet(ocodecCtx, opacket)) < 0)
     {
         display_message(NAME, "encode video (" +
