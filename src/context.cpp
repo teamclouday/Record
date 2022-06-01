@@ -115,6 +115,7 @@ void AppContext::glfw_key_callback(GLFWwindow* window, int key, int scancode, in
                 break;
             case GLFW_KEY_F11: // toggle full screen
             {
+                if(user->_mediaHandler && user->_mediaHandler->IsRecording()) break;
                 if(glfwGetWindowMonitor(window))
                 {
                     glfwSetWindowMonitor(
@@ -418,17 +419,20 @@ void AppContext::hotKeyPollEvents()
     bool success = true;
     toggleUI();
     // start/stop recording
-    if(_displayUI && _mediaHandler)
-        success = _mediaHandler->StopRecord();
-    else if(!_displayUI && _mediaHandler)
+    if(_mediaHandler)
     {
-        _mediaHandler->ConfigWindow(
-            _winPosX + (_fullscreen ? 0 : _borderNumPixels),
-            _winPosY + (_fullscreen ? 0 : _borderNumPixels),
-            _winWidth - (_fullscreen ? 0 : (_borderNumPixels * 2)),
-            _winHeight - (_fullscreen ? 0 : (_borderNumPixels * 2)),
-            _monWidth, _monHeight);
-        success = _mediaHandler->StartRecord();
+        if(_displayUI)
+            success = _mediaHandler->StopRecord();
+        else
+        {
+            _mediaHandler->ConfigWindow(
+                _winPosX + (_fullscreen ? 0 : _borderNumPixels),
+                _winPosY + (_fullscreen ? 0 : _borderNumPixels),
+                _winWidth - (_fullscreen ? 0 : (_borderNumPixels * 2)),
+                _winHeight - (_fullscreen ? 0 : (_borderNumPixels * 2)),
+                _monWidth, _monHeight);
+            success = _mediaHandler->StartRecord();
+        }
     }
     if(!success) toggleUI();
 }
