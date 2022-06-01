@@ -46,6 +46,13 @@ Right now capturing on secondary monitors is not supported yet.
     - [x] avi  
 - [ ] Multi-monitor Support  
 
+## Demo
+
+A classic "record myself recording":  
+<img src="./assets/demo.gif" width="400" alt="Demo">  
+This GIF is further compressed by ImageMagick after recording.  
+But apparently GIFs have bad quality compared to other video formats.  
+
 ## Dependencies
 
 * [ImGui](https://github.com/ocornut/imgui)  
