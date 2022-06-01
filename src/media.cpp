@@ -256,7 +256,7 @@ bool MediaHandler::StartRecord()
         display_message(NAME, "failed to get format for " + _outFilePath, MESSAGE_WARN);
         return false;
     }
-    if(avformat_alloc_output_context2(&_ofmtCtx, formatOut, nullptr, nullptr) < 0)
+    if(avformat_alloc_output_context2(&_ofmtCtx, formatOut, nullptr, _outFilePath.c_str()) < 0)
     {
         display_message(NAME, "failed to get format for " + _outFilePath, MESSAGE_WARN);
         return false;
@@ -268,6 +268,7 @@ bool MediaHandler::StartRecord()
     _ocodecParams->codec_id = formatOut->video_codec;
     _ocodecParams->codec_type = AVMEDIA_TYPE_VIDEO;
     _ocodecParams->format = 0;
+    _ocodecParams->sample_aspect_ratio = {1, 1};
     // prepare output codec
     auto codecOut = avcodec_find_encoder(_ocodecParams->codec_id);
     if(!codecOut)
@@ -303,7 +304,7 @@ bool MediaHandler::StartRecord()
         _ocodecCtx->pix_fmt = AV_PIX_FMT_RGB8;
     else
         _ocodecCtx->pix_fmt = AV_PIX_FMT_YUV420P;
-    _ocodecCtx->gop_size = 3; // the number of pictures in a group of pictures
+    _ocodecCtx->gop_size = 12; // the number of pictures in a group of pictures
     _ocodecCtx->time_base = {1, _fps};
     _ocodecCtx->framerate = {_fps, 1};
     if(avcodec_open2(_ocodecCtx, codecOut, nullptr) < 0)
@@ -311,10 +312,6 @@ bool MediaHandler::StartRecord()
         display_message(NAME, "failed to prepare output context", MESSAGE_WARN);
         return false;
     }
-    if(_icodecCtx->codec_id == AV_CODEC_ID_H264)
-	{
-        av_opt_set(_ocodecCtx->priv_data, "preset", "slow", 0);
-	}
     // open output file
     if(avio_open(&_ofmtCtx->pb, _outFilePath.c_str(), AVIO_FLAG_WRITE) < 0)
     {
@@ -399,18 +396,14 @@ void MediaHandler::recordInternal()
         {
             frameCount++;
             if(!decodeVideo(_icodecCtx, _iAVFrame, _ipacket)) continue;
+            av_frame_make_writable(_oAVFrame);
             sws_scale(_swsCtx, _iAVFrame->data, _iAVFrame->linesize, 0,
                 _icodecCtx->height, _oAVFrame->data, _oAVFrame->linesize);
-            av_packet_unref(_opacket);
             _opacket->data = nullptr;
             _opacket->size = 0;
             _oAVFrame->pts = frameCount;
             if(!encodeVideo(_ocodecCtx, _oAVFrame, _opacket)) continue;
-            if(_opacket->pts != AV_NOPTS_VALUE)
-                _opacket->pts = av_rescale_q(_opacket->pts, _ocodecCtx->time_base, _videoStream->time_base);
-            if(_opacket->dts != AV_NOPTS_VALUE)
-                _opacket->dts = av_rescale_q(_opacket->dts, _ocodecCtx->time_base, _videoStream->time_base);
-            _opacket->duration = av_rescale_q(_opacket->duration, _ocodecCtx->time_base, _videoStream->time_base);
+            av_packet_rescale_ts(_opacket, _ocodecCtx->time_base, _videoStream->time_base);
             _opacket->stream_index = _videoStream->index;
             if(av_interleaved_write_frame(_ofmtCtx, _opacket) != 0)
                 display_message(NAME, "failed to write frame", MESSAGE_WARN);

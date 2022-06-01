@@ -38,7 +38,7 @@ Right now capturing on secondary monitors is not supported yet.
 - [ ] Video Formats:  
     - [x] mp4  
     - [ ] mkv  
-    - [ ] gif  
+    - [x] gif  
     - [x] mov  
     - [x] wmv  
     - [ ] webm  
