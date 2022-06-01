@@ -183,10 +183,10 @@ failedconfig:
 
 void MediaHandler::ConfigWindow(int x, int y, int w, int h, int mw, int mh)
 {
-    int xx = std::max(0, std::min(mw, x + w));
-    int yy = std::max(0, std::min(mh, y + h));
-    _rX = std::max(0, std::min(mw, x));
-    _rY = std::max(0, std::min(mh, y));
+    int xx = (std::max)(0, (std::min)(mw, x + w));
+    int yy = (std::max)(0, (std::min)(mh, y + h));
+    _rX = (std::max)(0, (std::min)(mw, x));
+    _rY = (std::max)(0, (std::min)(mh, y));
     _rW = xx - _rX;
     _rH = yy - _rY;
     if(_rX != x || _rY != y || _rW != w || _rH != h)
@@ -304,8 +304,8 @@ bool MediaHandler::StartRecord()
     else
         _ocodecCtx->pix_fmt = AV_PIX_FMT_YUV420P;
     _ocodecCtx->gop_size = 3; // the number of pictures in a group of pictures
-    _ocodecCtx->time_base.num = 1;
-    _ocodecCtx->time_base.den = _fps;
+    _ocodecCtx->time_base = {1, _fps};
+    _ocodecCtx->framerate = {_fps, 1};
     if(avcodec_open2(_ocodecCtx, codecOut, nullptr) < 0)
     {
         display_message(NAME, "failed to prepare output context", MESSAGE_WARN);
@@ -315,10 +315,6 @@ bool MediaHandler::StartRecord()
 	{
         av_opt_set(_ocodecCtx->priv_data, "preset", "slow", 0);
 	}
-    else
-    {
-        av_opt_set(_ocodecCtx->priv_data, "preset", "medium", 0);
-    }
     // open output file
     if(avio_open(&_ofmtCtx->pb, _outFilePath.c_str(), AVIO_FLAG_WRITE) < 0)
     {
@@ -334,6 +330,7 @@ bool MediaHandler::StartRecord()
         display_message(NAME, "failed to prepare " + _outFilePath, MESSAGE_WARN);
         return false;
     }
+    av_dump_format(_ofmtCtx, 0, _outFilePath.c_str(), 1);
     // prepare packet and frame
     _ipacket = av_packet_alloc();
     _opacket = av_packet_alloc();
@@ -351,10 +348,10 @@ bool MediaHandler::StartRecord()
     }
     _iAVFrame->width = _icodecCtx->width;
     _iAVFrame->height = _icodecCtx->height;
-    _iAVFrame->format = _icodecParams->format;
+    _iAVFrame->format = _icodecCtx->pix_fmt;
     _oAVFrame->width = _ocodecCtx->width;
     _oAVFrame->height = _ocodecCtx->height;
-    _oAVFrame->format = _ocodecParams->format;
+    _oAVFrame->format = _ocodecCtx->pix_fmt;
     if(av_frame_get_buffer(_iAVFrame, 0) < 0 ||
         av_frame_get_buffer(_oAVFrame, 0) < 0)
     {
