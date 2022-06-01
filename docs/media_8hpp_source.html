@@ -80,96 +80,94 @@ $(function() {
 <div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &lt;string&gt;</span></div>
 <div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &lt;thread&gt;</span></div>
 <div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno"><a class="line" href="media_8hpp.html#aae3f9356bc1262a2e5c1565bb1e65dfb">   15</a></span><span class="preprocessor">#define VIDEO_DELAY_SECONDS     0</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno"><a class="line" href="media_8hpp.html#a4d5bd0728f4be2af0c170f02cec39c10">   15</a></span><span class="preprocessor">#define VIDEO_DEFAULT_FPS       30</span></div>
 <div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno"><a class="line" href="media_8hpp.html#a4d5bd0728f4be2af0c170f02cec39c10">   18</a></span><span class="preprocessor">#define VIDEO_DEFAULT_FPS       30</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno"><a class="line" href="media_8hpp.html#a43f5e00315c69e4729a9817137481826">   18</a></span><span class="preprocessor">#define VIDEO_FRAMES_SKIP       10</span></div>
 <div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span> </div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno"><a class="line" href="media_8hpp.html#a43f5e00315c69e4729a9817137481826">   21</a></span><span class="preprocessor">#define VIDEO_FRAMES_SKIP       10</span></div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno"><a class="line" href="media_8hpp.html#a53498c8c33136a14f6c08dd145d8a8ea">   21</a></span><span class="preprocessor">#define VIDEO_DEFAULT_BITRATE   4000000</span></div>
 <div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno"><a class="line" href="media_8hpp.html#a53498c8c33136a14f6c08dd145d8a8ea">   24</a></span><span class="preprocessor">#define VIDEO_DEFAULT_BITRATE   4000000</span></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno"><a class="line" href="media_8hpp.html#a591b7089e431a06581a925b32459560c">   24</a></span><span class="preprocessor">#define VIDEO_DEFAULT_OUTPUT    &quot;out.mp4&quot;</span></div>
 <div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span> </div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno"><a class="line" href="media_8hpp.html#a591b7089e431a06581a925b32459560c">   27</a></span><span class="preprocessor">#define VIDEO_DEFAULT_OUTPUT    &quot;out.mp4&quot;</span></div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno"><a class="line" href="classMediaHandler.html">   34</a></span><span class="keyword">class </span><a class="code hl_class" href="classMediaHandler.html">MediaHandler</a></div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>{</div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span><span class="keyword">public</span>:</div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    <a class="code hl_class" href="classMediaHandler.html">MediaHandler</a>();</div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    <a class="code hl_class" href="classMediaHandler.html">~MediaHandler</a>();</div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classMediaHandler.html#a22ad6d2a68bb2ba84f08bd1560d802ea">ConfigWindow</a>(<span class="keywordtype">int</span> x, <span class="keywordtype">int</span> y, <span class="keywordtype">int</span> w, <span class="keywordtype">int</span> h);</div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classMediaHandler.html#af59ce24bdcfa04ccd6d9bdd55fe5feef">StartRecord</a>();</div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span> </div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classMediaHandler.html#a272ccb6965ff0bce5b4e63e79f28caf1">StopRecord</a>();</div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span> </div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classMediaHandler.html#a9d3dab02042b1c9da96388acdabe0a3f">SelectOutputPath</a>();</div>
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span> </div>
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classMediaHandler.html#ac32b0d47efa5a52fa75c2588d00bb3da">IsRecording</a>();</div>
-<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span> </div>
-<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classMediaHandler.html#abf96e6be4fce2768e547fedb2b911ed1">UI</a>();</div>
-<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span> </div>
-<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>    <span class="keyword">const</span> std::string NAME = <span class="stringliteral">&quot;MediaHandler&quot;</span>;</div>
-<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span> </div>
-<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span><span class="keyword">private</span>:</div>
-<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classMediaHandler.html#a5e6c5197dfa62b8d84641373d7c32fb5">openCapture</a>();</div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span> </div>
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classMediaHandler.html#a04293af3718012c7fd26d41c0492abf3">prepareParams</a>();</div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span> </div>
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classMediaHandler.html#a0b3b8e614ca62d29c789ceab82882b96">freeLibAV</a>();</div>
-<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span> </div>
-<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classMediaHandler.html#a3f4b7f4ba8e3e7e956b92d4d859cf13d">recordInternal</a>();</div>
-<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span> </div>
-<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classMediaHandler.html#a02c6f16692dab13309f614e826839ec9">decodeVideo</a>(AVCodecContext* icodecCtx, AVFrame* iframe, AVPacket* ipacket);</div>
-<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span> </div>
-<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classMediaHandler.html#a0c17fa68b7859ec780ff58e4e5850d13">encodeVideo</a>(AVCodecContext* ocodecCtx, AVFrame* oframe, AVPacket* opacket);</div>
-<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span> </div>
-<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classMediaHandler.html#a9518532ee10a6994ec19417ea6ac8978">validateOutputFormat</a>();</div>
-<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span> </div>
-<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classMediaHandler.html#ab838edfbcabcca8dcb5192c591f8b1ed">lockMediaFile</a>();</div>
-<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span> </div>
-<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classMediaHandler.html#a0088e4be07e724e93408e90eef76ab91">unlockMediaFile</a>();</div>
-<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span> </div>
-<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>    <span class="comment">// video settings</span></div>
-<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>    <span class="keywordtype">int</span> _rX, _rY, _rW, _rH, _fps;</div>
-<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>    <span class="keywordtype">int</span> _bitrate, _delaySeconds;</div>
-<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>    <span class="keywordtype">bool</span> _bitrateAuto;</div>
-<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>    <span class="comment">// audio settings</span></div>
-<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>    <span class="keywordtype">bool</span> _captureAudio;</div>
-<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>    <span class="keywordtype">bool</span> _captureMic;</div>
-<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>    <span class="comment">// output file path</span></div>
-<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>    std::string _outFilePath;</div>
-<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>    <span class="keywordtype">bool</span> _recording;</div>
-<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span> </div>
-<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>    <span class="keywordtype">bool</span> _recordLoop;</div>
-<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>    std::thread _recordT;</div>
-<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span> </div>
-<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>    <span class="comment">// libav variables</span></div>
-<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>    AVFormatContext* _ifmtCtx = <span class="keyword">nullptr</span>, * _ofmtCtx = <span class="keyword">nullptr</span>;</div>
-<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>    AVCodecParameters* _icodecParams = <span class="keyword">nullptr</span>, * _ocodecParams = <span class="keyword">nullptr</span>;</div>
-<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>    AVCodecContext* _icodecCtx = <span class="keyword">nullptr</span>, * _ocodecCtx = <span class="keyword">nullptr</span>;</div>
-<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>    AVFrame* _iAVFrame = <span class="keyword">nullptr</span>, *  _oAVFrame = <span class="keyword">nullptr</span>;</div>
-<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>    AVDictionary* _options = <span class="keyword">nullptr</span>;</div>
-<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>    AVPacket* _ipacket = <span class="keyword">nullptr</span>, * _opacket = <span class="keyword">nullptr</span>;</div>
-<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>    AVStream* _videoStream = <span class="keyword">nullptr</span>;</div>
-<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>    <span class="keywordtype">int</span> _videoStreamIdx;</div>
-<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>    SwsContext* _swsCtx = <span class="keyword">nullptr</span>;</div>
-<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>};</div>
-<div class="ttc" id="aclassMediaHandler_html"><div class="ttname"><a href="classMediaHandler.html">MediaHandler</a></div><div class="ttdoc">Media Handler.</div><div class="ttdef"><b>Definition:</b> media.hpp:35</div></div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno"><a class="line" href="classMediaHandler.html">   31</a></span><span class="keyword">class </span><a class="code hl_class" href="classMediaHandler.html">MediaHandler</a></div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>{</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    <a class="code hl_class" href="classMediaHandler.html">MediaHandler</a>();</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    <a class="code hl_class" href="classMediaHandler.html">~MediaHandler</a>();</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classMediaHandler.html#a45df64e626aac3d830516bf4b568115f">ConfigWindow</a>(<span class="keywordtype">int</span> x, <span class="keywordtype">int</span> y, <span class="keywordtype">int</span> w, <span class="keywordtype">int</span> h, <span class="keywordtype">int</span> mw, <span class="keywordtype">int</span> mh);</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classMediaHandler.html#af59ce24bdcfa04ccd6d9bdd55fe5feef">StartRecord</a>();</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classMediaHandler.html#a272ccb6965ff0bce5b4e63e79f28caf1">StopRecord</a>();</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span> </div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classMediaHandler.html#a9d3dab02042b1c9da96388acdabe0a3f">SelectOutputPath</a>();</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span> </div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classMediaHandler.html#ac32b0d47efa5a52fa75c2588d00bb3da">IsRecording</a>();</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span> </div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classMediaHandler.html#abf96e6be4fce2768e547fedb2b911ed1">UI</a>();</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span> </div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>    <span class="keyword">const</span> std::string NAME = <span class="stringliteral">&quot;MediaHandler&quot;</span>;</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span> </div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classMediaHandler.html#a5e6c5197dfa62b8d84641373d7c32fb5">openCapture</a>();</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span> </div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classMediaHandler.html#a04293af3718012c7fd26d41c0492abf3">prepareParams</a>();</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span> </div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classMediaHandler.html#a0b3b8e614ca62d29c789ceab82882b96">freeLibAV</a>();</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span> </div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classMediaHandler.html#a3f4b7f4ba8e3e7e956b92d4d859cf13d">recordInternal</a>();</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span> </div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classMediaHandler.html#a02c6f16692dab13309f614e826839ec9">decodeVideo</a>(AVCodecContext* icodecCtx, AVFrame* iframe, AVPacket* ipacket);</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span> </div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classMediaHandler.html#a0c17fa68b7859ec780ff58e4e5850d13">encodeVideo</a>(AVCodecContext* ocodecCtx, AVFrame* oframe, AVPacket* opacket);</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span> </div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classMediaHandler.html#a9518532ee10a6994ec19417ea6ac8978">validateOutputFormat</a>();</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span> </div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classMediaHandler.html#ab838edfbcabcca8dcb5192c591f8b1ed">lockMediaFile</a>();</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span> </div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classMediaHandler.html#a0088e4be07e724e93408e90eef76ab91">unlockMediaFile</a>();</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span> </div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>    <span class="comment">// video settings</span></div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>    <span class="keywordtype">int</span> _rX, _rY, _rW, _rH, _fps;</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>    <span class="keywordtype">int</span> _bitrate, _skipFrames;</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>    <span class="keywordtype">bool</span> _bitrateAuto;</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>    <span class="comment">// audio settings</span></div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>    <span class="keywordtype">bool</span> _captureAudio;</div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>    <span class="keywordtype">bool</span> _captureMic;</div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>    <span class="comment">// output file path</span></div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>    std::string _outFilePath;</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>    <span class="keywordtype">bool</span> _recording;</div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span> </div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>    <span class="keywordtype">bool</span> _recordLoop;</div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>    std::thread _recordT;</div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span> </div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>    <span class="comment">// libav variables</span></div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>    AVFormatContext* _ifmtCtx = <span class="keyword">nullptr</span>, * _ofmtCtx = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>    AVCodecParameters* _icodecParams = <span class="keyword">nullptr</span>, * _ocodecParams = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>    AVCodecContext* _icodecCtx = <span class="keyword">nullptr</span>, * _ocodecCtx = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>    AVFrame* _iAVFrame = <span class="keyword">nullptr</span>, *  _oAVFrame = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>    AVDictionary* _options = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>    AVPacket* _ipacket = <span class="keyword">nullptr</span>, * _opacket = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>    AVStream* _videoStream = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>    <span class="keywordtype">int</span> _videoStreamIdx;</div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>    SwsContext* _swsCtx = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>};</div>
+<div class="ttc" id="aclassMediaHandler_html"><div class="ttname"><a href="classMediaHandler.html">MediaHandler</a></div><div class="ttdoc">Media Handler.</div><div class="ttdef"><b>Definition:</b> media.hpp:32</div></div>
 <div class="ttc" id="aclassMediaHandler_html_a0088e4be07e724e93408e90eef76ab91"><div class="ttname"><a href="classMediaHandler.html#a0088e4be07e724e93408e90eef76ab91">MediaHandler::unlockMediaFile</a></div><div class="ttdeci">void unlockMediaFile()</div><div class="ttdoc">Unlock file after recording stop.</div><div class="ttdef"><b>Definition:</b> media.cpp:159</div></div>
-<div class="ttc" id="aclassMediaHandler_html_a02c6f16692dab13309f614e826839ec9"><div class="ttname"><a href="classMediaHandler.html#a02c6f16692dab13309f614e826839ec9">MediaHandler::decodeVideo</a></div><div class="ttdeci">bool decodeVideo(AVCodecContext *icodecCtx, AVFrame *iframe, AVPacket *ipacket)</div><div class="ttdoc">Helper function to decode video frame.</div><div class="ttdef"><b>Definition:</b> media.cpp:422</div></div>
+<div class="ttc" id="aclassMediaHandler_html_a02c6f16692dab13309f614e826839ec9"><div class="ttname"><a href="classMediaHandler.html#a02c6f16692dab13309f614e826839ec9">MediaHandler::decodeVideo</a></div><div class="ttdeci">bool decodeVideo(AVCodecContext *icodecCtx, AVFrame *iframe, AVPacket *ipacket)</div><div class="ttdoc">Helper function to decode video frame.</div><div class="ttdef"><b>Definition:</b> media.cpp:432</div></div>
 <div class="ttc" id="aclassMediaHandler_html_a04293af3718012c7fd26d41c0492abf3"><div class="ttname"><a href="classMediaHandler.html#a04293af3718012c7fd26d41c0492abf3">MediaHandler::prepareParams</a></div><div class="ttdeci">bool prepareParams()</div><div class="ttdoc">Prepare capture parameters.</div><div class="ttdef"><b>Definition:</b> media.cpp:165</div></div>
 <div class="ttc" id="aclassMediaHandler_html_a0b3b8e614ca62d29c789ceab82882b96"><div class="ttname"><a href="classMediaHandler.html#a0b3b8e614ca62d29c789ceab82882b96">MediaHandler::freeLibAV</a></div><div class="ttdeci">void freeLibAV()</div><div class="ttdoc">free variables related to LibAV</div><div class="ttdef"><b>Definition:</b> media.cpp:45</div></div>
-<div class="ttc" id="aclassMediaHandler_html_a0c17fa68b7859ec780ff58e4e5850d13"><div class="ttname"><a href="classMediaHandler.html#a0c17fa68b7859ec780ff58e4e5850d13">MediaHandler::encodeVideo</a></div><div class="ttdeci">bool encodeVideo(AVCodecContext *ocodecCtx, AVFrame *oframe, AVPacket *opacket)</div><div class="ttdoc">Helper function to encode video frame.</div><div class="ttdef"><b>Definition:</b> media.cpp:437</div></div>
-<div class="ttc" id="aclassMediaHandler_html_a22ad6d2a68bb2ba84f08bd1560d802ea"><div class="ttname"><a href="classMediaHandler.html#a22ad6d2a68bb2ba84f08bd1560d802ea">MediaHandler::ConfigWindow</a></div><div class="ttdeci">void ConfigWindow(int x, int y, int w, int h)</div><div class="ttdoc">Configure Capture Window.</div><div class="ttdef"><b>Definition:</b> media.cpp:184</div></div>
-<div class="ttc" id="aclassMediaHandler_html_a272ccb6965ff0bce5b4e63e79f28caf1"><div class="ttname"><a href="classMediaHandler.html#a272ccb6965ff0bce5b4e63e79f28caf1">MediaHandler::StopRecord</a></div><div class="ttdeci">bool StopRecord()</div><div class="ttdoc">Stop Recording.</div><div class="ttdef"><b>Definition:</b> media.cpp:370</div></div>
-<div class="ttc" id="aclassMediaHandler_html_a3f4b7f4ba8e3e7e956b92d4d859cf13d"><div class="ttname"><a href="classMediaHandler.html#a3f4b7f4ba8e3e7e956b92d4d859cf13d">MediaHandler::recordInternal</a></div><div class="ttdeci">void recordInternal()</div><div class="ttdoc">Internal record process.</div><div class="ttdef"><b>Definition:</b> media.cpp:378</div></div>
+<div class="ttc" id="aclassMediaHandler_html_a0c17fa68b7859ec780ff58e4e5850d13"><div class="ttname"><a href="classMediaHandler.html#a0c17fa68b7859ec780ff58e4e5850d13">MediaHandler::encodeVideo</a></div><div class="ttdeci">bool encodeVideo(AVCodecContext *ocodecCtx, AVFrame *oframe, AVPacket *opacket)</div><div class="ttdoc">Helper function to encode video frame.</div><div class="ttdef"><b>Definition:</b> media.cpp:453</div></div>
+<div class="ttc" id="aclassMediaHandler_html_a272ccb6965ff0bce5b4e63e79f28caf1"><div class="ttname"><a href="classMediaHandler.html#a272ccb6965ff0bce5b4e63e79f28caf1">MediaHandler::StopRecord</a></div><div class="ttdeci">bool StopRecord()</div><div class="ttdoc">Stop Recording.</div><div class="ttdef"><b>Definition:</b> media.cpp:379</div></div>
+<div class="ttc" id="aclassMediaHandler_html_a3f4b7f4ba8e3e7e956b92d4d859cf13d"><div class="ttname"><a href="classMediaHandler.html#a3f4b7f4ba8e3e7e956b92d4d859cf13d">MediaHandler::recordInternal</a></div><div class="ttdeci">void recordInternal()</div><div class="ttdoc">Internal record process.</div><div class="ttdef"><b>Definition:</b> media.cpp:387</div></div>
+<div class="ttc" id="aclassMediaHandler_html_a45df64e626aac3d830516bf4b568115f"><div class="ttname"><a href="classMediaHandler.html#a45df64e626aac3d830516bf4b568115f">MediaHandler::ConfigWindow</a></div><div class="ttdeci">void ConfigWindow(int x, int y, int w, int h, int mw, int mh)</div><div class="ttdoc">Configure Capture Window.</div><div class="ttdef"><b>Definition:</b> media.cpp:184</div></div>
 <div class="ttc" id="aclassMediaHandler_html_a5e6c5197dfa62b8d84641373d7c32fb5"><div class="ttname"><a href="classMediaHandler.html#a5e6c5197dfa62b8d84641373d7c32fb5">MediaHandler::openCapture</a></div><div class="ttdeci">bool openCapture()</div><div class="ttdoc">Open screen capture.</div><div class="ttdef"><b>Definition:</b> media.cpp:64</div></div>
 <div class="ttc" id="aclassMediaHandler_html_a9518532ee10a6994ec19417ea6ac8978"><div class="ttname"><a href="classMediaHandler.html#a9518532ee10a6994ec19417ea6ac8978">MediaHandler::validateOutputFormat</a></div><div class="ttdeci">void validateOutputFormat()</div><div class="ttdoc">Validate selected output file format.</div><div class="ttdef"><b>Definition:</b> media.cpp:122</div></div>
 <div class="ttc" id="aclassMediaHandler_html_a9d3dab02042b1c9da96388acdabe0a3f"><div class="ttname"><a href="classMediaHandler.html#a9d3dab02042b1c9da96388acdabe0a3f">MediaHandler::SelectOutputPath</a></div><div class="ttdeci">void SelectOutputPath()</div><div class="ttdoc">Select Output File Path.</div><div class="ttdef"><b>Definition:</b> media.cpp:90</div></div>
 <div class="ttc" id="aclassMediaHandler_html_ab838edfbcabcca8dcb5192c591f8b1ed"><div class="ttname"><a href="classMediaHandler.html#ab838edfbcabcca8dcb5192c591f8b1ed">MediaHandler::lockMediaFile</a></div><div class="ttdeci">bool lockMediaFile()</div><div class="ttdoc">Try to lock output file.</div><div class="ttdef"><b>Definition:</b> media.cpp:137</div></div>
-<div class="ttc" id="aclassMediaHandler_html_abf96e6be4fce2768e547fedb2b911ed1"><div class="ttname"><a href="classMediaHandler.html#abf96e6be4fce2768e547fedb2b911ed1">MediaHandler::UI</a></div><div class="ttdeci">void UI()</div><div class="ttdoc">UI Calls.</div><div class="ttdef"><b>Definition:</b> ui.cpp:24</div></div>
-<div class="ttc" id="aclassMediaHandler_html_ac32b0d47efa5a52fa75c2588d00bb3da"><div class="ttname"><a href="classMediaHandler.html#ac32b0d47efa5a52fa75c2588d00bb3da">MediaHandler::IsRecording</a></div><div class="ttdeci">bool IsRecording()</div><div class="ttdoc">Is Currently Recording.</div><div class="ttdef"><b>Definition:</b> media.cpp:452</div></div>
-<div class="ttc" id="aclassMediaHandler_html_af59ce24bdcfa04ccd6d9bdd55fe5feef"><div class="ttname"><a href="classMediaHandler.html#af59ce24bdcfa04ccd6d9bdd55fe5feef">MediaHandler::StartRecord</a></div><div class="ttdeci">bool StartRecord()</div><div class="ttdoc">Start Recording.</div><div class="ttdef"><b>Definition:</b> media.cpp:192</div></div>
+<div class="ttc" id="aclassMediaHandler_html_abf96e6be4fce2768e547fedb2b911ed1"><div class="ttname"><a href="classMediaHandler.html#abf96e6be4fce2768e547fedb2b911ed1">MediaHandler::UI</a></div><div class="ttdeci">void UI()</div><div class="ttdoc">UI Calls.</div><div class="ttdef"><b>Definition:</b> ui.cpp:25</div></div>
+<div class="ttc" id="aclassMediaHandler_html_ac32b0d47efa5a52fa75c2588d00bb3da"><div class="ttname"><a href="classMediaHandler.html#ac32b0d47efa5a52fa75c2588d00bb3da">MediaHandler::IsRecording</a></div><div class="ttdeci">bool IsRecording()</div><div class="ttdoc">Is Currently Recording.</div><div class="ttdef"><b>Definition:</b> media.cpp:474</div></div>
+<div class="ttc" id="aclassMediaHandler_html_af59ce24bdcfa04ccd6d9bdd55fe5feef"><div class="ttname"><a href="classMediaHandler.html#af59ce24bdcfa04ccd6d9bdd55fe5feef">MediaHandler::StartRecord</a></div><div class="ttdeci">bool StartRecord()</div><div class="ttdoc">Start Recording.</div><div class="ttdef"><b>Definition:</b> media.cpp:201</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

@@ -65,7 +65,7 @@ $(function() {
   <div class="headertitle"><div class="title">Record </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p ><a class="anchor" id="md_README"></a> <img src="assets/icon.png" alt="Icon" width="150" class="inline"/></p>
+<div class="textblock"><p ><a class="anchor" id="md_README"></a> <img src="./assets/icon.png" alt="Icon" width="150" class="inline"/></p>
 <p >A cross-platform screen capture application that is able to record a user-defined area on screen. <br  />
  On Linux there is an awesome screen capture application (<a href="https://github.com/phw/peek">Peek</a>) but on Windows I cannot find anything. That's why this project is created. <br  />
 </p>
@@ -92,16 +92,8 @@ Platform</h1>
 <li>Windows <br  />
 </li>
 </ul>
-<p >Note that on Windows it is a static build, while on Linux it is shared.</p>
+<p >Right now capturing on secondary monitors is not supported yet.</p>
 <h1><a class="anchor" id="autotoc_md4"></a>
-Formats</h1>
-<p >Current supported output video formats are: <br  />
-</p><ul>
-<li>mp4 <br  />
-</li>
-<li>mkv</li>
-</ul>
-<h1><a class="anchor" id="autotoc_md5"></a>
 Feature Plans</h1>
 <ul>
 <li>[x] Global Hotkey for Window Re-focus <br  />
@@ -124,26 +116,26 @@ Feature Plans</h1>
 <ul>
 <li>[x] mp4 <br  />
 </li>
-<li>[x] mkv <br  />
+<li>[ ] mkv <br  />
 </li>
 <li>[ ] gif <br  />
 </li>
-<li>[ ] mov <br  />
+<li>[x] mov <br  />
 </li>
-<li>[ ] wmv <br  />
+<li>[x] wmv <br  />
 </li>
 <li>[ ] webm <br  />
 </li>
-<li>[ ] ogg <br  />
+<li>[x] flv <br  />
 </li>
-<li>[ ] flv <br  />
-</li>
-<li>[ ] avi <br  />
+<li>[x] avi <br  />
 </li>
 </ul>
 </li>
+<li>[ ] Multi-monitor Support <br  />
+</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md6"></a>
+<h1><a class="anchor" id="autotoc_md5"></a>
 Dependencies</h1>
 <ul>
 <li><a href="https://github.com/ocornut/imgui">ImGui</a> <br  />
@@ -187,7 +179,7 @@ The following libs are required for Windows static build, but should all exist i
 <p ><details>
 </details>
 </p>
-<h1><a class="anchor" id="autotoc_md7"></a>
+<h1><a class="anchor" id="autotoc_md6"></a>
 Compilation</h1>
 <p >First pull the repo and run: </p><div class="fragment"><div class="line">git submodule update --init --recursive</div>
 </div><!-- fragment --><p ><details>
@@ -227,8 +219,9 @@ If you are not using X11, run following: </p><div class="fragment"><div class="l
 </div><!-- fragment --><p >Build (Linux): </p><div class="fragment"><div class="line">make -j4</div>
 </div><!-- fragment --><p >Build (Windows): </p><div class="fragment"><div class="line">cmake --build . --config Release</div>
 </div><!-- fragment --><p >Executable is under <code>bin</code> folder</p>
+<p >Note that on Windows it is a static build, while on Linux it is shared</p>
 <hr  />
-<h1><a class="anchor" id="autotoc_md9"></a>
+<h1><a class="anchor" id="autotoc_md8"></a>
 Releases</h1>
 <p ><a href="https://github.com/teamclouday/Record/releases">Windows Builds</a> </p>
 </div></div><!-- PageDoc -->

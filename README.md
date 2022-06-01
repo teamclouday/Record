@@ -1,6 +1,6 @@
 # Record
 
-<img src="assets/icon.png" width="150" alt="Icon">
+<img src="./assets/icon.png" width="150" alt="Icon">
 
 A cross-platform screen capture application that is able to record a user-defined area on screen.  
 On Linux there is an awesome screen capture application ([Peek](https://github.com/phw/peek)) but on Windows I cannot find anything. That's why this project is created.  
@@ -23,7 +23,7 @@ Current supported platforms are:
 * Linux (X11 backend)  
 * Windows  
 
-Note that on Windows it is a static build, while on Linux it is shared.
+Right now capturing on secondary monitors is not supported yet.
 
 ## Feature Plans
 
@@ -120,6 +120,8 @@ cmake --build . --config Release
 ```
 
 Executable is under `bin` folder
+
+Note that on Windows it is a static build, while on Linux it is shared
 
 ------
 

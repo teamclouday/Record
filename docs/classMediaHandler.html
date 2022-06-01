@@ -77,9 +77,9 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a22ad6d2a68bb2ba84f08bd1560d802ea"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMediaHandler.html#a22ad6d2a68bb2ba84f08bd1560d802ea">ConfigWindow</a> (int x, int y, int w, int h)</td></tr>
-<tr class="memdesc:a22ad6d2a68bb2ba84f08bd1560d802ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure Capture Window.  <a href="classMediaHandler.html#a22ad6d2a68bb2ba84f08bd1560d802ea">More...</a><br /></td></tr>
-<tr class="separator:a22ad6d2a68bb2ba84f08bd1560d802ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a45df64e626aac3d830516bf4b568115f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMediaHandler.html#a45df64e626aac3d830516bf4b568115f">ConfigWindow</a> (int x, int y, int w, int h, int mw, int mh)</td></tr>
+<tr class="memdesc:a45df64e626aac3d830516bf4b568115f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure Capture Window.  <a href="classMediaHandler.html#a45df64e626aac3d830516bf4b568115f">More...</a><br /></td></tr>
+<tr class="separator:a45df64e626aac3d830516bf4b568115f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af59ce24bdcfa04ccd6d9bdd55fe5feef"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMediaHandler.html#af59ce24bdcfa04ccd6d9bdd55fe5feef">StartRecord</a> ()</td></tr>
 <tr class="memdesc:af59ce24bdcfa04ccd6d9bdd55fe5feef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start Recording.  <a href="classMediaHandler.html#af59ce24bdcfa04ccd6d9bdd55fe5feef">More...</a><br /></td></tr>
 <tr class="separator:af59ce24bdcfa04ccd6d9bdd55fe5feef"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -139,8 +139,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>unlockMediaFile</b> (
 <div class="textblock"><p >Media Handler. </p>
 <p >This class handles screen capture and audio recording and saves output to a video file. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="a22ad6d2a68bb2ba84f08bd1560d802ea" name="a22ad6d2a68bb2ba84f08bd1560d802ea"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a22ad6d2a68bb2ba84f08bd1560d802ea">&#9670;&nbsp;</a></span>ConfigWindow()</h2>
+<a id="a45df64e626aac3d830516bf4b568115f" name="a45df64e626aac3d830516bf4b568115f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a45df64e626aac3d830516bf4b568115f">&#9670;&nbsp;</a></span>ConfigWindow()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -167,7 +167,19 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>unlockMediaFile</b> (
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>h</em>&#160;</td>
+          <td class="paramname"><em>h</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>mw</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>mh</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -185,6 +197,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>unlockMediaFile</b> (
     <tr><td class="paramname">y</td><td>Top-left corner on monitor Y-axis </td></tr>
     <tr><td class="paramname">w</td><td>Capture width </td></tr>
     <tr><td class="paramname">h</td><td>Capture height </td></tr>
+    <tr><td class="paramname">mw</td><td>Monitor Width </td></tr>
+    <tr><td class="paramname">mh</td><td>Monitor height </td></tr>
   </table>
   </dd>
 </dl>
