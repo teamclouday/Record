@@ -44,6 +44,7 @@ Right now capturing on secondary monitors is not supported yet.
     - [ ] webm  
     - [x] flv  
     - [x] avi  
+    - [x] apng  
 - [ ] Multi-monitor Support  
 
 ## Demo
