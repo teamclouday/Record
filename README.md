@@ -45,6 +45,7 @@ Right now capturing on secondary monitors is not supported yet.
     - [x] flv  
     - [x] avi  
     - [x] apng  
+    - [x] mpg  
 - [ ] Multi-monitor Support  
 
 ## Demo

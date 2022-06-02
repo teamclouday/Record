@@ -97,7 +97,7 @@ void MediaHandler::SelectOutputPath()
     f.lStructSize = sizeof(OPENFILENAMEA);
     f.hwndOwner = NULL;
     f.lpstrFile = filepath;
-    f.lpstrFilter = "MP4\0*.mp4\0GIF\0*.gif\0WEBM\0*.webm\0MKV\0*.mkv\0MOV\0*.mov\0WMV\0*.wmv\0AVI\0*.avi\0FLV\0*.flv\0APNG\0*.apng\0All Files\0*.*\0\0";
+    f.lpstrFilter = "MP4\0*.mp4\0GIF\0*.gif\0WEBM\0*.webm\0MKV\0*.mkv\0MOV\0*.mov\0WMV\0*.wmv\0AVI\0*.avi\0FLV\0*.flv\0APNG\0*.apng\0MPG\0*.mpg\0All Files\0*.*\0\0";
     f.lpstrTitle = "Set Output File";
     f.nMaxFile = 1024;
     f.lpstrDefExt = "mp4";
@@ -122,7 +122,7 @@ void MediaHandler::SelectOutputPath()
 void MediaHandler::validateOutputFormat()
 {
     const std::vector<std::string> SUPPORT_EXTS = {
-        ".mp4", ".mkv", ".mov", ".wmv", ".gif", ".webm", ".avi", ".flv", ".apng"
+        ".mp4", ".mkv", ".mov", ".wmv", ".gif", ".webm", ".avi", ".flv", ".apng", ".mpg"
     };
     auto ext = fs::path(_outFilePath).extension().string();
     for(auto& sup : SUPPORT_EXTS)
