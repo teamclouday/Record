@@ -196,6 +196,8 @@ void MediaHandler::ConfigWindow(int x, int y, int w, int h, int mw, int mh)
             std::to_string(_rW) + "x" + std::to_string(_rH) + ")",
             MESSAGE_WARN);
     }
+    // fix for H264
+    if(_rH % 2) _rH--;
 }
 
 bool MediaHandler::StartRecord()
