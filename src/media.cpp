@@ -269,6 +269,9 @@ bool MediaHandler::StartRecord()
     _ocodecParams->height = _rH;
     _ocodecParams->bit_rate = _bitrate; // The average bitrate of the encoded data (in bits per second)
     _ocodecParams->codec_id = formatOut->video_codec;
+    // this is a temp fix for webm format to work
+    if(_ocodecParams->codec_id == AV_CODEC_ID_VP9)
+        _ocodecParams->codec_id = AV_CODEC_ID_VP8;
     _ocodecParams->codec_type = AVMEDIA_TYPE_VIDEO;
     _ocodecParams->format = 0;
     _ocodecParams->sample_aspect_ratio = {1, 1};

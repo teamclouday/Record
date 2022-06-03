@@ -35,12 +35,12 @@ Right now capturing on secondary monitors is not supported yet.
 - [x] Better UI Fonts (Hurmit Font)  
 - [ ] Audio Capture  
 - [ ] Microphone Support  
-- [ ] Video Formats:  
+- [x] Video Formats:  
     - [x] mp4  
     - [x] gif  
     - [x] mov  
     - [x] wmv  
-    - [ ] webm  
+    - [x] webm  
     - [x] flv  
     - [x] avi  
     - [x] apng  
