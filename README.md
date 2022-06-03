@@ -51,6 +51,7 @@ Right now capturing on secondary monitors is not supported yet.
 
 A classic "record myself recording" with `apng` format:  
 <img src="./assets/demo.apng" width="400" alt="Demo">  
+This demo output is converted by ffmpeg to enable looping.
 
 ## Dependencies
 
