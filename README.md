@@ -40,19 +40,17 @@ Right now capturing on secondary monitors is not supported yet.
     - [x] gif  
     - [x] mov  
     - [x] wmv  
-    - [x] webm  
     - [x] flv  
     - [x] avi  
-    - [x] apng  
     - [x] mpg  
+    - [x] webm (not supported on Windows build)  
+    - [x] apng (not supported on Windows build)  
 - [ ] Multi-monitor Support  
 
 ## Demo
 
-A classic "record myself recording":  
-<img src="./assets/demo.gif" width="400" alt="Demo">  
-This GIF is further compressed by ImageMagick after recording.  
-But apparently GIFs have bad quality compared to other video formats.  
+A classic "record myself recording" with `apng` format:  
+<img src="./assets/demo.apng" width="400" alt="Demo">  
 
 ## Dependencies
 
