@@ -84,6 +84,7 @@ if(WIN32)
     target_link_libraries(recorder PRIVATE
         avcodec avdevice avfilter avformat avutil
         swresample swscale
+        vpxmd zlibstatic
         comdlg32 mfplat mfuuid strmiids
         secur32 shlwapi vfw32 ws2_32 bcrypt
     )

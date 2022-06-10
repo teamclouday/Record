@@ -44,8 +44,8 @@ Right now capturing on secondary monitors is not supported yet.
     - [x] flv  
     - [x] avi  
     - [x] mpg  
-    - [x] webm (not supported on Windows build)  
-    - [x] apng (not supported on Windows build)  
+    - [x] webm  
+    - [x] apng  
 - [ ] Multi-monitor Support  
 
 ## Demo
