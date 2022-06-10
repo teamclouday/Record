@@ -112,23 +112,27 @@ Feature Plans</h1>
 </li>
 <li>[ ] Microphone Support <br  />
 </li>
-<li>[ ] Video Formats: <br  />
+<li>[ ] Auto fit size to match another window <br  />
+</li>
+<li>[x] Video Formats: <br  />
 <ul>
 <li>[x] mp4 <br  />
 </li>
-<li>[ ] mkv <br  />
-</li>
-<li>[ ] gif <br  />
+<li>[x] gif <br  />
 </li>
 <li>[x] mov <br  />
 </li>
 <li>[x] wmv <br  />
 </li>
-<li>[ ] webm <br  />
-</li>
 <li>[x] flv <br  />
 </li>
 <li>[x] avi <br  />
+</li>
+<li>[x] mpg <br  />
+</li>
+<li>[x] webm (not supported on Windows build) <br  />
+</li>
+<li>[x] apng (not supported on Windows build) <br  />
 </li>
 </ul>
 </li>
@@ -136,6 +140,11 @@ Feature Plans</h1>
 </li>
 </ul>
 <h1><a class="anchor" id="autotoc_md5"></a>
+Demo</h1>
+<p >A classic "record myself recording" with <code>apng</code> format: <br  />
+ <img src="./assets/demo.apng" alt="Demo" width="400" class="inline"/> <br  />
+ This demo output is converted by ffmpeg to enable looping.</p>
+<h1><a class="anchor" id="autotoc_md6"></a>
 Dependencies</h1>
 <ul>
 <li><a href="https://github.com/ocornut/imgui">ImGui</a> <br  />
@@ -179,7 +188,7 @@ The following libs are required for Windows static build, but should all exist i
 <p ><details>
 </details>
 </p>
-<h1><a class="anchor" id="autotoc_md6"></a>
+<h1><a class="anchor" id="autotoc_md7"></a>
 Compilation</h1>
 <p >First pull the repo and run: </p><div class="fragment"><div class="line">git submodule update --init --recursive</div>
 </div><!-- fragment --><p ><details>
@@ -221,7 +230,7 @@ If you are not using X11, run following: </p><div class="fragment"><div class="l
 </div><!-- fragment --><p >Executable is under <code>bin</code> folder</p>
 <p >Note that on Windows it is a static build, while on Linux it is shared</p>
 <hr  />
-<h1><a class="anchor" id="autotoc_md8"></a>
+<h1><a class="anchor" id="autotoc_md9"></a>
 Releases</h1>
 <p ><a href="https://github.com/teamclouday/Record/releases">Windows Builds</a> </p>
 </div></div><!-- PageDoc -->

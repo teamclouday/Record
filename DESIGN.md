@@ -63,3 +63,6 @@ List what features can be added for future development
   Need to warn/prevent  
 * Adjust font size  
   May be useful for users with 4k screen, but not necessary  
+* Auto-scale to a selected window size?  
+  It would be pain to manually change window size to match another window  
+  Should implement this in the future

@@ -35,6 +35,7 @@ Right now capturing on secondary monitors is not supported yet.
 - [x] Better UI Fonts (Hurmit Font)  
 - [ ] Audio Capture  
 - [ ] Microphone Support  
+- [ ] Auto fit size to match another window  
 - [x] Video Formats:  
     - [x] mp4  
     - [x] gif  
