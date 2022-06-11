@@ -315,6 +315,11 @@ bool MediaHandler::StartRecord()
     _ocodecCtx->gop_size = 12; // the number of pictures in a group of pictures
     _ocodecCtx->time_base = {1, _fps};
     _ocodecCtx->framerate = {_fps, 1};
+    // infinite loop for apng
+    if(_ocodecCtx->codec_id == AV_CODEC_ID_APNG)
+    {
+        av_opt_set_int(_ofmtCtx->priv_data, "plays", 0, 0);
+    }
     if(avcodec_open2(_ocodecCtx, codecOut, nullptr) < 0)
     {
         display_message(NAME, "failed to prepare output context", MESSAGE_WARN);
