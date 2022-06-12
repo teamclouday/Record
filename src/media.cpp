@@ -9,13 +9,9 @@
 #include <algorithm>
 #include <cstdio>
 #include <cstring>
-#include <filesystem>
 #include <fstream>
-#include <sstream>
 #include <stdexcept>
 #include <vector>
-
-namespace fs = std::filesystem;
 
 // reference: https://github.com/FFmpeg/FFmpeg/blob/master/doc/examples/muxing.c
 
@@ -112,10 +108,10 @@ void MediaHandler::SelectOutputPath()
     filepath[strlen(filepath) - 1] = 0;
 #else
     // unsupported platform
-    _media->path = fs::absolute(OUTPUT_PATH_DEFAULT).string();
+    _media->setPath(OUTPUT_PATH_DEFAULT);
     display_message(NAME, "unsupported capture platform!", MESSAGE_WARN);
 #endif
-    _media->path = std::string(filepath);
+    _media->setPath(filepath);
     validateOutputFormat();
     if (!initMedia())
     {
@@ -163,7 +159,7 @@ void MediaHandler::validateOutputFormat()
             return;
     }
     display_message(NAME, "unsupported output format " + ext + ", setting to default", MESSAGE_WARN);
-    _media->path = fs::absolute(OUTPUT_PATH_DEFAULT).string();
+    _media->setPath(OUTPUT_PATH_DEFAULT);
 }
 
 bool MediaHandler::lockMediaFile()

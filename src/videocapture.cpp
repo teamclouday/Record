@@ -8,7 +8,7 @@
 // reference:
 // https://stackoverflow.com/questions/70390402/why-ffmpeg-screen-recorder-output-shows-green-screen-only
 
-VideoCapture::VideoCapture()
+VideoCapture::VideoCapture() : _autoBitrate(true)
 {
     _configs = {0, 0, 0, 0, VIDEO_DEFAULT_FPS, VIDEO_DEFAULT_BITRATE};
 }
@@ -47,9 +47,9 @@ bool VideoCapture::closeCapture()
 
 bool VideoCapture::writeFrame(AVFormatContext *oc, bool skip)
 {
-    if (av_read_frame(_ist->fmtCtx, _ist->pkt) < 0 || skip)
+    if (av_read_frame(_ist->fmtCtx, _ist->pkt) < 0)
         return false;
-    if (_ist->pkt->stream_index == _ist->streamIdx)
+    if (_ist->pkt->stream_index == _ist->streamIdx && !skip)
     {
         _ost->samples++;
         if (decode(_ist->decCtx, _ist->frame, _ist->pkt))

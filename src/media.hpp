@@ -10,9 +10,12 @@ extern "C"
 #include "videocapture.hpp"
 
 #include <array>
+#include <filesystem>
 #include <memory>
 #include <string>
 #include <thread>
+
+namespace fs = std::filesystem;
 
 /** @file */
 
@@ -36,16 +39,20 @@ struct MediaOutput
     std::string path;
     bool canAudio;
 
-    MediaOutput()
-        : fmtCtx(nullptr), x(0), y(0), w(0), h(0), framesSkip(OUTPUT_FRAMES_SKIP), path(OUTPUT_PATH_DEFAULT),
-          canAudio(true)
+    MediaOutput() : fmtCtx(nullptr), x(0), y(0), w(0), h(0), framesSkip(OUTPUT_FRAMES_SKIP), canAudio(true)
     {
+        setPath(OUTPUT_PATH_DEFAULT);
     }
 
     ~MediaOutput()
     {
         if (fmtCtx)
             avformat_free_context(fmtCtx);
+    }
+
+    void setPath(const std::string &newPath)
+    {
+        path = fs::absolute(newPath).string();
     }
 };
 
