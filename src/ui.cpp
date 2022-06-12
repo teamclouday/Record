@@ -1,6 +1,10 @@
+#include <imgui.h>
+
+#include "audiocapture.hpp"
 #include "context.hpp"
 #include "media.hpp"
-#include <imgui.h>
+#include "videocapture.hpp"
+
 #include <string>
 
 void AppContext::UI()
@@ -13,24 +17,53 @@ void AppContext::UI()
     ImGui::DragInt("Border Width", &_borderNumPixels, 1, 1, 50);
     ImGui::ColorEdit3("Border Color", _borderColor.data());
     ImGui::Separator();
-    if(ImGui::CollapsingHeader("Control"))
+    if (ImGui::CollapsingHeader("Control"))
     {
-        if(ImGui::TreeNode("ESC")){ImGui::Text("Exit Application"); ImGui::TreePop();}
-        if(ImGui::TreeNode("F11")){ImGui::Text("Maximize Window"); ImGui::TreePop();}
+        if (ImGui::TreeNode("ESC"))
+        {
+            ImGui::Text("Exit Application");
+            ImGui::TreePop();
+        }
+        if (ImGui::TreeNode("F11"))
+        {
+            ImGui::Text("Maximize Window");
+            ImGui::TreePop();
+        }
         auto hotkey = "CTRL+F" + std::to_string(_hotkeyNum);
-        if(ImGui::TreeNode(hotkey.c_str())){ImGui::Text("Toggle Recording"); ImGui::TreePop();}
+        if (ImGui::TreeNode(hotkey.c_str()))
+        {
+            ImGui::Text("Toggle Recording");
+            ImGui::TreePop();
+        }
     }
 }
 
 void MediaHandler::UI()
 {
     ImGui::Text("Output File Path:");
-    ImGui::TextWrapped(_outFilePath.c_str());
-    if(ImGui::Button("Set File"))
+    ImGui::TextWrapped(_media->path.c_str());
+    if (ImGui::Button("Set File"))
         SelectOutputPath();
-    ImGui::DragInt("FPS", &_fps, 5, 5, 60);
-    ImGui::DragInt("Skip Frames", &_skipFrames, 1, 0, 100);
-    ImGui::Checkbox("Auto Bit Rate", &_bitrateAuto);
-    if(!_bitrateAuto) ImGui::DragInt("Bit Rate", &_bitrate, 10000, 10000, 10000000);
+    ImGui::DragInt("Skip Frames", &_media->framesSkip, 1, 0, 100);
     ImGui::Separator();
+    if (ImGui::CollapsingHeader("Video"))
+    {
+        _video->UI();
+    }
+    if (_media->canAudio && ImGui::CollapsingHeader("Audio"))
+    {
+        _audio->UI();
+    }
+}
+
+void VideoCapture::UI()
+{
+    ImGui::DragInt("FPS", &_configs[4], 5, 5, 60);
+    ImGui::Checkbox("Auto Bit Rate", &_autoBitrate);
+    if (!_autoBitrate)
+        ImGui::DragInt("Bit Rate", &_configs[5], 10000, 10000, 10000000);
+}
+
+void AudioCapture::UI()
+{
 }
