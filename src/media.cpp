@@ -7,11 +7,14 @@
 #include "utils.hpp"
 
 #include <algorithm>
+#include <chrono>
 #include <cstdio>
 #include <cstring>
 #include <fstream>
 #include <stdexcept>
 #include <vector>
+
+using sysclock = std::chrono::system_clock;
 
 // reference: https://github.com/FFmpeg/FFmpeg/blob/master/doc/examples/muxing.c
 
@@ -47,6 +50,8 @@ void MediaHandler::ConfigWindow(int x, int y, int w, int h, int mw, int mh)
     // fix for H264
     if (_media->h % 2)
         _media->h--;
+    if (_media->w % 2)
+        _media->w--;
 }
 
 bool MediaHandler::StartRecord()
@@ -59,7 +64,8 @@ bool MediaHandler::StartRecord()
     // init video
     success = success && _video->openCapture(_media->fmtCtx, {_media->x, _media->y, _media->w, _media->h});
     // init audio
-    success = success && (!_media->canAudio || _audio->openCapture(_media->fmtCtx));
+    if (_media->canAudio)
+        success = success && _audio->openCapture(_media->fmtCtx);
     // open file
     success = success && openMedia();
     if (!success)
@@ -128,19 +134,30 @@ bool MediaHandler::IsRecording()
 void MediaHandler::recordInternal()
 {
     _recording = true;
-    // delay
-    display_message(NAME, "started recording", MESSAGE_INFO);
+    // delay info
+    if (_media->skipTime)
+        display_message(NAME, "skip time (ms) on start: " + std::to_string(_media->skipTime), MESSAGE_INFO);
     // start reading frames
-    int64_t frameCount = -_media->framesSkip;
-    bool videoRead = true, audioRead = true, skip;
+    auto startT = sysclock::now();
+    bool videoRead = true, audioRead = true, skip = true;
     do
     {
-        skip = frameCount < 0;
-        videoRead = _video->writeFrame(_media->fmtCtx, skip);
-        audioRead = _audio->writeFrame(_media->fmtCtx, skip);
         if (skip)
-            frameCount++;
+        {
+            if (std::chrono::duration_cast<std::chrono::milliseconds>(sysclock::now() - startT).count() >
+                _media->skipTime)
+            {
+                // delay
+                display_message(NAME, "started recording", MESSAGE_INFO);
+                skip = false;
+            }
+        }
+        videoRead = _video->writeFrame(_media->fmtCtx, skip, false);
+        audioRead = _audio->writeFrame(_media->fmtCtx, skip, false);
     } while ((videoRead || audioRead) && _recordLoop);
+    // flush outputs
+    _video->writeFrame(_media->fmtCtx, false, true);
+    _audio->writeFrame(_media->fmtCtx, false, true);
     closeMedia();
     display_message(NAME, "stopped recording", MESSAGE_INFO);
     display_message(NAME, "output saved to " + _media->path, MESSAGE_INFO);
@@ -232,10 +249,13 @@ bool MediaHandler::initMedia()
 
 bool MediaHandler::openMedia()
 {
-    if (avio_open(&_media->fmtCtx->pb, _media->path.c_str(), AVIO_FLAG_WRITE) < 0)
+    if (!(_media->fmtCtx->oformat->flags & AVFMT_NOFILE))
     {
-        display_message(NAME, "failed to open " + _media->path, MESSAGE_WARN);
-        return false;
+        if (avio_open(&_media->fmtCtx->pb, _media->path.c_str(), AVIO_FLAG_WRITE) < 0)
+        {
+            display_message(NAME, "failed to open " + _media->path, MESSAGE_WARN);
+            return false;
+        }
     }
     if (avformat_write_header(_media->fmtCtx, nullptr) < 0)
     {
@@ -250,5 +270,7 @@ bool MediaHandler::closeMedia()
 {
     if (av_write_trailer(_media->fmtCtx) != 0)
         display_message(NAME, "failed to write trailer to " + _media->path, MESSAGE_WARN);
+    if (!(_media->fmtCtx->oformat->flags & AVFMT_NOFILE))
+        avio_closep(&_media->fmtCtx->pb);
     return true;
 }

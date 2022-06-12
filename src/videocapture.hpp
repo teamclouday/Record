@@ -61,10 +61,11 @@ class VideoCapture
      *
      * @param oc Output format context
      * @param skip Whether to skip writing current frame
+     * @param flush Whether to flush output with empty packets
      * @return true if success
      * @return false otherwise
      */
-    bool writeFrame(AVFormatContext *oc, bool skip);
+    bool writeFrame(AVFormatContext *oc, bool skip, bool flush);
 
     /**
      * @brief UI Calls
@@ -86,15 +87,15 @@ class VideoCapture
     bool configOStream(AVFormatContext *oc);
 
     /// Decode frame from input stream packet
-    bool decode(AVCodecContext *codecCtx, AVFrame *frame, AVPacket *pkt);
+    bool decode(AVCodecContext *codecCtx, AVFrame *frame, AVPacket *pkt, bool &packetSent);
 
     /// Encode frame to output stream packet
-    bool encode(AVCodecContext *codecCtx, AVFrame *frame, AVPacket *pkt);
+    bool encode(AVCodecContext *codecCtx, AVFrame *frame, AVPacket *pkt, bool &frameSent);
 
     std::unique_ptr<InputStream> _ist;
     std::unique_ptr<OutputStream> _ost;
 
     // x, y, w, h, fps, bitrate
     std::array<int, 6> _configs;
-    bool _autoBitrate;
+    bool _autoBitRate;
 };

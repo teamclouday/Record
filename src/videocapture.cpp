@@ -8,7 +8,7 @@
 // reference:
 // https://stackoverflow.com/questions/70390402/why-ffmpeg-screen-recorder-output-shows-green-screen-only
 
-VideoCapture::VideoCapture() : _autoBitrate(true)
+VideoCapture::VideoCapture() : _autoBitRate(true)
 {
     _configs = {0, 0, 0, 0, VIDEO_DEFAULT_FPS, VIDEO_DEFAULT_BITRATE};
 }
@@ -45,30 +45,33 @@ bool VideoCapture::closeCapture()
     return true;
 }
 
-bool VideoCapture::writeFrame(AVFormatContext *oc, bool skip)
+bool VideoCapture::writeFrame(AVFormatContext *oc, bool skip, bool flush)
 {
     if (av_read_frame(_ist->fmtCtx, _ist->pkt) < 0)
         return false;
-    if (_ist->pkt->stream_index == _ist->streamIdx && !skip)
+    if (_ist->pkt->stream_index == _ist->streamIdx)
     {
-        _ost->samples++;
-        if (decode(_ist->decCtx, _ist->frame, _ist->pkt))
+        if (flush)
+            av_packet_unref(_ist->pkt);
+        av_frame_make_writable(_ost->frame);
+        bool packetSent = false;
+        while (decode(_ist->decCtx, _ist->frame, _ist->pkt, packetSent))
         {
-            av_frame_make_writable(_ost->frame);
             sws_scale(_ost->swsCtx, _ist->frame->data, _ist->frame->linesize, 0, _ist->decCtx->height,
                       _ost->frame->data, _ost->frame->linesize);
-            _ost->pkt->data = nullptr;
-            _ost->pkt->size = 0;
             _ost->frame->pts = _ost->samples;
-            if (encode(_ost->encCtx, _ost->frame, _ost->pkt))
+            bool frameSent = false;
+            while (encode(_ost->encCtx, _ost->frame, _ost->pkt, frameSent))
             {
                 av_packet_rescale_ts(_ost->pkt, _ost->encCtx->time_base, _ost->st->time_base);
                 _ost->pkt->stream_index = _ost->st->index;
-                if (av_interleaved_write_frame(oc, _ost->pkt) != 0)
+                if (!skip && av_interleaved_write_frame(oc, _ost->pkt) != 0)
                     display_message(NAME, "failed to write frame", MESSAGE_WARN);
                 av_packet_unref(_ost->pkt);
             }
+            _ost->samples++;
         }
+        av_packet_unref(_ist->pkt);
     }
     return true;
 }
@@ -207,8 +210,8 @@ bool VideoCapture::configOStream(AVFormatContext *oc)
             display_message(NAME, "failed to allocate codec params", MESSAGE_WARN);
             return false;
         }
-        if (_autoBitrate)
-            _configs[5] = _configs[2] * _configs[3] * _configs[4] * 8;
+        if (_autoBitRate)
+            _configs[5] = _configs[2] * _configs[3] * _configs[4];
         param->width = _configs[2];
         param->height = _configs[3];
         param->bit_rate = _configs[5];
@@ -325,38 +328,29 @@ bool VideoCapture::configOStream(AVFormatContext *oc)
     return true;
 }
 
-bool VideoCapture::decode(AVCodecContext *codecCtx, AVFrame *frame, AVPacket *pkt)
+bool VideoCapture::decode(AVCodecContext *codecCtx, AVFrame *frame, AVPacket *pkt, bool &packetSent)
 {
     int ret;
     char buf[512];
-    if ((ret = avcodec_send_packet(codecCtx, pkt)) < 0)
+    if (!packetSent && (ret = avcodec_send_packet(codecCtx, pkt)) < 0)
     {
         display_message(NAME, "decoder packet (" + std::string(av_make_error_string(buf, 512, ret)) + ")",
                         MESSAGE_WARN);
         return false;
     }
-    if ((ret = avcodec_receive_frame(codecCtx, frame)) < 0)
-    {
-        display_message(NAME, "decoder frame (" + std::string(av_make_error_string(buf, 512, ret)) + ")", MESSAGE_WARN);
-        return false;
-    }
-    return true;
+    packetSent = true;
+    return avcodec_receive_frame(codecCtx, frame) >= 0;
 }
 
-bool VideoCapture::encode(AVCodecContext *codecCtx, AVFrame *frame, AVPacket *pkt)
+bool VideoCapture::encode(AVCodecContext *codecCtx, AVFrame *frame, AVPacket *pkt, bool &frameSent)
 {
     int ret;
     char buf[512];
-    if ((ret = avcodec_send_frame(codecCtx, frame) < 0))
+    if (!frameSent && (ret = avcodec_send_frame(codecCtx, frame) < 0))
     {
         display_message(NAME, "encoder frame (" + std::string(av_make_error_string(buf, 512, ret)) + ")", MESSAGE_WARN);
         return false;
     }
-    if ((ret = avcodec_receive_packet(codecCtx, pkt)) < 0)
-    {
-        display_message(NAME, "encoder packet (" + std::string(av_make_error_string(buf, 512, ret)) + ")",
-                        MESSAGE_WARN);
-        return false;
-    }
-    return true;
+    frameSent = true;
+    return avcodec_receive_packet(codecCtx, pkt) >= 0;
 }

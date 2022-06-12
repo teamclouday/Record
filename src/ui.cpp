@@ -44,7 +44,7 @@ void MediaHandler::UI()
     ImGui::TextWrapped(_media->path.c_str());
     if (ImGui::Button("Set File"))
         SelectOutputPath();
-    ImGui::DragInt("Skip Frames", &_media->framesSkip, 1, 0, 100);
+    ImGui::DragInt("Skip Time (ms)", &_media->skipTime, 10, 0, 10000);
     ImGui::Separator();
     if (ImGui::CollapsingHeader("Video"))
     {
@@ -59,11 +59,55 @@ void MediaHandler::UI()
 void VideoCapture::UI()
 {
     ImGui::DragInt("FPS", &_configs[4], 5, 5, 60);
-    ImGui::Checkbox("Auto Bit Rate", &_autoBitrate);
-    if (!_autoBitrate)
+    ImGui::Checkbox("Auto Bit Rate", &_autoBitRate);
+    if (!_autoBitRate)
         ImGui::DragInt("Bit Rate", &_configs[5], 10000, 10000, 10000000);
 }
 
 void AudioCapture::UI()
 {
+    ImGui::DragInt("Sample Rate", &_sampleRate, 100, 8000, 100000);
+    ImGui::Checkbox("Auto Bit Rate", &_autoBitRate);
+    if (!_autoBitRate)
+        ImGui::DragInt("Bit Rate", &_bitRate, 100, 100, 400000);
+    ImGui::Checkbox("Capture Audio", &_captureOut);
+    ImGui::Checkbox("Capture Mic", &_captureMic);
+#if __linux__
+    if (_captureOut)
+    {
+        ImGui::Separator();
+        if (ImGui::TreeNode("Audio Devices"))
+        {
+            for (auto &data : _pulse->outDevices)
+            {
+                ImGui::PushID(data.second);
+                ImGui::RadioButton(("ID = " + std::to_string(data.second)).c_str(), &_pulse->outIdx, data.second);
+                ImGui::Indent(50.0f);
+                ImGui::TextWrapped(data.first.c_str());
+                ImGui::Unindent(50.0f);
+                ImGui::PopID();
+            }
+            ImGui::TreePop();
+        }
+    }
+    if (_captureMic)
+    {
+        ImGui::Separator();
+        if (ImGui::TreeNode("Mic Devices"))
+        {
+            for (auto &data : _pulse->micDevices)
+            {
+                ImGui::PushID(data.second);
+                ImGui::RadioButton(("ID = " + std::to_string(data.second)).c_str(), &_pulse->micIdx, data.second);
+                ImGui::Indent(50.0f);
+                ImGui::TextWrapped(data.first.c_str());
+                ImGui::Unindent(50.0f);
+                ImGui::PopID();
+            }
+            ImGui::TreePop();
+        }
+    }
+    if (ImGui::Button("Refresh Devices"))
+        _pulse->refresh();
+#endif
 }

@@ -19,8 +19,8 @@ namespace fs = std::filesystem;
 
 /** @file */
 
-/// Video skip frames at beginning
-#define OUTPUT_FRAMES_SKIP 10
+/// Video skip milliseconds at beginning
+#define OUTPUT_SKIP_TIME 1000
 
 /// Video default output path
 #define OUTPUT_PATH_DEFAULT "out.mp4"
@@ -34,11 +34,11 @@ struct MediaOutput
 {
     AVFormatContext *fmtCtx;
     int32_t x, y, w, h;
-    int32_t framesSkip;
+    int32_t skipTime;
     std::string path;
     bool canAudio;
 
-    MediaOutput() : fmtCtx(nullptr), x(0), y(0), w(0), h(0), framesSkip(OUTPUT_FRAMES_SKIP), canAudio(true)
+    MediaOutput() : fmtCtx(nullptr), x(0), y(0), w(0), h(0), skipTime(OUTPUT_SKIP_TIME), canAudio(true)
     {
         setPath(OUTPUT_PATH_DEFAULT);
     }

@@ -20,6 +20,10 @@ endif()
 add_definitions(-DUNICODE)
 add_definitions(-D_UNICODE)
 add_definitions(-DGLEW_STATIC)
+add_definitions(-D__STDC_CONSTANT_MACROS)
+
+SET(CMAKE_FIND_PACKAGE_SORT_ORDER NATURAL)
+SET(CMAKE_FIND_PACKAGE_SORT_DIRECTION DEC)
 
 find_package(OpenGL REQUIRED)
 
@@ -91,13 +95,18 @@ if(WIN32)
 elseif(UNIX)
     find_package(LibAV REQUIRED)
     find_package(X11 REQUIRED)
+    find_package(PkgConfig REQUIRED)
+    find_package(PulseAudio REQUIRED)
     target_include_directories(recorder PRIVATE
         ${LIBAV_INCLUDE_DIRS}
         ${X11_INCLUDE_DIRS}
+        ${PULSEAUDIO_INCLUDE_DIRS}
     )
+    message(STATUS ${CMAKE_MODULE_PATH})
     target_link_libraries(recorder PRIVATE
         ${LIBAV_LIBRARIES}
         ${X11_LIBRARIES}
+        ${PULSEAUDIO_LIBRARIES}
     )
 else()
     message(FATAL_ERROR "Unsupported platform for libav!")

@@ -3,6 +3,7 @@ extern "C"
 {
 #include <libavcodec/avcodec.h>
 #include <libavdevice/avdevice.h>
+#include <libavfilter/avfilter.h>
 #include <libavformat/avformat.h>
 #include <libswresample/swresample.h>
 #include <libswscale/swscale.h>
@@ -74,5 +75,29 @@ struct OutputStream
             sws_freeContext(swsCtx);
         if (swrCtx)
             swr_free(&swrCtx);
+    }
+};
+
+/**
+ * @brief Filter Stream
+ *
+ * This structure stores audio filter info.
+ */
+struct FilterStream
+{
+    AVFilterGraph *graph;
+    AVFilterContext *mixCtx;
+    AVFilterContext *bufOutCtx;
+    AVFilterContext *bufMicCtx;
+    AVFilterContext *sinkCtx;
+
+    FilterStream() : graph(nullptr), mixCtx(nullptr), bufOutCtx(nullptr), bufMicCtx(nullptr), sinkCtx(nullptr)
+    {
+    }
+
+    ~FilterStream()
+    {
+        if (graph)
+            avfilter_graph_free(&graph);
     }
 };
