@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['prepareborder_0',['prepareBorder',['../classAppContext.html#a2fe17f68a84fb5daea8c631c5e3b3035',1,'AppContext']]],
-  ['prepareparams_1',['prepareParams',['../classMediaHandler.html#a04293af3718012c7fd26d41c0492abf3',1,'MediaHandler']]],
-  ['println_2',['println',['../utils_8hpp.html#ad9bb897dd5c44e9297df8a5ff1626a87',1,'utils.hpp']]]
+  ['record_0',['Record',['../index.html',1,'']]],
+  ['recordinternal_1',['recordInternal',['../classMediaHandler.html#a3f4b7f4ba8e3e7e956b92d4d859cf13d',1,'MediaHandler']]],
+  ['registerhotkey_2',['registerHotKey',['../classAppContext.html#a6a959a44d70174c36e32eab15c146a8a',1,'AppContext']]]
 ];

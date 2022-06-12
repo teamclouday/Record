@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['opencapture_0',['openCapture',['../classMediaHandler.html#a5e6c5197dfa62b8d84641373d7c32fb5',1,'MediaHandler']]]
+  ['prepareborder_0',['prepareBorder',['../classAppContext.html#a2fe17f68a84fb5daea8c631c5e3b3035',1,'AppContext']]],
+  ['println_1',['println',['../utils_8hpp.html#a0fd2233d8de15c33198188937626d733',1,'utils.hpp']]]
 ];

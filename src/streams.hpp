@@ -16,7 +16,6 @@ extern "C"
  * @brief Input Stream
  *
  * This structure stores input stream info.
- *
  */
 struct InputStream
 {
@@ -47,7 +46,6 @@ struct InputStream
  * @brief Output Stream
  *
  * This structure stores output stream info.
- *
  */
 struct OutputStream
 {

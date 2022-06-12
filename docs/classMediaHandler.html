@@ -98,30 +98,10 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
-<tr class="memitem:a5e6c5197dfa62b8d84641373d7c32fb5"><td class="memItemLeft" align="right" valign="top"><a id="a5e6c5197dfa62b8d84641373d7c32fb5" name="a5e6c5197dfa62b8d84641373d7c32fb5"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>openCapture</b> ()</td></tr>
-<tr class="memdesc:a5e6c5197dfa62b8d84641373d7c32fb5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Open screen capture. <br /></td></tr>
-<tr class="separator:a5e6c5197dfa62b8d84641373d7c32fb5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a04293af3718012c7fd26d41c0492abf3"><td class="memItemLeft" align="right" valign="top"><a id="a04293af3718012c7fd26d41c0492abf3" name="a04293af3718012c7fd26d41c0492abf3"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>prepareParams</b> ()</td></tr>
-<tr class="memdesc:a04293af3718012c7fd26d41c0492abf3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prepare capture parameters. <br /></td></tr>
-<tr class="separator:a04293af3718012c7fd26d41c0492abf3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0b3b8e614ca62d29c789ceab82882b96"><td class="memItemLeft" align="right" valign="top"><a id="a0b3b8e614ca62d29c789ceab82882b96" name="a0b3b8e614ca62d29c789ceab82882b96"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>freeLibAV</b> ()</td></tr>
-<tr class="memdesc:a0b3b8e614ca62d29c789ceab82882b96"><td class="mdescLeft">&#160;</td><td class="mdescRight">free variables related to LibAV <br /></td></tr>
-<tr class="separator:a0b3b8e614ca62d29c789ceab82882b96"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3f4b7f4ba8e3e7e956b92d4d859cf13d"><td class="memItemLeft" align="right" valign="top"><a id="a3f4b7f4ba8e3e7e956b92d4d859cf13d" name="a3f4b7f4ba8e3e7e956b92d4d859cf13d"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>recordInternal</b> ()</td></tr>
 <tr class="memdesc:a3f4b7f4ba8e3e7e956b92d4d859cf13d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Internal record process. <br /></td></tr>
 <tr class="separator:a3f4b7f4ba8e3e7e956b92d4d859cf13d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a02c6f16692dab13309f614e826839ec9"><td class="memItemLeft" align="right" valign="top"><a id="a02c6f16692dab13309f614e826839ec9" name="a02c6f16692dab13309f614e826839ec9"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>decodeVideo</b> (AVCodecContext *icodecCtx, AVFrame *iframe, AVPacket *ipacket)</td></tr>
-<tr class="memdesc:a02c6f16692dab13309f614e826839ec9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Helper function to decode video frame. <br /></td></tr>
-<tr class="separator:a02c6f16692dab13309f614e826839ec9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0c17fa68b7859ec780ff58e4e5850d13"><td class="memItemLeft" align="right" valign="top"><a id="a0c17fa68b7859ec780ff58e4e5850d13" name="a0c17fa68b7859ec780ff58e4e5850d13"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>encodeVideo</b> (AVCodecContext *ocodecCtx, AVFrame *oframe, AVPacket *opacket)</td></tr>
-<tr class="memdesc:a0c17fa68b7859ec780ff58e4e5850d13"><td class="mdescLeft">&#160;</td><td class="mdescRight">Helper function to encode video frame. <br /></td></tr>
-<tr class="separator:a0c17fa68b7859ec780ff58e4e5850d13"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9518532ee10a6994ec19417ea6ac8978"><td class="memItemLeft" align="right" valign="top"><a id="a9518532ee10a6994ec19417ea6ac8978" name="a9518532ee10a6994ec19417ea6ac8978"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>validateOutputFormat</b> ()</td></tr>
 <tr class="memdesc:a9518532ee10a6994ec19417ea6ac8978"><td class="mdescLeft">&#160;</td><td class="mdescRight">Validate selected output file format. <br /></td></tr>
@@ -134,6 +114,18 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>lockMediaFile</b> ()<
 void&#160;</td><td class="memItemRight" valign="bottom"><b>unlockMediaFile</b> ()</td></tr>
 <tr class="memdesc:a0088e4be07e724e93408e90eef76ab91"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unlock file after recording stop. <br /></td></tr>
 <tr class="separator:a0088e4be07e724e93408e90eef76ab91"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a90652385ff6247dfd06e3036823a17e3"><td class="memItemLeft" align="right" valign="top"><a id="a90652385ff6247dfd06e3036823a17e3" name="a90652385ff6247dfd06e3036823a17e3"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>initMedia</b> ()</td></tr>
+<tr class="memdesc:a90652385ff6247dfd06e3036823a17e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Init media output parameters. <br /></td></tr>
+<tr class="separator:a90652385ff6247dfd06e3036823a17e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6b00638ea590459fb6a47a36a84a1068"><td class="memItemLeft" align="right" valign="top"><a id="a6b00638ea590459fb6a47a36a84a1068" name="a6b00638ea590459fb6a47a36a84a1068"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>openMedia</b> ()</td></tr>
+<tr class="memdesc:a6b00638ea590459fb6a47a36a84a1068"><td class="mdescLeft">&#160;</td><td class="mdescRight">Open media file and write header. <br /></td></tr>
+<tr class="separator:a6b00638ea590459fb6a47a36a84a1068"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adf1ca08888385a3a3db5bc0c9512fee4"><td class="memItemLeft" align="right" valign="top"><a id="adf1ca08888385a3a3db5bc0c9512fee4" name="adf1ca08888385a3a3db5bc0c9512fee4"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>closeMedia</b> ()</td></tr>
+<tr class="memdesc:adf1ca08888385a3a3db5bc0c9512fee4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Close media file. <br /></td></tr>
+<tr class="separator:adf1ca08888385a3a3db5bc0c9512fee4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Media Handler. </p>

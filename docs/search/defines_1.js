@@ -1,7 +1,5 @@
 var searchData=
 [
-  ['video_5fdefault_5fbitrate_0',['VIDEO_DEFAULT_BITRATE',['../media_8hpp.html#a53498c8c33136a14f6c08dd145d8a8ea',1,'media.hpp']]],
-  ['video_5fdefault_5ffps_1',['VIDEO_DEFAULT_FPS',['../media_8hpp.html#a4d5bd0728f4be2af0c170f02cec39c10',1,'media.hpp']]],
-  ['video_5fdefault_5foutput_2',['VIDEO_DEFAULT_OUTPUT',['../media_8hpp.html#a591b7089e431a06581a925b32459560c',1,'media.hpp']]],
-  ['video_5fframes_5fskip_3',['VIDEO_FRAMES_SKIP',['../media_8hpp.html#a43f5e00315c69e4729a9817137481826',1,'media.hpp']]]
+  ['output_5fframes_5fskip_0',['OUTPUT_FRAMES_SKIP',['../media_8hpp.html#ae21a9242a79dea0a2ea86add125d5715',1,'media.hpp']]],
+  ['output_5fpath_5fdefault_1',['OUTPUT_PATH_DEFAULT',['../media_8hpp.html#a6d7e10987946ef1008c8ea518d077b2b',1,'media.hpp']]]
 ];

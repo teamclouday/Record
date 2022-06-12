@@ -29,7 +29,6 @@ namespace fs = std::filesystem;
  * @brief Media Output
  *
  * This structure stores media output info.
- *
  */
 struct MediaOutput
 {
@@ -50,6 +49,11 @@ struct MediaOutput
             avformat_free_context(fmtCtx);
     }
 
+    /**
+     * @brief Set Output File to Absolute Path
+     *
+     * @param newPath New output path
+     */
     void setPath(const std::string &newPath)
     {
         path = fs::absolute(newPath).string();
@@ -138,13 +142,13 @@ class MediaHandler
     /// Unlock file after recording stop
     void unlockMediaFile();
 
-    /// init media output parameters
+    /// Init media output parameters
     bool initMedia();
 
-    /// open media file
+    /// Open media file and write header
     bool openMedia();
 
-    /// close media file
+    /// Close media file
     bool closeMedia();
 
     std::unique_ptr<VideoCapture> _video;

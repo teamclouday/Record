@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['encodevideo_0',['encodeVideo',['../classMediaHandler.html#a0c17fa68b7859ec780ff58e4e5850d13',1,'MediaHandler']]]
+  ['encode_0',['encode',['../classVideoCapture.html#a170f5aad9a3aad2aa721482cff989420',1,'VideoCapture']]]
 ];
