@@ -374,7 +374,7 @@ bool AudioCapture::configFilter()
             display_message(NAME, "failed to create sink filter", MESSAGE_WARN);
             return false;
         }
-        const enum AVSampleFormat out_fmts[] = {AV_SAMPLE_FMT_S16, AV_SAMPLE_FMT_NONE};
+        const enum AVSampleFormat out_fmts[] = {AV_SAMPLE_FMT_FLTP, AV_SAMPLE_FMT_NONE};
         const int64_t out_layouts[] = {AV_CH_LAYOUT_STEREO, -1};
         const int out_srs[] = {_sampleRate, -1};
         av_opt_set_int_list(_filter->sinkCtx, "sample_fmts", out_fmts, -1, AV_OPT_SEARCH_CHILDREN);
