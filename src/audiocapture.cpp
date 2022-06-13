@@ -97,13 +97,16 @@ bool AudioCapture::writeFrame(AVFormatContext *oc, bool skip, bool flush)
             else
             {
                 av_frame_make_writable(_ost->frame);
-                if (swr_convert(_ost->swrCtx, _ost->frame->data, _ost->frame->nb_samples,
-                                const_cast<const uint8_t **>(_istOut->frame->data), _istOut->frame->nb_samples) >= 0)
+                if ((nb_samples = swr_convert(_ost->swrCtx, _ost->frame->data, _ost->frame->nb_samples,
+                                              const_cast<const uint8_t **>(_istOut->frame->data),
+                                              _istOut->frame->nb_samples) >= 0))
                 {
+                    writePacket(oc);
+                    _ost->samples += nb_samples;
                     while (swr_get_delay(_ost->swrCtx, _ost->encCtx->sample_rate) > _ost->frame->nb_samples)
                     {
-                        if ((nb_samples =
-                                 swr_convert(_ost->swrCtx, _ost->frame->data, _ost->frame->nb_samples, nullptr, 0)) < 0)
+                        if ((nb_samples = swr_convert(_ost->swrCtx, _ost->frame->data, _ost->frame->nb_samples, nullptr,
+                                                      0)) <= 0)
                             break;
                         writePacket(oc);
                         _ost->samples += nb_samples;
@@ -128,9 +131,12 @@ bool AudioCapture::writeFrame(AVFormatContext *oc, bool skip, bool flush)
             else
             {
                 av_frame_make_writable(_ost->frame);
-                if (swr_convert(_ost->swrCtx, _ost->frame->data, _ost->frame->nb_samples,
-                                const_cast<const uint8_t **>(_istMic->frame->data), _istMic->frame->nb_samples) >= 0)
+                if ((nb_samples = swr_convert(_ost->swrCtx, _ost->frame->data, _ost->frame->nb_samples,
+                                              const_cast<const uint8_t **>(_istMic->frame->data),
+                                              _istMic->frame->nb_samples) >= 0))
                 {
+                    writePacket(oc);
+                    _ost->samples += nb_samples;
                     while (swr_get_delay(_ost->swrCtx, _ost->encCtx->sample_rate) > _ost->frame->nb_samples)
                     {
                         if ((nb_samples =
@@ -178,7 +184,8 @@ bool AudioCapture::openDevice(bool isMic)
     return false;
 #endif
     auto formatIn = av_find_input_format(captureSource.c_str());
-    if (0 != avformat_open_input(&_istOut->fmtCtx, captureURL.c_str(), formatIn, nullptr))
+    auto ist = isMic ? _istMic.get() : _istOut.get();
+    if (0 != avformat_open_input(&ist->fmtCtx, captureURL.c_str(), formatIn, nullptr))
     {
         display_message(NAME, "failed to open capture source " + captureSource, MESSAGE_WARN);
         return false;

@@ -20,7 +20,7 @@ extern "C"
 /** @file */
 
 /// Audio capture default sample rate
-#define AUDIO_DEFAULT_SAMPLE_RATE 44100
+#define AUDIO_DEFAULT_SAMPLE_RATE 16000
 
 /// Audio capture default bit rate
 #define AUDIO_DEFAULT_BITRATE 64000
