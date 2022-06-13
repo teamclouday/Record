@@ -60,7 +60,7 @@ bool MediaHandler::StartRecord()
     // av_log_set_level(AV_LOG_TRACE);
     bool success = true;
     // try to lock output file
-    success = success && lockMediaFile();
+    // success = success && lockMediaFile();
     // init video
     success = success && _video->openCapture(_media->fmtCtx, {_media->x, _media->y, _media->w, _media->h});
     // init audio

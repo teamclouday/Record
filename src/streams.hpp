@@ -90,8 +90,10 @@ struct FilterStream
     AVFilterContext *bufOutCtx;
     AVFilterContext *bufMicCtx;
     AVFilterContext *sinkCtx;
+    AVFrame *frame;
 
-    FilterStream() : graph(nullptr), mixCtx(nullptr), bufOutCtx(nullptr), bufMicCtx(nullptr), sinkCtx(nullptr)
+    FilterStream()
+        : graph(nullptr), mixCtx(nullptr), bufOutCtx(nullptr), bufMicCtx(nullptr), sinkCtx(nullptr), frame(nullptr)
     {
     }
 
@@ -99,5 +101,7 @@ struct FilterStream
     {
         if (graph)
             avfilter_graph_free(&graph);
+        if (frame)
+            av_frame_free(&frame);
     }
 };

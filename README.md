@@ -2,7 +2,7 @@
 
 <img src="./assets/icon.png" width="150" alt="Icon">
 
-A cross-platform screen capture application that is able to record a user-defined area on screen.  
+A cross-platform screen capture application that is able to record a user-defined area on screen. Depending on the output format, audio (& mic) capture is also supported.  
 On Linux there is an awesome screen capture application ([Peek](https://github.com/phw/peek)) but on Windows I cannot find anything. That's why this project is created.  
 
 ------
@@ -33,8 +33,8 @@ Right now capturing on secondary monitors is not supported yet.
 - [x] App Icon  
 - [x] Media File Multi-Access Protection  
 - [x] Better UI Fonts (Hurmit Font)  
-- [ ] Audio Capture  
-- [ ] Microphone Support  
+- [x] Audio Capture  
+- [x] Microphone Support  
 - [ ] Auto fit size to match another window  
 - [x] Video Formats:  
     - [x] mp4  

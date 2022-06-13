@@ -62,7 +62,7 @@ bool VideoCapture::writeFrame(AVFormatContext *oc, bool skip, bool flush)
         {
             sws_scale(_ost->swsCtx, _ist->frame->data, _ist->frame->linesize, 0, _ist->decCtx->height,
                       _ost->frame->data, _ost->frame->linesize);
-            _ost->frame->pts = _ost->samples++;
+            _ost->frame->pts = ++_ost->samples;
             bool frameSent = false;
             while (encode(_ost->encCtx, _ost->frame, _ost->pkt, frameSent))
             {
