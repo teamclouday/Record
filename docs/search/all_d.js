@@ -1,8 +1,7 @@
 var searchData=
 [
-  ['selectoutputpath_0',['SelectOutputPath',['../classMediaHandler.html#a9d3dab02042b1c9da96388acdabe0a3f',1,'MediaHandler']]],
-  ['setpath_1',['setPath',['../structMediaOutput.html#a2fbf13a8ccaa0dd8d2d42c85a7651c7d',1,'MediaOutput']]],
-  ['startrecord_2',['StartRecord',['../classMediaHandler.html#af59ce24bdcfa04ccd6d9bdd55fe5feef',1,'MediaHandler']]],
-  ['stoprecord_3',['StopRecord',['../classMediaHandler.html#a272ccb6965ff0bce5b4e63e79f28caf1',1,'MediaHandler']]],
-  ['streams_2ehpp_4',['streams.hpp',['../streams_8hpp.html',1,'']]]
+  ['record_0',['Record',['../index.html',1,'']]],
+  ['recordinternal_1',['recordInternal',['../classMediaHandler.html#a3f4b7f4ba8e3e7e956b92d4d859cf13d',1,'MediaHandler']]],
+  ['refresh_2',['refresh',['../structPulseAudioHelper.html#ab0a5d52a30b43763ef001fd2153b07ac',1,'PulseAudioHelper']]],
+  ['registerhotkey_3',['registerHotKey',['../classAppContext.html#a6a959a44d70174c36e32eab15c146a8a',1,'AppContext']]]
 ];

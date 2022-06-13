@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['video_5fdefault_5fbitrate_0',['VIDEO_DEFAULT_BITRATE',['../videocapture_8hpp.html#a53498c8c33136a14f6c08dd145d8a8ea',1,'videocapture.hpp']]],
-  ['video_5fdefault_5ffps_1',['VIDEO_DEFAULT_FPS',['../videocapture_8hpp.html#a4d5bd0728f4be2af0c170f02cec39c10',1,'videocapture.hpp']]]
+  ['output_5fpath_5fdefault_0',['OUTPUT_PATH_DEFAULT',['../media_8hpp.html#a6d7e10987946ef1008c8ea518d077b2b',1,'media.hpp']]],
+  ['output_5fskip_5ftime_1',['OUTPUT_SKIP_TIME',['../media_8hpp.html#a9bc25364e22b1b0dcdce673fd2b65f25',1,'media.hpp']]]
 ];

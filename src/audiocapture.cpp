@@ -16,7 +16,7 @@ extern "C"
 // reference: https://github.com/FFmpeg/FFmpeg/blob/master/doc/examples/transcoding.c
 
 AudioCapture::AudioCapture()
-    : _captureOut(true), _captureMic(true), _autoBitRate(true), _sampleRate(AUDIO_DEFAULT_SAMPLE_RATE),
+    : _captureOut(false), _captureMic(false), _autoBitRate(true), _sampleRate(AUDIO_DEFAULT_SAMPLE_RATE),
       _bitRate(AUDIO_DEFAULT_BITRATE)
 {
 #if __linux__

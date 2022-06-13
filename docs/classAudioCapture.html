@@ -63,10 +63,212 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pri-methods">Private Member Functions</a> &#124;
 <a href="classAudioCapture-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">AudioCapture Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Audio Capture.  
+ <a href="classAudioCapture.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="audiocapture_8hpp_source.html">audiocapture.hpp</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:af42b43a9ca9dd71a88a6630b399c125a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAudioCapture.html#af42b43a9ca9dd71a88a6630b399c125a">openCapture</a> (AVFormatContext *oc)</td></tr>
+<tr class="memdesc:af42b43a9ca9dd71a88a6630b399c125a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Open Audio Capture.  <a href="classAudioCapture.html#af42b43a9ca9dd71a88a6630b399c125a">More...</a><br /></td></tr>
+<tr class="separator:af42b43a9ca9dd71a88a6630b399c125a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a69069f6350198e312bb49fe183db0e37"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAudioCapture.html#a69069f6350198e312bb49fe183db0e37">closeCapture</a> ()</td></tr>
+<tr class="memdesc:a69069f6350198e312bb49fe183db0e37"><td class="mdescLeft">&#160;</td><td class="mdescRight">Close Audio Capture.  <a href="classAudioCapture.html#a69069f6350198e312bb49fe183db0e37">More...</a><br /></td></tr>
+<tr class="separator:a69069f6350198e312bb49fe183db0e37"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a86fc62728f9053d5a51e4f9519052985"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAudioCapture.html#a86fc62728f9053d5a51e4f9519052985">writeFrame</a> (AVFormatContext *oc, bool skip, bool flush)</td></tr>
+<tr class="memdesc:a86fc62728f9053d5a51e4f9519052985"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write Frame to Output.  <a href="classAudioCapture.html#a86fc62728f9053d5a51e4f9519052985">More...</a><br /></td></tr>
+<tr class="separator:a86fc62728f9053d5a51e4f9519052985"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acc15e5404510d1c761fd0b875fca37d6"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="structOutputStream.html">OutputStream</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAudioCapture.html#acc15e5404510d1c761fd0b875fca37d6">getStream</a> ()</td></tr>
+<tr class="memdesc:acc15e5404510d1c761fd0b875fca37d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the Output Stream.  <a href="classAudioCapture.html#acc15e5404510d1c761fd0b875fca37d6">More...</a><br /></td></tr>
+<tr class="separator:acc15e5404510d1c761fd0b875fca37d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa8072c78aa2feaac34547c8662e44d4b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAudioCapture.html#aa8072c78aa2feaac34547c8662e44d4b">UI</a> ()</td></tr>
+<tr class="memdesc:aa8072c78aa2feaac34547c8662e44d4b"><td class="mdescLeft">&#160;</td><td class="mdescRight">UI Calls.  <a href="classAudioCapture.html#aa8072c78aa2feaac34547c8662e44d4b">More...</a><br /></td></tr>
+<tr class="separator:aa8072c78aa2feaac34547c8662e44d4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Private Member Functions</h2></td></tr>
+<tr class="memitem:af9cc9aea92bf7bdd70b0552833c38fca"><td class="memItemLeft" align="right" valign="top"><a id="af9cc9aea92bf7bdd70b0552833c38fca" name="af9cc9aea92bf7bdd70b0552833c38fca"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>openDevice</b> (bool isMic)</td></tr>
+<tr class="memdesc:af9cc9aea92bf7bdd70b0552833c38fca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Open audio capture device. <br /></td></tr>
+<tr class="separator:af9cc9aea92bf7bdd70b0552833c38fca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a09ff8ac1ed23ca503b7b9b9aac1d9fae"><td class="memItemLeft" align="right" valign="top"><a id="a09ff8ac1ed23ca503b7b9b9aac1d9fae" name="a09ff8ac1ed23ca503b7b9b9aac1d9fae"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>configIStream</b> (<a class="el" href="structInputStream.html">InputStream</a> *ist)</td></tr>
+<tr class="memdesc:a09ff8ac1ed23ca503b7b9b9aac1d9fae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure input stream. <br /></td></tr>
+<tr class="separator:a09ff8ac1ed23ca503b7b9b9aac1d9fae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adb4af5d8f9aa10dc11ea85080b1b1df0"><td class="memItemLeft" align="right" valign="top"><a id="adb4af5d8f9aa10dc11ea85080b1b1df0" name="adb4af5d8f9aa10dc11ea85080b1b1df0"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>configFilter</b> ()</td></tr>
+<tr class="memdesc:adb4af5d8f9aa10dc11ea85080b1b1df0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure audio filter. <br /></td></tr>
+<tr class="separator:adb4af5d8f9aa10dc11ea85080b1b1df0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a59c52207aed35b36dc3501205db920fe"><td class="memItemLeft" align="right" valign="top"><a id="a59c52207aed35b36dc3501205db920fe" name="a59c52207aed35b36dc3501205db920fe"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>configOStream</b> (AVFormatContext *oc)</td></tr>
+<tr class="memdesc:a59c52207aed35b36dc3501205db920fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure output stream. <br /></td></tr>
+<tr class="separator:a59c52207aed35b36dc3501205db920fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8aed0fcfb8e2e316ac8116cf786b3af7"><td class="memItemLeft" align="right" valign="top"><a id="a8aed0fcfb8e2e316ac8116cf786b3af7" name="a8aed0fcfb8e2e316ac8116cf786b3af7"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>decode</b> (AVCodecContext *codecCtx, AVFrame *frame, AVPacket *pkt, bool &amp;packetSent)</td></tr>
+<tr class="memdesc:a8aed0fcfb8e2e316ac8116cf786b3af7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Decode frame from input stream packet. <br /></td></tr>
+<tr class="separator:a8aed0fcfb8e2e316ac8116cf786b3af7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa70ad6d06a5947017a0056a9fad8ac00"><td class="memItemLeft" align="right" valign="top"><a id="aa70ad6d06a5947017a0056a9fad8ac00" name="aa70ad6d06a5947017a0056a9fad8ac00"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>encode</b> (AVCodecContext *codecCtx, AVFrame *frame, AVPacket *pkt, bool &amp;frameSent)</td></tr>
+<tr class="memdesc:aa70ad6d06a5947017a0056a9fad8ac00"><td class="mdescLeft">&#160;</td><td class="mdescRight">Encode frame to output stream packet. <br /></td></tr>
+<tr class="separator:aa70ad6d06a5947017a0056a9fad8ac00"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae46afee12b524ba137eb8f8be8a762da"><td class="memItemLeft" align="right" valign="top"><a id="ae46afee12b524ba137eb8f8be8a762da" name="ae46afee12b524ba137eb8f8be8a762da"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>writePacket</b> (AVFormatContext *oc)</td></tr>
+<tr class="memdesc:ae46afee12b524ba137eb8f8be8a762da"><td class="mdescLeft">&#160;</td><td class="mdescRight">encode and write packet to output stream <br /></td></tr>
+<tr class="separator:ae46afee12b524ba137eb8f8be8a762da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p >Audio Capture. </p>
+<p >This class handles audio capture, decode &amp; encode. Supports desktop audio &amp; mic audio. </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="a69069f6350198e312bb49fe183db0e37" name="a69069f6350198e312bb49fe183db0e37"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a69069f6350198e312bb49fe183db0e37">&#9670;&nbsp;</a></span>closeCapture()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool AudioCapture::closeCapture </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Close Audio Capture. </p>
+<p >Meant to be called from <a class="el" href="classMediaHandler.html" title="Media Handler.">MediaHandler</a>.</p>
+<dl class="section return"><dt>Returns</dt><dd>true if success </dd>
+<dd>
+false otherwise </dd></dl>
+
+</div>
+</div>
+<a id="acc15e5404510d1c761fd0b875fca37d6" name="acc15e5404510d1c761fd0b875fca37d6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acc15e5404510d1c761fd0b875fca37d6">&#9670;&nbsp;</a></span>getStream()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="structOutputStream.html">OutputStream</a> * AudioCapture::getStream </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get the Output Stream. </p>
+<dl class="section return"><dt>Returns</dt><dd>const OutputStream* </dd></dl>
+
+</div>
+</div>
+<a id="af42b43a9ca9dd71a88a6630b399c125a" name="af42b43a9ca9dd71a88a6630b399c125a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af42b43a9ca9dd71a88a6630b399c125a">&#9670;&nbsp;</a></span>openCapture()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool AudioCapture::openCapture </td>
+          <td>(</td>
+          <td class="paramtype">AVFormatContext *&#160;</td>
+          <td class="paramname"><em>oc</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Open Audio Capture. </p>
+<p >Meant to be called from <a class="el" href="classMediaHandler.html" title="Media Handler.">MediaHandler</a>.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">oc</td><td>Output format context </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true if starts capture </dd>
+<dd>
+false otherwise </dd></dl>
+
+</div>
+</div>
+<a id="aa8072c78aa2feaac34547c8662e44d4b" name="aa8072c78aa2feaac34547c8662e44d4b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa8072c78aa2feaac34547c8662e44d4b">&#9670;&nbsp;</a></span>UI()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void AudioCapture::UI </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>UI Calls. </p>
+<p >Is meant to be called from <a class="el" href="classMediaHandler.html" title="Media Handler.">MediaHandler</a>. </p>
+
+</div>
+</div>
+<a id="a86fc62728f9053d5a51e4f9519052985" name="a86fc62728f9053d5a51e4f9519052985"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a86fc62728f9053d5a51e4f9519052985">&#9670;&nbsp;</a></span>writeFrame()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool AudioCapture::writeFrame </td>
+          <td>(</td>
+          <td class="paramtype">AVFormatContext *&#160;</td>
+          <td class="paramname"><em>oc</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>skip</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>flush</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Write Frame to Output. </p>
+<p >Meant to be called from <a class="el" href="classMediaHandler.html" title="Media Handler.">MediaHandler</a>.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">oc</td><td>Output format context </td></tr>
+    <tr><td class="paramname">skip</td><td>Whether to skip writing current frame </td></tr>
+    <tr><td class="paramname">flush</td><td>Whether to flush output with empty packets </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true if success </dd>
+<dd>
+false otherwise </dd></dl>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li><a class="el" href="audiocapture_8hpp_source.html">audiocapture.hpp</a></li>
 <li>audiocapture.cpp</li>

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['videocapture_0',['VideoCapture',['../classVideoCapture.html',1,'']]]
+  ['outputstream_0',['OutputStream',['../structOutputStream.html',1,'']]]
 ];

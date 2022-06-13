@@ -69,45 +69,93 @@ $(function() {
   <div class="headertitle"><div class="title">audiocapture.hpp</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<a href="audiocapture_8hpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span></div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span>{</div>
 <div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;libavcodec/avcodec.h&gt;</span></div>
 <div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;libavdevice/avdevice.h&gt;</span></div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;libavformat/avformat.h&gt;</span></div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;libswresample/swresample.h&gt;</span></div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>}</div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &quot;<a class="code" href="streams_8hpp.html">streams.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#include &lt;array&gt;</span></div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#include &lt;memory&gt;</span></div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;libavfilter/avfilter.h&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;libavformat/avformat.h&gt;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &lt;libswresample/swresample.h&gt;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>}</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#if __linux__</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#include &quot;<a class="code" href="pulsehelper_8hpp.html">pulsehelper.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">#include &quot;<a class="code" href="streams_8hpp.html">streams.hpp</a>&quot;</span></div>
 <div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno"><a class="line" href="classAudioCapture.html">   16</a></span><span class="keyword">class </span><a class="code hl_class" href="classAudioCapture.html">AudioCapture</a></div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>{</div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>  <span class="keyword">public</span>:</div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    <a class="code hl_class" href="classAudioCapture.html">AudioCapture</a>();</div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    <a class="code hl_class" href="classAudioCapture.html">~AudioCapture</a>();</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    <span class="keywordtype">bool</span> openCapture(AVFormatContext *oc);</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    <span class="keywordtype">bool</span> closeCapture();</div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    <span class="keywordtype">bool</span> writeFrame(AVFormatContext *oc, <span class="keywordtype">bool</span> skip);</div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span> </div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    <span class="keywordtype">void</span> UI();</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="preprocessor">#include &lt;array&gt;</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span> </div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno"><a class="line" href="audiocapture_8hpp.html#a1f1677137c932fd9759697bae47ba6b9">   23</a></span><span class="preprocessor">#define AUDIO_DEFAULT_SAMPLE_RATE 16000</span></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno"><a class="line" href="audiocapture_8hpp.html#a253595cc1091a482bee8e28998275a9e">   26</a></span><span class="preprocessor">#define AUDIO_DEFAULT_BITRATE 64000</span></div>
 <div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    <span class="keyword">const</span> std::string NAME = <span class="stringliteral">&quot;AudioCapture&quot;</span>;</div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>  <span class="keyword">private</span>:</div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    <span class="keywordtype">bool</span> openCaptureDevice();</div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    <span class="keywordtype">bool</span> configInputStream();</div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    <span class="keywordtype">bool</span> configOutputStream(AVFormatContext *oc);</div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    std::unique_ptr&lt;InputStream&gt; _ist;</div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    std::unique_ptr&lt;OutputStream&gt; _ost;</div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>};</div>
-<div class="ttc" id="aclassAudioCapture_html"><div class="ttname"><a href="classAudioCapture.html">AudioCapture</a></div><div class="ttdef"><b>Definition:</b> audiocapture.hpp:17</div></div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno"><a class="line" href="audiocapture_8hpp.html#aad43eb70cd3e4a8692b0edc1ecf914e2">   29</a></span><span class="preprocessor">#define AUDIO_OUTPUT_CHANNELS 2</span></div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno"><a class="line" href="classAudioCapture.html">   37</a></span><span class="keyword">class </span><a class="code hl_class" href="classAudioCapture.html">AudioCapture</a></div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>{</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>  <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    <a class="code hl_class" href="classAudioCapture.html">AudioCapture</a>();</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    <a class="code hl_class" href="classAudioCapture.html">~AudioCapture</a>();</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classAudioCapture.html#af42b43a9ca9dd71a88a6630b399c125a">openCapture</a>(AVFormatContext *oc);</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classAudioCapture.html#a69069f6350198e312bb49fe183db0e37">closeCapture</a>();</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classAudioCapture.html#a86fc62728f9053d5a51e4f9519052985">writeFrame</a>(AVFormatContext *oc, <span class="keywordtype">bool</span> skip, <span class="keywordtype">bool</span> flush);</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span> </div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>    <span class="keyword">const</span> <a class="code hl_struct" href="structOutputStream.html">OutputStream</a> *<a class="code hl_function" href="classAudioCapture.html#acc15e5404510d1c761fd0b875fca37d6">getStream</a>();</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span> </div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classAudioCapture.html#aa8072c78aa2feaac34547c8662e44d4b">UI</a>();</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span> </div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>    <span class="keyword">const</span> std::string NAME = <span class="stringliteral">&quot;AudioCapture&quot;</span>;</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span> </div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>  <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classAudioCapture.html#af9cc9aea92bf7bdd70b0552833c38fca">openDevice</a>(<span class="keywordtype">bool</span> isMic);</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span> </div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classAudioCapture.html#a09ff8ac1ed23ca503b7b9b9aac1d9fae">configIStream</a>(<a class="code hl_struct" href="structInputStream.html">InputStream</a> *ist);</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span> </div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classAudioCapture.html#adb4af5d8f9aa10dc11ea85080b1b1df0">configFilter</a>();</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span> </div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classAudioCapture.html#a59c52207aed35b36dc3501205db920fe">configOStream</a>(AVFormatContext *oc);</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span> </div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classAudioCapture.html#a8aed0fcfb8e2e316ac8116cf786b3af7">decode</a>(AVCodecContext *codecCtx, AVFrame *frame, AVPacket *pkt, <span class="keywordtype">bool</span> &amp;packetSent);</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span> </div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classAudioCapture.html#aa70ad6d06a5947017a0056a9fad8ac00">encode</a>(AVCodecContext *codecCtx, AVFrame *frame, AVPacket *pkt, <span class="keywordtype">bool</span> &amp;frameSent);</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span> </div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classAudioCapture.html#ae46afee12b524ba137eb8f8be8a762da">writePacket</a>(AVFormatContext *oc);</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span> </div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>    std::unique_ptr&lt;InputStream&gt; _istOut;</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>    std::unique_ptr&lt;InputStream&gt; _istMic;</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>    std::unique_ptr&lt;FilterStream&gt; _filter;</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>    std::unique_ptr&lt;OutputStream&gt; _ost;</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span> </div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>    <span class="keywordtype">bool</span> _captureOut, _captureMic, _autoBitRate;</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>    <span class="keywordtype">int</span> _sampleRate, _bitRate;</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span> </div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span><span class="preprocessor">#if __linux__</span></div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>    std::unique_ptr&lt;PulseAudioHelper&gt; _pulse;</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>};</div>
+<div class="ttc" id="aclassAudioCapture_html"><div class="ttname"><a href="classAudioCapture.html">AudioCapture</a></div><div class="ttdoc">Audio Capture.</div><div class="ttdef"><b>Definition:</b> audiocapture.hpp:38</div></div>
+<div class="ttc" id="aclassAudioCapture_html_a09ff8ac1ed23ca503b7b9b9aac1d9fae"><div class="ttname"><a href="classAudioCapture.html#a09ff8ac1ed23ca503b7b9b9aac1d9fae">AudioCapture::configIStream</a></div><div class="ttdeci">bool configIStream(InputStream *ist)</div><div class="ttdoc">Configure input stream.</div><div class="ttdef"><b>Definition:</b> audiocapture.cpp:223</div></div>
+<div class="ttc" id="aclassAudioCapture_html_a59c52207aed35b36dc3501205db920fe"><div class="ttname"><a href="classAudioCapture.html#a59c52207aed35b36dc3501205db920fe">AudioCapture::configOStream</a></div><div class="ttdeci">bool configOStream(AVFormatContext *oc)</div><div class="ttdoc">Configure output stream.</div><div class="ttdef"><b>Definition:</b> audiocapture.cpp:422</div></div>
+<div class="ttc" id="aclassAudioCapture_html_a69069f6350198e312bb49fe183db0e37"><div class="ttname"><a href="classAudioCapture.html#a69069f6350198e312bb49fe183db0e37">AudioCapture::closeCapture</a></div><div class="ttdeci">bool closeCapture()</div><div class="ttdoc">Close Audio Capture.</div><div class="ttdef"><b>Definition:</b> audiocapture.cpp:63</div></div>
+<div class="ttc" id="aclassAudioCapture_html_a86fc62728f9053d5a51e4f9519052985"><div class="ttname"><a href="classAudioCapture.html#a86fc62728f9053d5a51e4f9519052985">AudioCapture::writeFrame</a></div><div class="ttdeci">bool writeFrame(AVFormatContext *oc, bool skip, bool flush)</div><div class="ttdoc">Write Frame to Output.</div><div class="ttdef"><b>Definition:</b> audiocapture.cpp:76</div></div>
+<div class="ttc" id="aclassAudioCapture_html_a8aed0fcfb8e2e316ac8116cf786b3af7"><div class="ttname"><a href="classAudioCapture.html#a8aed0fcfb8e2e316ac8116cf786b3af7">AudioCapture::decode</a></div><div class="ttdeci">bool decode(AVCodecContext *codecCtx, AVFrame *frame, AVPacket *pkt, bool &amp;packetSent)</div><div class="ttdoc">Decode frame from input stream packet.</div><div class="ttdef"><b>Definition:</b> audiocapture.cpp:582</div></div>
+<div class="ttc" id="aclassAudioCapture_html_aa70ad6d06a5947017a0056a9fad8ac00"><div class="ttname"><a href="classAudioCapture.html#aa70ad6d06a5947017a0056a9fad8ac00">AudioCapture::encode</a></div><div class="ttdeci">bool encode(AVCodecContext *codecCtx, AVFrame *frame, AVPacket *pkt, bool &amp;frameSent)</div><div class="ttdoc">Encode frame to output stream packet.</div><div class="ttdef"><b>Definition:</b> audiocapture.cpp:596</div></div>
+<div class="ttc" id="aclassAudioCapture_html_aa8072c78aa2feaac34547c8662e44d4b"><div class="ttname"><a href="classAudioCapture.html#aa8072c78aa2feaac34547c8662e44d4b">AudioCapture::UI</a></div><div class="ttdeci">void UI()</div><div class="ttdoc">UI Calls.</div><div class="ttdef"><b>Definition:</b> ui.cpp:67</div></div>
+<div class="ttc" id="aclassAudioCapture_html_acc15e5404510d1c761fd0b875fca37d6"><div class="ttname"><a href="classAudioCapture.html#acc15e5404510d1c761fd0b875fca37d6">AudioCapture::getStream</a></div><div class="ttdeci">const OutputStream * getStream()</div><div class="ttdoc">Get the Output Stream.</div><div class="ttdef"><b>Definition:</b> audiocapture.cpp:189</div></div>
+<div class="ttc" id="aclassAudioCapture_html_adb4af5d8f9aa10dc11ea85080b1b1df0"><div class="ttname"><a href="classAudioCapture.html#adb4af5d8f9aa10dc11ea85080b1b1df0">AudioCapture::configFilter</a></div><div class="ttdeci">bool configFilter()</div><div class="ttdoc">Configure audio filter.</div><div class="ttdef"><b>Definition:</b> audiocapture.cpp:309</div></div>
+<div class="ttc" id="aclassAudioCapture_html_ae46afee12b524ba137eb8f8be8a762da"><div class="ttname"><a href="classAudioCapture.html#ae46afee12b524ba137eb8f8be8a762da">AudioCapture::writePacket</a></div><div class="ttdeci">void writePacket(AVFormatContext *oc)</div><div class="ttdoc">encode and write packet to output stream</div><div class="ttdef"><b>Definition:</b> audiocapture.cpp:610</div></div>
+<div class="ttc" id="aclassAudioCapture_html_af42b43a9ca9dd71a88a6630b399c125a"><div class="ttname"><a href="classAudioCapture.html#af42b43a9ca9dd71a88a6630b399c125a">AudioCapture::openCapture</a></div><div class="ttdeci">bool openCapture(AVFormatContext *oc)</div><div class="ttdoc">Open Audio Capture.</div><div class="ttdef"><b>Definition:</b> audiocapture.cpp:32</div></div>
+<div class="ttc" id="aclassAudioCapture_html_af9cc9aea92bf7bdd70b0552833c38fca"><div class="ttname"><a href="classAudioCapture.html#af9cc9aea92bf7bdd70b0552833c38fca">AudioCapture::openDevice</a></div><div class="ttdeci">bool openDevice(bool isMic)</div><div class="ttdoc">Open audio capture device.</div><div class="ttdef"><b>Definition:</b> audiocapture.cpp:194</div></div>
+<div class="ttc" id="apulsehelper_8hpp_html"><div class="ttname"><a href="pulsehelper_8hpp.html">pulsehelper.hpp</a></div></div>
 <div class="ttc" id="astreams_8hpp_html"><div class="ttname"><a href="streams_8hpp.html">streams.hpp</a></div></div>
+<div class="ttc" id="astructInputStream_html"><div class="ttname"><a href="structInputStream.html">InputStream</a></div><div class="ttdoc">Input Stream.</div><div class="ttdef"><b>Definition:</b> streams.hpp:22</div></div>
+<div class="ttc" id="astructOutputStream_html"><div class="ttname"><a href="structOutputStream.html">OutputStream</a></div><div class="ttdoc">Output Stream.</div><div class="ttdef"><b>Definition:</b> streams.hpp:52</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

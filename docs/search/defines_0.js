@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['message_5ferror_0',['MESSAGE_ERROR',['../utils_8hpp.html#a32358e5ff4a8bbea03adbeef3e53ad20',1,'utils.hpp']]],
-  ['message_5finfo_1',['MESSAGE_INFO',['../utils_8hpp.html#ad62949e17abbaee561e44101ae40520a',1,'utils.hpp']]],
-  ['message_5fwarn_2',['MESSAGE_WARN',['../utils_8hpp.html#a7932b5b73d07505901aa1d9d03c9766e',1,'utils.hpp']]]
+  ['audio_5fdefault_5fbitrate_0',['AUDIO_DEFAULT_BITRATE',['../audiocapture_8hpp.html#a253595cc1091a482bee8e28998275a9e',1,'audiocapture.hpp']]],
+  ['audio_5fdefault_5fsample_5frate_1',['AUDIO_DEFAULT_SAMPLE_RATE',['../audiocapture_8hpp.html#a1f1677137c932fd9759697bae47ba6b9',1,'audiocapture.hpp']]],
+  ['audio_5foutput_5fchannels_2',['AUDIO_OUTPUT_CHANNELS',['../audiocapture_8hpp.html#aad43eb70cd3e4a8692b0edc1ecf914e2',1,'audiocapture.hpp']]]
 ];

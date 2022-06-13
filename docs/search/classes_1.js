@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['inputstream_0',['InputStream',['../structInputStream.html',1,'']]]
+  ['filterstream_0',['FilterStream',['../structFilterStream.html',1,'']]]
 ];

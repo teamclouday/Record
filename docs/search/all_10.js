@@ -1,8 +1,7 @@
 var searchData=
 [
-  ['validateoutputformat_0',['validateOutputFormat',['../classMediaHandler.html#a9518532ee10a6994ec19417ea6ac8978',1,'MediaHandler']]],
-  ['video_5fdefault_5fbitrate_1',['VIDEO_DEFAULT_BITRATE',['../videocapture_8hpp.html#a53498c8c33136a14f6c08dd145d8a8ea',1,'videocapture.hpp']]],
-  ['video_5fdefault_5ffps_2',['VIDEO_DEFAULT_FPS',['../videocapture_8hpp.html#a4d5bd0728f4be2af0c170f02cec39c10',1,'videocapture.hpp']]],
-  ['videocapture_3',['VideoCapture',['../classVideoCapture.html',1,'']]],
-  ['videocapture_2ehpp_4',['videocapture.hpp',['../videocapture_8hpp.html',1,'']]]
+  ['ui_0',['UI',['../classAudioCapture.html#aa8072c78aa2feaac34547c8662e44d4b',1,'AudioCapture::UI()'],['../classAppContext.html#a3332fa202e5f1751652b49de5e6c9f99',1,'AppContext::UI()'],['../classMediaHandler.html#abf96e6be4fce2768e547fedb2b911ed1',1,'MediaHandler::UI()'],['../classVideoCapture.html#a9b9da15c396349c7d2b0295f2e63f6ab',1,'VideoCapture::UI()']]],
+  ['unlockmediafile_1',['unlockMediaFile',['../classMediaHandler.html#a0088e4be07e724e93408e90eef76ab91',1,'MediaHandler']]],
+  ['unregisterhotkey_2',['unregisterHotKey',['../classAppContext.html#a886341d6e20c40a61337bedaca6fa90b',1,'AppContext']]],
+  ['utils_2ehpp_3',['utils.hpp',['../utils_8hpp.html',1,'']]]
 ];
