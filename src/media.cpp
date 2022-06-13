@@ -57,7 +57,7 @@ void MediaHandler::ConfigWindow(int x, int y, int w, int h, int mw, int mh)
 bool MediaHandler::StartRecord()
 {
     StopRecord();
-    // av_log_set_level(AV_LOG_DEBUG);
+    // av_log_set_level(AV_LOG_TRACE);
     bool success = true;
     // try to lock output file
     success = success && lockMediaFile();
@@ -152,8 +152,10 @@ void MediaHandler::recordInternal()
                 skip = false;
             }
         }
-        videoRead = _video->writeFrame(_media->fmtCtx, skip, false);
-        audioRead = _audio->writeFrame(_media->fmtCtx, skip, false);
+        if (videoRead && videoFirst())
+            videoRead = _video->writeFrame(_media->fmtCtx, skip, false);
+        else
+            audioRead = _audio->writeFrame(_media->fmtCtx, skip, false);
     } while ((videoRead || audioRead) && _recordLoop);
     // flush outputs
     _video->writeFrame(_media->fmtCtx, false, true);
@@ -273,4 +275,11 @@ bool MediaHandler::closeMedia()
     if (!(_media->fmtCtx->oformat->flags & AVFMT_NOFILE))
         avio_closep(&_media->fmtCtx->pb);
     return true;
+}
+
+bool MediaHandler::videoFirst()
+{
+    auto vst = _video->getStream();
+    auto ast = _audio->getStream();
+    return !ast || (av_compare_ts(vst->samples, vst->encCtx->time_base, ast->samples, ast->encCtx->time_base) <= 0);
 }

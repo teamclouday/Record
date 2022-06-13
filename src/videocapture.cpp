@@ -49,31 +49,38 @@ bool VideoCapture::writeFrame(AVFormatContext *oc, bool skip, bool flush)
 {
     if (av_read_frame(_ist->fmtCtx, _ist->pkt) < 0)
         return false;
-    if (_ist->pkt->stream_index == _ist->streamIdx)
+    if (_ist->pkt->stream_index == _ist->streamIdx && !skip)
     {
         if (flush)
+        {
             av_packet_unref(_ist->pkt);
+            _ist->pkt->data = nullptr;
+        }
         av_frame_make_writable(_ost->frame);
         bool packetSent = false;
         while (decode(_ist->decCtx, _ist->frame, _ist->pkt, packetSent))
         {
             sws_scale(_ost->swsCtx, _ist->frame->data, _ist->frame->linesize, 0, _ist->decCtx->height,
                       _ost->frame->data, _ost->frame->linesize);
-            _ost->frame->pts = _ost->samples;
+            _ost->frame->pts = _ost->samples++;
             bool frameSent = false;
             while (encode(_ost->encCtx, _ost->frame, _ost->pkt, frameSent))
             {
                 av_packet_rescale_ts(_ost->pkt, _ost->encCtx->time_base, _ost->st->time_base);
                 _ost->pkt->stream_index = _ost->st->index;
-                if (!skip && av_interleaved_write_frame(oc, _ost->pkt) != 0)
+                if (av_interleaved_write_frame(oc, _ost->pkt) != 0)
                     display_message(NAME, "failed to write frame", MESSAGE_WARN);
                 av_packet_unref(_ost->pkt);
             }
-            _ost->samples++;
         }
         av_packet_unref(_ist->pkt);
     }
     return true;
+}
+
+const OutputStream *VideoCapture::getStream()
+{
+    return _ost.get();
 }
 
 bool VideoCapture::openDevice()
@@ -280,6 +287,7 @@ bool VideoCapture::configOStream(AVFormatContext *oc)
             display_message(NAME, "failed to copy encoder stream params", MESSAGE_WARN);
             return false;
         }
+        _ost->st->id = oc->nb_streams - 1;
     }
     // prepare packet
     {

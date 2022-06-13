@@ -20,7 +20,6 @@ endif()
 add_definitions(-DUNICODE)
 add_definitions(-D_UNICODE)
 add_definitions(-DGLEW_STATIC)
-add_definitions(-D__STDC_CONSTANT_MACROS)
 
 SET(CMAKE_FIND_PACKAGE_SORT_ORDER NATURAL)
 SET(CMAKE_FIND_PACKAGE_SORT_DIRECTION DEC)

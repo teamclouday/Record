@@ -1,3 +1,4 @@
+#define __STDC_CONSTANT_MACROS
 extern "C"
 {
 #include <libavfilter/buffersink.h>
@@ -9,9 +10,10 @@ extern "C"
 #include "utils.hpp"
 
 // reference: https://gist.github.com/MrArtichaut/11136813
+// reference: https://github.com/FFmpeg/FFmpeg/blob/master/doc/examples/transcoding.c
 
 AudioCapture::AudioCapture()
-    : _captureOut(true), _captureMic(false), _autoBitRate(true), _sampleRate(AUDIO_DEFAULT_SAMPLE_RATE),
+    : _captureOut(false), _captureMic(false), _autoBitRate(true), _sampleRate(AUDIO_DEFAULT_SAMPLE_RATE),
       _bitRate(AUDIO_DEFAULT_BITRATE)
 {
 #if __linux__
@@ -76,11 +78,17 @@ bool AudioCapture::writeFrame(AVFormatContext *oc, bool skip, bool flush)
         return false;
     if (_captureMic && av_read_frame(_istMic->fmtCtx, _istMic->pkt) < 0)
         return false;
+    if (skip)
+        return true;
     bool sinkHasValue = true;
+    int nb_samples = 0;
     if (_captureOut)
     {
         if (flush)
+        {
             av_packet_unref(_istOut->pkt);
+            _istOut->pkt->data = nullptr;
+        }
         bool packetSent = false;
         while (decode(_istOut->decCtx, _istOut->frame, _istOut->pkt, packetSent))
         {
@@ -89,13 +97,18 @@ bool AudioCapture::writeFrame(AVFormatContext *oc, bool skip, bool flush)
             else
             {
                 av_frame_make_writable(_ost->frame);
-                // int nb_samples = av_rescale_rnd(swr_get_delay(_ost->swrCtx, _istOut->decCtx->sample_rate) +
-                //                                     _istOut->frame->nb_samples,
-                //                                 _ost->encCtx->sample_rate, _istOut->decCtx->sample_rate,
-                //                                 AV_ROUND_UP);
-                swr_convert(_ost->swrCtx, _ost->frame->data, _ost->frame->nb_samples,
-                            const_cast<const uint8_t **>(_istOut->frame->data), _istOut->frame->nb_samples);
-                writePacket(oc, skip);
+                if (swr_convert(_ost->swrCtx, _ost->frame->data, _ost->frame->nb_samples,
+                                const_cast<const uint8_t **>(_istOut->frame->data), _istOut->frame->nb_samples) >= 0)
+                {
+                    while (swr_get_delay(_ost->swrCtx, _ost->encCtx->sample_rate) > _ost->frame->nb_samples)
+                    {
+                        if ((nb_samples =
+                                 swr_convert(_ost->swrCtx, _ost->frame->data, _ost->frame->nb_samples, nullptr, 0)) < 0)
+                            break;
+                        writePacket(oc);
+                        _ost->samples += nb_samples;
+                    }
+                }
             }
         }
         av_packet_unref(_istOut->pkt);
@@ -103,7 +116,10 @@ bool AudioCapture::writeFrame(AVFormatContext *oc, bool skip, bool flush)
     if (_captureMic)
     {
         if (flush)
+        {
             av_packet_unref(_istMic->pkt);
+            _istMic->pkt->data = nullptr;
+        }
         bool packetSent = false;
         while (decode(_istMic->decCtx, _istMic->frame, _istMic->pkt, packetSent))
         {
@@ -112,13 +128,18 @@ bool AudioCapture::writeFrame(AVFormatContext *oc, bool skip, bool flush)
             else
             {
                 av_frame_make_writable(_ost->frame);
-                // nb_samples =
-                //     av_rescale_rnd(swr_get_delay(_ost->swrCtx, _ost->encCtx->sample_rate) +
-                //     _istMic->frame->nb_samples,
-                //                    _ost->encCtx->sample_rate, _ost->encCtx->sample_rate, AV_ROUND_UP);
-                swr_convert(_ost->swrCtx, _ost->frame->data, _ost->frame->nb_samples,
-                            const_cast<const uint8_t **>(_istMic->frame->data), _istMic->frame->nb_samples);
-                writePacket(oc, skip);
+                if (swr_convert(_ost->swrCtx, _ost->frame->data, _ost->frame->nb_samples,
+                                const_cast<const uint8_t **>(_istMic->frame->data), _istMic->frame->nb_samples) >= 0)
+                {
+                    while (swr_get_delay(_ost->swrCtx, _ost->encCtx->sample_rate) > _ost->frame->nb_samples)
+                    {
+                        if ((nb_samples =
+                                 swr_convert(_ost->swrCtx, _ost->frame->data, _ost->frame->nb_samples, nullptr, 0)) < 0)
+                            break;
+                        writePacket(oc);
+                        _ost->samples += nb_samples;
+                    }
+                }
             }
         }
         av_packet_unref(_istMic->pkt);
@@ -127,23 +148,20 @@ bool AudioCapture::writeFrame(AVFormatContext *oc, bool skip, bool flush)
     {
         av_frame_make_writable(_ost->frame);
         while (av_buffersink_get_frame(_filter->sinkCtx, _ost->frame) >= 0)
-            writePacket(oc, skip);
+            writePacket(oc);
     }
     return true;
+}
+
+const OutputStream *AudioCapture::getStream()
+{
+    return _ost.get();
 }
 
 bool AudioCapture::openDevice(bool isMic)
 {
     std::string captureSource = "";
     std::string captureURL = "";
-    AVDictionary *options{nullptr};
-    {
-        if (isMic)
-            av_dict_set_int(&options, "ac", 1, 0);
-        else
-            av_dict_set_int(&options, "ac", 2, 0);
-        av_dict_set_int(&options, "ar", _sampleRate, 0);
-    }
     // prepare capture source
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
     // use dshow on windows
@@ -160,7 +178,7 @@ bool AudioCapture::openDevice(bool isMic)
     return false;
 #endif
     auto formatIn = av_find_input_format(captureSource.c_str());
-    if (0 != avformat_open_input(&_istOut->fmtCtx, captureURL.c_str(), formatIn, &options))
+    if (0 != avformat_open_input(&_istOut->fmtCtx, captureURL.c_str(), formatIn, nullptr))
     {
         display_message(NAME, "failed to open capture source " + captureSource, MESSAGE_WARN);
         return false;
@@ -366,7 +384,8 @@ bool AudioCapture::configOStream(AVFormatContext *oc)
         }
         if (_autoBitRate)
             _bitRate = _sampleRate * 16 * AUDIO_OUTPUT_CHANNELS / 10;
-        param->bit_rate = _bitRate;
+        if (oc->audio_codec_id != AV_CODEC_ID_MP2)
+            param->bit_rate = _bitRate;
         param->sample_rate = _sampleRate;
         param->channels = AUDIO_OUTPUT_CHANNELS;
         param->channel_layout = av_get_default_channel_layout(AUDIO_OUTPUT_CHANNELS);
@@ -396,7 +415,16 @@ bool AudioCapture::configOStream(AVFormatContext *oc)
             display_message(NAME, "failed to copy encoder params for " + codecName, MESSAGE_WARN);
             return false;
         }
-        _ost->encCtx->sample_fmt = AV_SAMPLE_FMT_FLTP;
+        switch (_ost->encCtx->codec_id)
+        {
+        case AV_CODEC_ID_MP2:
+        case AV_CODEC_ID_OPUS:
+            _ost->encCtx->sample_fmt = AV_SAMPLE_FMT_S16;
+            break;
+        default:
+            _ost->encCtx->sample_fmt = AV_SAMPLE_FMT_FLTP;
+            break;
+        }
         if (avcodec_open2(_ost->encCtx, codecOut, nullptr) < 0)
         {
             display_message(NAME, "failed to open encoder for " + codecName, MESSAGE_WARN);
@@ -404,6 +432,22 @@ bool AudioCapture::configOStream(AVFormatContext *oc)
         }
         if (oc->oformat->flags & AVFMT_GLOBALHEADER)
             _ost->encCtx->flags |= AV_CODEC_FLAG_GLOBAL_HEADER;
+        if (codecOut->supported_samplerates)
+        {
+            auto &sr = _ost->encCtx->sample_rate;
+            sr = codecOut->supported_samplerates[0];
+            for (int i = 1; codecOut->supported_samplerates[i]; i++)
+            {
+                auto currSR = codecOut->supported_samplerates[i];
+                if ((std::abs)(currSR - _sampleRate) < (std::abs)(sr - _sampleRate))
+                    sr = currSR;
+            }
+            if (sr != _sampleRate)
+            {
+                _sampleRate = sr;
+                display_message(NAME, "sample rate reset to " + std::to_string(_sampleRate), MESSAGE_INFO);
+            }
+        }
     }
     // prepare stream
     {
@@ -418,7 +462,7 @@ bool AudioCapture::configOStream(AVFormatContext *oc)
             display_message(NAME, "failed to copy encoder stream params", MESSAGE_WARN);
             return false;
         }
-        _ost->st->time_base = {1, _ost->encCtx->sample_rate};
+        _ost->st->id = oc->nb_streams - 1;
     }
     // prepare packet
     {
@@ -441,7 +485,7 @@ bool AudioCapture::configOStream(AVFormatContext *oc)
         _ost->frame->channel_layout = _ost->encCtx->channel_layout;
         _ost->frame->sample_rate = _ost->encCtx->sample_rate;
         _ost->frame->format = _ost->encCtx->sample_fmt;
-        if (codecOut->capabilities & AV_CODEC_CAP_VARIABLE_FRAME_SIZE)
+        if ((_ost->encCtx->codec->capabilities & AV_CODEC_CAP_VARIABLE_FRAME_SIZE))
             _ost->frame->nb_samples = 10000;
         else
             _ost->frame->nb_samples = _ost->encCtx->frame_size;
@@ -465,13 +509,11 @@ bool AudioCapture::configOStream(AVFormatContext *oc)
             ist = _istOut.get();
         else
             ist = _istMic.get();
-        av_opt_set_channel_layout(_ost->swrCtx, "in_channel_layout", ist->decCtx->channel_layout, 0);
         av_opt_set_int(_ost->swrCtx, "in_sample_rate", ist->decCtx->sample_rate, 0);
-        av_opt_set_int(_ost->swrCtx, "in_channel_count", ist->decCtx->channels, 0);
+        av_opt_set_channel_layout(_ost->swrCtx, "in_channel_layout", ist->decCtx->channel_layout, 0);
         av_opt_set_sample_fmt(_ost->swrCtx, "in_sample_fmt", ist->decCtx->sample_fmt, 0);
-        av_opt_set_channel_layout(_ost->swrCtx, "out_channel_layout", _ost->encCtx->channel_layout, 0);
         av_opt_set_int(_ost->swrCtx, "out_sample_rate", _ost->encCtx->sample_rate, 0);
-        av_opt_set_int(_ost->swrCtx, "out_channel_count", _ost->encCtx->channels, 0);
+        av_opt_set_channel_layout(_ost->swrCtx, "out_channel_layout", _ost->encCtx->channel_layout, 0);
         av_opt_set_sample_fmt(_ost->swrCtx, "out_sample_fmt", _ost->encCtx->sample_fmt, 0);
         if (swr_init(_ost->swrCtx) < 0)
         {
@@ -510,19 +552,16 @@ bool AudioCapture::encode(AVCodecContext *codecCtx, AVFrame *frame, AVPacket *pk
     return avcodec_receive_packet(codecCtx, pkt) >= 0;
 }
 
-void AudioCapture::writePacket(AVFormatContext *oc, bool skip)
+void AudioCapture::writePacket(AVFormatContext *oc)
 {
     bool frameSent = false;
-    // _ost->frame->pts = _ost->samples;
-    _ost->frame->pts = av_rescale_q(_ost->samples, {1, _ost->encCtx->sample_rate}, _ost->encCtx->time_base);
+    _ost->frame->pts = _ost->samples;
     while (encode(_ost->encCtx, _ost->frame, _ost->pkt, frameSent))
     {
         av_packet_rescale_ts(_ost->pkt, _ost->encCtx->time_base, _ost->st->time_base);
         _ost->pkt->stream_index = _ost->st->index;
-        if (!skip && av_interleaved_write_frame(oc, _ost->pkt) != 0)
+        if (av_interleaved_write_frame(oc, _ost->pkt) != 0)
             display_message(NAME, "failed to write frame", MESSAGE_WARN);
         av_packet_unref(_ost->pkt);
     }
-    _ost->samples += _ost->frame->nb_samples;
-    // _ost->samples++;
 }

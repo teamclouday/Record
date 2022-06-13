@@ -68,6 +68,13 @@ class VideoCapture
     bool writeFrame(AVFormatContext *oc, bool skip, bool flush);
 
     /**
+     * @brief Get the Output Stream
+     *
+     * @return const OutputStream*
+     */
+    const OutputStream *getStream();
+
+    /**
      * @brief UI Calls
      *
      * Is meant to be called from MediaHandler.

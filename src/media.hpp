@@ -151,6 +151,9 @@ class MediaHandler
     /// Close media file
     bool closeMedia();
 
+    /// Whether to decode/encode video frames first
+    bool videoFirst();
+
     std::unique_ptr<VideoCapture> _video;
     std::unique_ptr<AudioCapture> _audio;
     std::unique_ptr<MediaOutput> _media;

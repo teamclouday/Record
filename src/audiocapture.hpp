@@ -75,6 +75,13 @@ class AudioCapture
     bool writeFrame(AVFormatContext *oc, bool skip, bool flush);
 
     /**
+     * @brief Get the Output Stream
+     *
+     * @return const OutputStream*
+     */
+    const OutputStream *getStream();
+
+    /**
      * @brief UI Calls
      *
      * Is meant to be called from MediaHandler.
@@ -103,7 +110,7 @@ class AudioCapture
     bool encode(AVCodecContext *codecCtx, AVFrame *frame, AVPacket *pkt, bool &frameSent);
 
     /// encode and write packet to output stream
-    void writePacket(AVFormatContext *oc, bool skip);
+    void writePacket(AVFormatContext *oc);
 
     std::unique_ptr<InputStream> _istOut;
     std::unique_ptr<InputStream> _istMic;
