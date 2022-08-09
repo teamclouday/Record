@@ -3,7 +3,9 @@
 <img src="./assets/icon.png" width="150" alt="Icon">
 
 A cross-platform screen capture application that is able to record a user-defined area on screen. Depending on the output format, audio (& mic) capture is also supported.  
-On Linux there is an awesome screen capture application ([Peek](https://github.com/phw/peek)) but on Windows I cannot find anything. That's why this project is created.  
+On Linux there is an awesome screen capture application ([Peek](https://github.com/phw/peek)) ~~but on Windows I cannot find anything. That's why this project is created.~~  
+
+OK, I learned the existence of [OBS Studio](https://github.com/obsproject/obs-studio), and have switched to using that. Will archive this repo for future reference only.
 
 ------
 
