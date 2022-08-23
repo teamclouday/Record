@@ -5,7 +5,8 @@
 A cross-platform screen capture application that is able to record a user-defined area on screen. Depending on the output format, audio (& mic) capture is also supported.  
 On Linux there is an awesome screen capture application ([Peek](https://github.com/phw/peek)) ~~but on Windows I cannot find anything. That's why this project is created.~~  
 
-OK, I learned the existence of [OBS Studio](https://github.com/obsproject/obs-studio), and have switched to using that. Will archive this repo for future reference only.
+OK, I learned the existence of [OBS Studio](https://github.com/obsproject/obs-studio), and have switched to using that.\
+Feel free to use this app as GIF capture only, and I'll add audio capture support to Windows in the future.
 
 ------
 
@@ -35,8 +36,12 @@ Right now capturing on secondary monitors is not supported yet.
 - [x] App Icon  
 - [x] Media File Multi-Access Protection  
 - [x] Better UI Fonts (Hurmit Font)  
-- [x] Audio Capture  
-- [x] Microphone Support  
+- [ ] Audio Capture  
+    - [x] Linux
+    - [ ] Windows
+- [ ] Microphone Support  
+    - [x] Linux
+    - [ ] Windows
 - [ ] Auto fit size to match another window  
 - [x] Video Formats:  
     - [x] mp4  
